@@ -1,0 +1,18 @@
+D:\VS\Practice\Shop DET\Shop DET\bin\Debug\DataBaseDET.mdf
+D:\VS\Practice\Shop DET\Shop DET\bin\Debug\DataBaseDET_log.ldf
+D:\VS\Practice\Shop DET\Shop DET\bin\Debug\Shop DET v1.0.exe.config
+D:\VS\Practice\Shop DET\Shop DET\bin\Debug\Shop DET v1.0.exe
+D:\VS\Practice\Shop DET\Shop DET\bin\Debug\Shop DET v1.0.pdb
+D:\VS\Practice\Shop DET\Shop DET\obj\Debug\Shop DET.csprojAssemblyReference.cache
+D:\VS\Practice\Shop DET\Shop DET\obj\Debug\Shop_DET_v1._0.Authorization.resources
+D:\VS\Practice\Shop DET\Shop DET\obj\Debug\Shop_DET_v1._0.Cart.resources
+D:\VS\Practice\Shop DET\Shop DET\obj\Debug\Shop_DET_v1._0.Main.resources
+D:\VS\Practice\Shop DET\Shop DET\obj\Debug\Shop_DET_v1._0.Product.resources
+D:\VS\Practice\Shop DET\Shop DET\obj\Debug\Shop_DET_v1._0.Profile.resources
+D:\VS\Practice\Shop DET\Shop DET\obj\Debug\Shop_DET_v1._0.Registration.resources
+D:\VS\Practice\Shop DET\Shop DET\obj\Debug\Shop_DET_v1._0.Welcome_form.resources
+D:\VS\Practice\Shop DET\Shop DET\obj\Debug\Shop_DET_v1._0.Properties.Resources.resources
+D:\VS\Practice\Shop DET\Shop DET\obj\Debug\Shop DET.csproj.GenerateResource.cache
+D:\VS\Practice\Shop DET\Shop DET\obj\Debug\Shop DET.csproj.CoreCompileInputs.cache
+D:\VS\Practice\Shop DET\Shop DET\obj\Debug\Shop DET v1.0.exe
+D:\VS\Practice\Shop DET\Shop DET\obj\Debug\Shop DET v1.0.pdb
