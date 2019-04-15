@@ -24,7 +24,6 @@ namespace AIS_shop
 
             // отобразить изменения в MainForm
             // else вывести msgBox
-            
             Close();
         }
     }

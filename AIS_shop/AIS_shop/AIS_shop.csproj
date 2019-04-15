@@ -79,6 +79,7 @@
     <Compile Include="Admin_profile.Designer.cs">
       <DependentUpon>Admin_profile.cs</DependentUpon>
     </Compile>
+    <Compile Include="AppForms.cs" />
     <Compile Include="Authorization.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -201,15 +202,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="DataBaseDET.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DataBaseDET_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>DataBaseDET.mdf</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
