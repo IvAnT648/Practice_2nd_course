@@ -20,24 +20,22 @@ namespace AIS_shop
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Hide();
+            Close();
             
         }
 
         private void Cart_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // чтобы крестик не закрывал окно корзины, а скрывал
-            e.Cancel = true;
-            Hide();
+            
             
         }
         
         private void button1_Click(object sender, EventArgs e)
         {
             // записываем заказ в бд
-            if (forms.order == null)
-                forms.order = new Order();
-            forms.order.ShowDialog();
+            //
+            Order order = new Order();
+            order.ShowDialog();
         }
     }
 }

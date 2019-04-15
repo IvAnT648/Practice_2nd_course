@@ -26,7 +26,6 @@ namespace AIS_shop
             // else вывести msgBox
             
             Close();
-            Owner.Close();
         }
     }
 }

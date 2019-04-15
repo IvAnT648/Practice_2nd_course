@@ -35,14 +35,13 @@
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.личныйКабинетToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.перейтиВЛичныйКабинетToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.выйтиИзУчетнойЗаписиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.товарыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.корзинаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -88,7 +87,6 @@
             // 
             this.личныйКабинетToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.перейтиВЛичныйКабинетToolStripMenuItem,
-            this.toolStripTextBox1,
             this.выйтиИзУчетнойЗаписиToolStripMenuItem});
             this.личныйКабинетToolStripMenuItem.Name = "личныйКабинетToolStripMenuItem";
             this.личныйКабинетToolStripMenuItem.Size = new System.Drawing.Size(137, 24);
@@ -102,42 +100,11 @@
             this.перейтиВЛичныйКабинетToolStripMenuItem.Text = "Перейти в личный кабинет";
             this.перейтиВЛичныйКабинетToolStripMenuItem.Click += new System.EventHandler(this.перейтиВЛичныйКабинетToolStripMenuItem_Click);
             // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.ReadOnly = true;
-            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 27);
-            this.toolStripTextBox1.Text = "аккаунт";
-            // 
             // выйтиИзУчетнойЗаписиToolStripMenuItem
             // 
             this.выйтиИзУчетнойЗаписиToolStripMenuItem.Name = "выйтиИзУчетнойЗаписиToolStripMenuItem";
             this.выйтиИзУчетнойЗаписиToolStripMenuItem.Size = new System.Drawing.Size(274, 26);
             this.выйтиИзУчетнойЗаписиToolStripMenuItem.Text = "Выйти из учетной записи";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(844, 141);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(126, 46);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Фильтры";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBox1.Location = new System.Drawing.Point(819, 6);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(163, 22);
-            this.textBox1.TabIndex = 4;
-            this.textBox1.Text = "Вход не выполнен";
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // товарыToolStripMenuItem
             // 
@@ -153,6 +120,16 @@
             this.корзинаToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.корзинаToolStripMenuItem.Text = "Корзина";
             this.корзинаToolStripMenuItem.Click += new System.EventHandler(this.корзинаToolStripMenuItem_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(844, 141);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(126, 46);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Фильтры";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // panel1
             // 
@@ -172,14 +149,24 @@
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(991, 350);
             this.listBox1.TabIndex = 0;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(842, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(128, 17);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Вход не выполнен";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(982, 653);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -203,12 +190,11 @@
         private System.Windows.Forms.ToolStripMenuItem личныйКабинетToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem перейтиВЛичныйКабинетToolStripMenuItem;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
         private System.Windows.Forms.ToolStripMenuItem выйтиИзУчетнойЗаписиToolStripMenuItem;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ToolStripMenuItem товарыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem корзинаToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Label label1;
     }
 }

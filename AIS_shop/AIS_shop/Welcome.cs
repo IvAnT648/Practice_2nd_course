@@ -19,22 +19,32 @@ namespace AIS_shop
         }
 
         // Кнопка "Перейти в каталог"
-        private void button1_Click(object sender, EventArgs e) => Close();
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Hide();
+            MainForm main = new MainForm();
+            main.ShowDialog();
+            Close();
+        }
         // Кнопка "Войти"
         private void button2_Click(object sender, EventArgs e)
         {
-            /*forms.auth = new Authorization();
-            forms.auth.ShowDialog();*/
+            Hide();
             Authorization auth = new Authorization();
-            auth.Owner = this;
             auth.ShowDialog();
+            if (auth.IsDisposed)
+                Close();
+            else Show();
         }
         // Кнопка "Регистрация"
         private void button3_Click(object sender, EventArgs e)
         {
+            Hide();
             Registration reg = new Registration();
-            reg.Owner = this;
             reg.ShowDialog();
+            if (reg.IsDisposed)
+                Close();
+            else Show();
         }
     }
 }

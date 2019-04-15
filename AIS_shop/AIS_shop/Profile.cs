@@ -23,10 +23,6 @@ namespace AIS_shop
         
         private void Profile_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // чтобы крестик не закрывал окно корзины, а скрывал
-            e.Cancel = true;
-            Hide();
-            forms.main.Show();
         }
     }
 }

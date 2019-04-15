@@ -88,7 +88,6 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Welcome";
-            this.ShowInTaskbar = false;
             this.Text = "DETShop - магазин цифровой техники";
             this.ResumeLayout(false);
             this.PerformLayout();

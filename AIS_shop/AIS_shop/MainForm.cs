@@ -16,9 +16,6 @@ namespace AIS_shop
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
-            Show();
-            forms.welcome = new Welcome();
-            forms.welcome.ShowDialog();
         }
 
         private void личныйКабинетToolStripMenuItem_Click(object sender, EventArgs e)
@@ -28,27 +25,20 @@ namespace AIS_shop
 
         private void перейтиВЛичныйКабинетToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Hide();
-            if (forms.profile == null)
-                forms.profile = new Profile();
-            forms.profile.ShowDialog();
-            //Show();
+            Profile profile = new Profile();
+            profile.ShowDialog();
         }
 
         private void корзинаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (forms.cart == null)
-                forms.cart = new Cart();
-            forms.cart.ShowDialog();
-            
+            Cart cart = new Cart();
+            cart.ShowDialog();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (forms.filters == null)
-                forms.filters = new Filters();
-            forms.filters.ShowDialog();
-            //((MainForm)Owner) - родитель
+            Filters filters = new Filters();
+            filters.ShowDialog();
         }
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -65,8 +55,13 @@ namespace AIS_shop
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // msgbox подтверждение
+            // TO DO: msgbox подтверждение
             Close();
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
