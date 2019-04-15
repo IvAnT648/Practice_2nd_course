@@ -13,6 +13,7 @@ namespace AIS_shop
 {
     public partial class MainForm : Form
     {
+        private const int CN_COUNT_ROWS = 12;
         SqlConnection sqlConnection;
 
         public MainForm()
@@ -51,7 +52,6 @@ namespace AIS_shop
 
         private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             AboutProgram about = new AboutProgram();
             about.ShowDialog();
         }
@@ -68,46 +68,37 @@ namespace AIS_shop
             }
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private async void MainForm_Load(object sender, EventArgs e)
         {
-            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=d:\git\Practice_2nd_course\AIS_shop\AIS_shop\DataBaseDET.mdf;Integrated Security=True";
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
+                    AttachDbFilename=d:\git\Practice_2nd_course\AIS_shop\AIS_shop\DataBaseDET.mdf;
+                    Integrated Security=True";
             sqlConnection = new SqlConnection(connectionString);
 
             await sqlConnection.OpenAsync();
 
             SqlDataReader sqlReader = null;
 
-            SqlCommand command = new SqlCommand("SELECT * FROM [Computers]", sqlConnection);
+            SqlCommand command = new SqlCommand("SELECT " +
+                "[Brand], [Model], [CPU], [Count_cores], [GPU], [Type_RAM], [RAM], " +
+                "[Capacity_HDD], [Capacity_SSD], [OS], [Power_PSU], [Cost] FROM Computers", 
+                sqlConnection);
+
+            List<string[]> data = new List<string[]>();
 
             try
             {
                 sqlReader = await command.ExecuteReaderAsync();
-                
+
                 while (await sqlReader.ReadAsync())
                 {
-                    listBox1.Items.Add(Convert.ToString(sqlReader["Product_id"]) 
-                        + "     " + Convert.ToString(sqlReader["Brand"]) 
-                        + "     " + Convert.ToString(sqlReader["Model"]) 
-                        + "     " + Convert.ToString(sqlReader["Model_CPU"])
-                        //+ "     " + Convert.ToString(sqlReader["Speed_CPU_GHz"])
-                        + "     " + Convert.ToString(sqlReader["Count_core"]) 
-                        + "     " + Convert.ToString(sqlReader["GPU"])
-                        //+ "     " + Convert.ToString(sqlReader["Capacity_mem_GPU"])
-                        + "     " + Convert.ToString(sqlReader["Capacity_RAM_Gb"])
-                        + "     " + Convert.ToString(sqlReader["Type_RAM"])
-                        //+ "     " + Convert.ToString(sqlReader["Frequency_RAM_GHz"])
-                        + "     " + Convert.ToString(sqlReader["Capacity_HDD_Gb"])
-                        + "     " + Convert.ToString(sqlReader["Capacity_SSD_Gb"])
-                        + "     " + Convert.ToString(sqlReader["OS"])
-                        + "     " + Convert.ToString(sqlReader["PSU"])
-                        + "     " + Convert.ToString(sqlReader["Cost"])
-                        );
+                    data.Add(new string[CN_COUNT_ROWS]);
+
+                    for (int i = 0; i < CN_COUNT_ROWS; i++)
+                        data[data.Count - 1][i] = sqlReader[i].ToString();
                 }
+                foreach (string[] s in data)
+                    dataGridView1.Rows.Add(s);
             }
             catch (Exception ex)
             {
@@ -125,5 +116,7 @@ namespace AIS_shop
             if (sqlConnection != null && sqlConnection.State != ConnectionState.Closed)
                 sqlConnection.Close();
         }
+
+       
     }
 }
