@@ -88,6 +88,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Welcome";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DETShop - магазин цифровой техники";
             this.ResumeLayout(false);
             this.PerformLayout();

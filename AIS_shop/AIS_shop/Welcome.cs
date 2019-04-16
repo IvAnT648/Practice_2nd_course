@@ -15,7 +15,6 @@ namespace AIS_shop
         public Welcome()
         {
             InitializeComponent();
-            StartPosition = FormStartPosition.CenterScreen;
         }
 
         // Кнопка "Перейти в каталог"

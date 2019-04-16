@@ -54,6 +54,8 @@
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.войтиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.зарегистрироватьсяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -100,7 +102,9 @@
             // 
             this.личныйКабинетToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.перейтиВЛичныйКабинетToolStripMenuItem,
-            this.выйтиИзУчетнойЗаписиToolStripMenuItem});
+            this.выйтиИзУчетнойЗаписиToolStripMenuItem,
+            this.войтиToolStripMenuItem,
+            this.зарегистрироватьсяToolStripMenuItem});
             this.личныйКабинетToolStripMenuItem.Name = "личныйКабинетToolStripMenuItem";
             this.личныйКабинетToolStripMenuItem.Size = new System.Drawing.Size(137, 24);
             this.личныйКабинетToolStripMenuItem.Text = "Личный кабинет";
@@ -130,13 +134,13 @@
             // корзинаToolStripMenuItem
             // 
             this.корзинаToolStripMenuItem.Name = "корзинаToolStripMenuItem";
-            this.корзинаToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.корзинаToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
             this.корзинаToolStripMenuItem.Text = "Корзина";
             this.корзинаToolStripMenuItem.Click += new System.EventHandler(this.корзинаToolStripMenuItem_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1044, 135);
+            this.button1.Location = new System.Drawing.Point(1044, 220);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(126, 46);
             this.button1.TabIndex = 3;
@@ -147,9 +151,10 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.dataGridView1);
-            this.panel1.Location = new System.Drawing.Point(0, 193);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 272);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1170, 354);
+            this.panel1.Size = new System.Drawing.Size(1182, 481);
             this.panel1.TabIndex = 5;
             // 
             // dataGridView1
@@ -172,21 +177,21 @@
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1170, 354);
+            this.dataGridView1.Size = new System.Drawing.Size(1182, 481);
             this.dataGridView1.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1042, 9);
+            this.label1.Location = new System.Drawing.Point(832, 28);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(128, 17);
             this.label1.TabIndex = 6;
             this.label1.Text = "Вход не выполнен";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // Column1
             // 
-            this.Column1.Frozen = true;
             this.Column1.HeaderText = "Бренд";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
@@ -194,7 +199,6 @@
             // 
             // Column2
             // 
-            this.Column2.Frozen = true;
             this.Column2.HeaderText = "Модель";
             this.Column2.Name = "Column2";
             this.Column2.ReadOnly = true;
@@ -202,7 +206,6 @@
             // 
             // Column3
             // 
-            this.Column3.Frozen = true;
             this.Column3.HeaderText = "Процессор";
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
@@ -210,7 +213,6 @@
             // 
             // Column4
             // 
-            this.Column4.Frozen = true;
             this.Column4.HeaderText = "Кол-во ядер";
             this.Column4.Name = "Column4";
             this.Column4.ReadOnly = true;
@@ -218,7 +220,6 @@
             // 
             // Column5
             // 
-            this.Column5.Frozen = true;
             this.Column5.HeaderText = "Видеокарта";
             this.Column5.Name = "Column5";
             this.Column5.ReadOnly = true;
@@ -227,7 +228,6 @@
             // 
             // Column7
             // 
-            this.Column7.Frozen = true;
             this.Column7.HeaderText = "Тип RAM";
             this.Column7.Name = "Column7";
             this.Column7.ReadOnly = true;
@@ -235,7 +235,6 @@
             // 
             // Column6
             // 
-            this.Column6.Frozen = true;
             this.Column6.HeaderText = "Объем RAM";
             this.Column6.Name = "Column6";
             this.Column6.ReadOnly = true;
@@ -246,14 +245,14 @@
             this.Column11.HeaderText = "HDD";
             this.Column11.Name = "Column11";
             this.Column11.ReadOnly = true;
-            this.Column11.Width = 50;
+            this.Column11.Width = 55;
             // 
             // Column12
             // 
             this.Column12.HeaderText = "SSD";
             this.Column12.Name = "Column12";
             this.Column12.ReadOnly = true;
-            this.Column12.Width = 50;
+            this.Column12.Width = 55;
             // 
             // Column8
             // 
@@ -276,10 +275,24 @@
             this.Column9.ReadOnly = true;
             this.Column9.Width = 105;
             // 
+            // войтиToolStripMenuItem
+            // 
+            this.войтиToolStripMenuItem.Name = "войтиToolStripMenuItem";
+            this.войтиToolStripMenuItem.Size = new System.Drawing.Size(274, 26);
+            this.войтиToolStripMenuItem.Text = "Войти";
+            // 
+            // зарегистрироватьсяToolStripMenuItem
+            // 
+            this.зарегистрироватьсяToolStripMenuItem.Name = "зарегистрироватьсяToolStripMenuItem";
+            this.зарегистрироватьсяToolStripMenuItem.Size = new System.Drawing.Size(274, 26);
+            this.зарегистрироватьсяToolStripMenuItem.Text = "Зарегистрироваться";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1182, 753);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
@@ -288,6 +301,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DETShop - Магазин цифровой электронной техники";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -327,5 +341,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+        private System.Windows.Forms.ToolStripMenuItem войтиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem зарегистрироватьсяToolStripMenuItem;
     }
 }

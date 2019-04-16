@@ -15,7 +15,6 @@ namespace AIS_shop
         public Authorization()
         {
             InitializeComponent();
-            StartPosition = FormStartPosition.CenterScreen;
         }
         // Кнопка "Войти"
         private void button1_Click(object sender, EventArgs e)
@@ -24,6 +23,14 @@ namespace AIS_shop
 
             // отобразить изменения в MainForm
             // else вывести msgBox
+            Close();
+        }
+        // кнопка перехода на форму регистрации
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Hide();
+            Registration reg = new Registration();
+            reg.ShowDialog();
             Close();
         }
     }

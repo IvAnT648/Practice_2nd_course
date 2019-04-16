@@ -13,13 +13,41 @@ namespace AIS_shop
 {
     public partial class MainForm : Form
     {
-        private const int CN_COUNT_ROWS = 12;
+        private const string connectionStringToDB = @"Data Source=(LocalDB)\MSSQLLocalDB;
+                    AttachDbFilename=d:\git\Practice_2nd_course\AIS_shop\AIS_shop\DataBaseDET.mdf;
+                    Integrated Security=True";
+        private const string sqlCommandToView = 
+            "SELECT [Brand], [Model], [CPU], [Count_cores], [GPU], [Type_RAM], [RAM], " +
+                "[Capacity_HDD], [Capacity_SSD], [OS], [Power_PSU], [Cost] FROM [Computers]";
+
         SqlConnection sqlConnection;
 
         public MainForm()
         {
             InitializeComponent();
-            StartPosition = FormStartPosition.CenterScreen;
+        }
+
+        private void loadDataToView()
+        {
+            sqlConnection = new SqlConnection(connectionStringToDB);
+            sqlConnection.Open();
+            SqlDataAdapter sqlAdapter = new SqlDataAdapter(sqlCommandToView, sqlConnection);
+            DataSet dataSet = new DataSet();
+            try
+            {
+                sqlAdapter.Fill(dataSet);
+                dataGridView1.DataSource = dataSet.Tables[0];
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "!!! " + ex.Source.ToString(), 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (sqlConnection != null && sqlConnection.State != ConnectionState.Closed)
+                    sqlConnection.Close();
+            }
         }
 
         private void личныйКабинетToolStripMenuItem_Click(object sender, EventArgs e)
@@ -58,7 +86,6 @@ namespace AIS_shop
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // TO DO: msgbox подтверждение
             if (MessageBox.Show("Выход из программы", "Закрыть программу?", 
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
@@ -68,47 +95,9 @@ namespace AIS_shop
             }
         }
 
-        private async void MainForm_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
-            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
-                    AttachDbFilename=d:\git\Practice_2nd_course\AIS_shop\AIS_shop\DataBaseDET.mdf;
-                    Integrated Security=True";
-            sqlConnection = new SqlConnection(connectionString);
-
-            await sqlConnection.OpenAsync();
-
-            SqlDataReader sqlReader = null;
-
-            SqlCommand command = new SqlCommand("SELECT " +
-                "[Brand], [Model], [CPU], [Count_cores], [GPU], [Type_RAM], [RAM], " +
-                "[Capacity_HDD], [Capacity_SSD], [OS], [Power_PSU], [Cost] FROM Computers", 
-                sqlConnection);
-
-            List<string[]> data = new List<string[]>();
-
-            try
-            {
-                sqlReader = await command.ExecuteReaderAsync();
-
-                while (await sqlReader.ReadAsync())
-                {
-                    data.Add(new string[CN_COUNT_ROWS]);
-
-                    for (int i = 0; i < CN_COUNT_ROWS; i++)
-                        data[data.Count - 1][i] = sqlReader[i].ToString();
-                }
-                foreach (string[] s in data)
-                    dataGridView1.Rows.Add(s);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message.ToString(), "! " + ex.Source.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (sqlReader != null)
-                    sqlReader.Close();
-            }
+            loadDataToView();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -117,6 +106,9 @@ namespace AIS_shop
                 sqlConnection.Close();
         }
 
-       
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
