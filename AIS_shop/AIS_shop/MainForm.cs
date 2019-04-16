@@ -18,8 +18,8 @@ namespace AIS_shop
                     Integrated Security=True";
 
         private const string sqlCommand =
-            "SELECT [Brand], [Model], [Brand_CPU], [Model_CPU], [Count_cores], [Model_GPU], [Memory_GPU], [Type_RAM], [RAM], " +
-                "[Capacity_HDD], [Capacity_SSD], [OS], [Power_PSU], [Cost] FROM [Computers]";
+            "SELECT [Бренд], [Модель], [Производитель CPU], [Модель CPU], [Кол-во ядер], [Производитель GPU], [Модель GPU], [Тип RAM], [Объем RAM], " +
+                "[Объем HDD], [Объем SSD], [Операционная система], [Мощность БП], [Цена] FROM [Computers]";
 
         SqlConnection sqlConnection;
 

@@ -39,12 +39,21 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
+            this.checkedListBox3 = new System.Windows.Forms.CheckedListBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.checkedListBox4 = new System.Windows.Forms.CheckedListBox();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(822, 525);
+            this.button1.Location = new System.Drawing.Point(1034, 689);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(136, 52);
             this.button1.TabIndex = 0;
@@ -54,7 +63,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(669, 525);
+            this.button2.Location = new System.Drawing.Point(881, 689);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(136, 52);
             this.button2.TabIndex = 1;
@@ -64,6 +73,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.checkedListBox1);
             this.groupBox1.Location = new System.Drawing.Point(12, 112);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(229, 143);
@@ -74,6 +84,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.checkedListBox2);
             this.groupBox2.Location = new System.Drawing.Point(12, 261);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(229, 143);
@@ -128,18 +139,66 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Location = new System.Drawing.Point(12, 419);
+            this.groupBox4.Controls.Add(this.checkedListBox3);
+            this.groupBox4.Location = new System.Drawing.Point(12, 410);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(229, 143);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Процессор";
+            this.groupBox4.Text = "Линейка процессора";
+            // 
+            // checkedListBox1
+            // 
+            this.checkedListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Location = new System.Drawing.Point(3, 18);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(223, 122);
+            this.checkedListBox1.TabIndex = 0;
+            // 
+            // checkedListBox2
+            // 
+            this.checkedListBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListBox2.FormattingEnabled = true;
+            this.checkedListBox2.Location = new System.Drawing.Point(3, 18);
+            this.checkedListBox2.Name = "checkedListBox2";
+            this.checkedListBox2.Size = new System.Drawing.Size(223, 122);
+            this.checkedListBox2.TabIndex = 0;
+            // 
+            // checkedListBox3
+            // 
+            this.checkedListBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListBox3.FormattingEnabled = true;
+            this.checkedListBox3.Location = new System.Drawing.Point(3, 18);
+            this.checkedListBox3.Name = "checkedListBox3";
+            this.checkedListBox3.Size = new System.Drawing.Size(223, 122);
+            this.checkedListBox3.TabIndex = 0;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.checkedListBox4);
+            this.groupBox5.Location = new System.Drawing.Point(15, 557);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(223, 137);
+            this.groupBox5.TabIndex = 6;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Кол-во ядер";
+            // 
+            // checkedListBox4
+            // 
+            this.checkedListBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListBox4.FormattingEnabled = true;
+            this.checkedListBox4.Location = new System.Drawing.Point(3, 18);
+            this.checkedListBox4.Name = "checkedListBox4";
+            this.checkedListBox4.Size = new System.Drawing.Size(217, 116);
+            this.checkedListBox4.TabIndex = 0;
             // 
             // Filters
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1182, 753);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -152,8 +211,13 @@
             this.Name = "Filters";
             this.Text = "DETShop - Фильтры отображения товаров";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Filters_FormClosing);
+            this.Load += new System.EventHandler(this.Filters_Load);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -170,5 +234,10 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.GroupBox groupBox4;
         public System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.CheckedListBox checkedListBox2;
+        private System.Windows.Forms.CheckedListBox checkedListBox3;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.CheckedListBox checkedListBox4;
     }
 }

@@ -54,5 +54,10 @@ namespace AIS_shop
         {
 
         }
+
+        private void Filters_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
