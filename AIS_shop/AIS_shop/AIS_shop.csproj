@@ -79,7 +79,6 @@
     <Compile Include="Admin_profile.Designer.cs">
       <DependentUpon>Admin_profile.cs</DependentUpon>
     </Compile>
-    <Compile Include="AppForms.cs" />
     <Compile Include="Authorization.cs">
       <SubType>Form</SubType>
     </Compile>

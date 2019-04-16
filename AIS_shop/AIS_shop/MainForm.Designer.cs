@@ -36,6 +36,8 @@
             this.личныйКабинетToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.перейтиВЛичныйКабинетToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выйтиИзУчетнойЗаписиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.войтиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.зарегистрироватьсяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.товарыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.корзинаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
@@ -45,8 +47,10 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -54,8 +58,6 @@
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.войтиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.зарегистрироватьсяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -123,6 +125,18 @@
             this.выйтиИзУчетнойЗаписиToolStripMenuItem.Size = new System.Drawing.Size(274, 26);
             this.выйтиИзУчетнойЗаписиToolStripMenuItem.Text = "Выйти из учетной записи";
             // 
+            // войтиToolStripMenuItem
+            // 
+            this.войтиToolStripMenuItem.Name = "войтиToolStripMenuItem";
+            this.войтиToolStripMenuItem.Size = new System.Drawing.Size(274, 26);
+            this.войтиToolStripMenuItem.Text = "Войти";
+            // 
+            // зарегистрироватьсяToolStripMenuItem
+            // 
+            this.зарегистрироватьсяToolStripMenuItem.Name = "зарегистрироватьсяToolStripMenuItem";
+            this.зарегистрироватьсяToolStripMenuItem.Size = new System.Drawing.Size(274, 26);
+            this.зарегистрироватьсяToolStripMenuItem.Text = "Зарегистрироваться";
+            // 
             // товарыToolStripMenuItem
             // 
             this.товарыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -164,8 +178,10 @@
             this.Column1,
             this.Column2,
             this.Column3,
+            this.Column13,
             this.Column4,
             this.Column5,
+            this.Column14,
             this.Column7,
             this.Column6,
             this.Column11,
@@ -183,7 +199,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(832, 28);
+            this.label1.Location = new System.Drawing.Point(1042, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(128, 17);
             this.label1.TabIndex = 6;
@@ -195,21 +211,28 @@
             this.Column1.HeaderText = "Бренд";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
-            this.Column1.Width = 120;
+            this.Column1.Width = 80;
             // 
             // Column2
             // 
             this.Column2.HeaderText = "Модель";
             this.Column2.Name = "Column2";
             this.Column2.ReadOnly = true;
-            this.Column2.Width = 120;
+            this.Column2.Width = 80;
             // 
             // Column3
             // 
             this.Column3.HeaderText = "Процессор";
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
-            this.Column3.Width = 120;
+            this.Column3.Width = 90;
+            // 
+            // Column13
+            // 
+            this.Column13.HeaderText = "Модель процессора";
+            this.Column13.Name = "Column13";
+            this.Column13.ReadOnly = true;
+            this.Column13.Width = 80;
             // 
             // Column4
             // 
@@ -224,7 +247,13 @@
             this.Column5.Name = "Column5";
             this.Column5.ReadOnly = true;
             this.Column5.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Column5.Width = 120;
+            this.Column5.Width = 110;
+            // 
+            // Column14
+            // 
+            this.Column14.HeaderText = "Модель видеокарты";
+            this.Column14.Name = "Column14";
+            this.Column14.ReadOnly = true;
             // 
             // Column7
             // 
@@ -259,7 +288,7 @@
             this.Column8.HeaderText = "Операционная система";
             this.Column8.Name = "Column8";
             this.Column8.ReadOnly = true;
-            this.Column8.Width = 140;
+            this.Column8.Width = 125;
             // 
             // Column10
             // 
@@ -273,19 +302,6 @@
             this.Column9.HeaderText = "Цена";
             this.Column9.Name = "Column9";
             this.Column9.ReadOnly = true;
-            this.Column9.Width = 105;
-            // 
-            // войтиToolStripMenuItem
-            // 
-            this.войтиToolStripMenuItem.Name = "войтиToolStripMenuItem";
-            this.войтиToolStripMenuItem.Size = new System.Drawing.Size(274, 26);
-            this.войтиToolStripMenuItem.Text = "Войти";
-            // 
-            // зарегистрироватьсяToolStripMenuItem
-            // 
-            this.зарегистрироватьсяToolStripMenuItem.Name = "зарегистрироватьсяToolStripMenuItem";
-            this.зарегистрироватьсяToolStripMenuItem.Size = new System.Drawing.Size(274, 26);
-            this.зарегистрироватьсяToolStripMenuItem.Text = "Зарегистрироваться";
             // 
             // MainForm
             // 
@@ -329,11 +345,15 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.ToolStripMenuItem войтиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem зарегистрироватьсяToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
@@ -341,7 +361,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
-        private System.Windows.Forms.ToolStripMenuItem войтиToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem зарегистрироватьсяToolStripMenuItem;
     }
 }

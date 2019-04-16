@@ -16,8 +16,9 @@ namespace AIS_shop
         private const string connectionStringToDB = @"Data Source=(LocalDB)\MSSQLLocalDB;
                     AttachDbFilename=d:\git\Practice_2nd_course\AIS_shop\AIS_shop\DataBaseDET.mdf;
                     Integrated Security=True";
-        private const string sqlCommandToView = 
-            "SELECT [Brand], [Model], [CPU], [Count_cores], [GPU], [Type_RAM], [RAM], " +
+
+        private const string sqlCommand =
+            "SELECT [Brand], [Model], [Brand_CPU], [Model_CPU], [Count_cores], [Model_GPU], [Memory_GPU], [Type_RAM], [RAM], " +
                 "[Capacity_HDD], [Capacity_SSD], [OS], [Power_PSU], [Cost] FROM [Computers]";
 
         SqlConnection sqlConnection;
@@ -31,10 +32,11 @@ namespace AIS_shop
         {
             sqlConnection = new SqlConnection(connectionStringToDB);
             sqlConnection.Open();
-            SqlDataAdapter sqlAdapter = new SqlDataAdapter(sqlCommandToView, sqlConnection);
-            DataSet dataSet = new DataSet();
             try
             {
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(sqlCommand, sqlConnection);
+                DataSet dataSet = new DataSet();
+                dataSet.Clear();
                 sqlAdapter.Fill(dataSet);
                 dataGridView1.DataSource = dataSet.Tables[0];
             }
