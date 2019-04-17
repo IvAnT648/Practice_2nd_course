@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,16 +13,24 @@ namespace AIS_shop
 {
     public partial class Filters : Form
     {
+        private SqlConnection connection;
+
+        private List<string[]> sqlCommands;
+
         public Filters()
         {
             InitializeComponent();
-            StartPosition = FormStartPosition.CenterScreen;
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
+        private void Filters_Load(object sender, EventArgs e)
         {
-
+            connection = new SqlConnection(Constants.connectionStringToDB);
+            connection.Open();
+            sqlCommands = new List<string[]>(10);
+            sqlCommands.Add();
+            "SELECT DISTINCT [Тип ПК] FROM [Computers]";
         }
+
 
         private void Filters_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -50,12 +59,8 @@ namespace AIS_shop
 
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Filters_Load(object sender, EventArgs e)
+        
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
         }

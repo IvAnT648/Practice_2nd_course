@@ -13,24 +13,20 @@ namespace AIS_shop
 {
     public partial class MainForm : Form
     {
-        private const string connectionStringToDB = @"Data Source=(LocalDB)\MSSQLLocalDB;
-                    AttachDbFilename=d:\git\Practice_2nd_course\AIS_shop\AIS_shop\DataBaseDET.mdf;
-                    Integrated Security=True";
-
         private const string sqlCommand =
             "SELECT [Бренд], [Модель], [Производитель CPU], [Модель CPU], [Кол-во ядер], [Производитель GPU], [Модель GPU], [Тип RAM], [Объем RAM], " +
                 "[Объем HDD], [Объем SSD], [Операционная система], [Мощность БП], [Цена] FROM [Computers]";
 
-        SqlConnection sqlConnection;
+        private SqlConnection sqlConnection;
 
         public MainForm()
         {
             InitializeComponent();
         }
 
-        private void loadDataToView()
+        private void loadDataToGridView()
         {
-            sqlConnection = new SqlConnection(connectionStringToDB);
+            sqlConnection = new SqlConnection(Constants.connectionStringToDB);
             sqlConnection.Open();
             try
             {
@@ -99,7 +95,10 @@ namespace AIS_shop
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            loadDataToView();
+            Welcome welcome = new Welcome();
+            welcome.ShowDialog();
+            Show();
+            loadDataToGridView();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)

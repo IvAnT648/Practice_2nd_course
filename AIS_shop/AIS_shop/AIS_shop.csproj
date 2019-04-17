@@ -97,6 +97,7 @@
     <Compile Include="Change_product.Designer.cs">
       <DependentUpon>Change_product.cs</DependentUpon>
     </Compile>
+    <Compile Include="Constants.cs" />
     <Compile Include="Filters.cs">
       <SubType>Form</SubType>
     </Compile>
