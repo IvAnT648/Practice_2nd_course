@@ -13,9 +13,9 @@ namespace AIS_shop
 {
     public partial class Filters : Form
     {
-        private SqlConnection connection;
-
-        private List<string[]> sqlCommands;
+        // контейнер, где ключ - поле таблицы, 
+        // а значение - команда для получения уникальных записей (для формирования фильров)
+        private List<KeyValuePair<TableFields, string>> sqlCommands;
 
         public Filters()
         {
@@ -24,13 +24,20 @@ namespace AIS_shop
 
         private void Filters_Load(object sender, EventArgs e)
         {
-            connection = new SqlConnection(Constants.connectionStringToDB);
-            connection.Open();
-            sqlCommands = new List<string[]>(10);
-            sqlCommands.Add();
-            "SELECT DISTINCT [Тип ПК] FROM [Computers]";
+            //connection = new SqlConnection(Common.StrSQLConnection);
+            //connection.Open();
+            //sqlCommands = new List<string[]>(10);
+            //sqlCommands.Add();
+            sqlCommands.Find()
         }
 
+        void formSqlCommands()
+        {
+            foreach (var table in Common.fieldsForFilters)
+                foreach (var field in table.field)
+                    sqlCommands.Add(new KeyValuePair<TableFields, string>
+                        (table, "SELECT DISTINCT [" + field + "] FROM [" + table + "]"));
+        }
 
         private void Filters_FormClosing(object sender, FormClosingEventArgs e)
         {

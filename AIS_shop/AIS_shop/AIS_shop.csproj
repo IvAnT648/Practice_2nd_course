@@ -49,6 +49,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -97,7 +98,7 @@
     <Compile Include="Change_product.Designer.cs">
       <DependentUpon>Change_product.cs</DependentUpon>
     </Compile>
-    <Compile Include="Constants.cs" />
+    <Compile Include="Common.cs" />
     <Compile Include="Filters.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -201,7 +202,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
