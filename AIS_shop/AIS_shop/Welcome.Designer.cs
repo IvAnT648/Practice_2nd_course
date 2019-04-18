@@ -38,28 +38,31 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(82, 35);
+            this.label1.Location = new System.Drawing.Point(133, 59);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(287, 34);
+            this.label1.Size = new System.Drawing.Size(221, 26);
             this.label1.TabIndex = 0;
             this.label1.Text = "Добро пожаловать в магазин\r\nцифровой электронной техники DETShop!";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(120, 112);
+            this.button1.Location = new System.Drawing.Point(147, 149);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(215, 52);
+            this.button1.Size = new System.Drawing.Size(193, 66);
             this.button1.TabIndex = 1;
-            this.button1.Text = "Перейти к выбору товаров";
+            this.button1.Text = "Перейти в магазин";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(193, 235);
+            this.button2.Location = new System.Drawing.Point(225, 311);
+            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(62, 23);
+            this.button2.Size = new System.Drawing.Size(82, 39);
             this.button2.TabIndex = 2;
             this.button2.Text = "Войти";
             this.button2.UseVisualStyleBackColor = true;
@@ -67,9 +70,10 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(261, 235);
+            this.button3.Location = new System.Drawing.Point(320, 311);
+            this.button3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(168, 23);
+            this.button3.Size = new System.Drawing.Size(153, 39);
             this.button3.TabIndex = 3;
             this.button3.Text = "Зарегистрироваться";
             this.button3.UseVisualStyleBackColor = true;
@@ -77,14 +81,15 @@
             // 
             // Welcome
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(441, 279);
+            this.ClientSize = new System.Drawing.Size(484, 361);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Welcome";

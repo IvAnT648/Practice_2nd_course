@@ -28,7 +28,6 @@ namespace AIS_shop
                 // поместить в sqlCommand соответствующую команду на вывод представления
                 //
 
-
                 Common.SqlConnection = new SqlConnection(Common.StrSQLConnection);
                 Common.SqlConnection.Open();
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(sqlCommand, Common.SqlConnection);

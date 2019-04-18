@@ -11,17 +11,14 @@ using System.Windows.Forms;
 
 namespace AIS_shop
 {
-
-    
-
     public partial class Filters : Form
     {
         // контейнер структур из 3 строк (1 - назв. табл., 2 - назв. поля, 3 - sql-команда)
         // для получения уникальных записей (для формирования фильров)
-        private List<sub1_ForFiltersForm> sqlCommands;
+        private List<sub1_ForFiltersForm> sqlCommands = null;
 
-        private List<CheckedListBox> checkedListBoxes;
-        private List<FilterFromTo> filtersFromTo;
+        private List<FilterChecked> filtersChecked = null;
+        private List<FilterFromTo> filtersFromTo = null;
 
         public Filters()
         {
@@ -32,26 +29,47 @@ namespace AIS_shop
         {
             try
             {
-                for (int i = 0; i < 3; i++)
-                {
-                    FilterFromTo filterFromTo = new FilterFromTo("Проверка "+(i+1));
-                    flowLayoutPanel1.Controls.Add(filterFromTo.groupBox);
-                }
-                    
+                /*
+                filtersFromTo.Add(new FilterFromTo("Ch2"));
+                
+                
+                filtersFromTo.Add(new FilterFromTo("Ch4"));
+                  
+                foreach (var it in filtersChecked)
+                    flowLayoutPanel1.Controls.Add(it.groupBox);
+                
+                foreach (var it in filtersFromTo)
+                    flowLayoutPanel1.Controls.Add(it.groupBox);
+                    */
+                if (sqlCommands == null)
+                    sqlCommands = new List<sub1_ForFiltersForm>();
 
-                /*formSqlCommands();
-                Common.SqlConnection = new SqlConnection(Common.StrSQLConnection);
-                Common.SqlConnection.Open();
+                foreach (var table in Common.fieldsForFilters)
+                    foreach (var field in table.fields)
+                        sqlCommands.Add(new sub1_ForFiltersForm(
+                                table.name, field, "SELECT DISTINCT [" + field + "] FROM [" + table + "]"));
 
                 foreach (var it in sqlCommands)
                 {
                     if (it.field.num == 1)
                     {
-                        
-                        //flowLayoutPanel1.Controls.Add(new CheckedListBox()
+                        if (filtersChecked == null)
+                            filtersChecked = new List<FilterChecked>(10);
+                        filtersChecked.Insert(0, new FilterChecked(it.field.name));
+                        flowLayoutPanel1.Controls.Add(filtersChecked[0].groupBox);
                     }
-                        
-                }*/
+                    else 
+                    if (it.field.num == 2)
+                    {
+                        if (filtersFromTo == null)
+                            filtersFromTo = new List<FilterFromTo>(5);
+                        filtersFromTo.Insert(0, new FilterFromTo(it.field.name));
+                        flowLayoutPanel1.Controls.Add(filtersFromTo[0].groupBox);
+                    }
+                }
+
+                Common.SqlConnection = new SqlConnection(Common.StrSQLConnection);
+                Common.SqlConnection.Open();
             }
             catch (Exception ex)
             {
@@ -63,15 +81,6 @@ namespace AIS_shop
 
             }
 
-        }
-
-        // сформировать sql команды для получения критериев фильтрации
-        void formSqlCommands()
-        {
-            foreach (var table in Common.fieldsForFilters)
-                foreach (var field in table.fields)
-                    sqlCommands.Add(new sub1_ForFiltersForm(
-                            table.name, field, "SELECT DISTINCT [" + field + "] FROM [" + table + "]"));
         }
 
         private void Filters_FormClosing(object sender, FormClosingEventArgs e)
