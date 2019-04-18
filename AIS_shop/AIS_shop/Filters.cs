@@ -11,11 +11,17 @@ using System.Windows.Forms;
 
 namespace AIS_shop
 {
+
+    
+
     public partial class Filters : Form
     {
-        // контейнер, где ключ - поле таблицы, 
-        // а значение - команда для получения уникальных записей (для формирования фильров)
-        private List<KeyValuePair<TableFields, string>> sqlCommands;
+        // контейнер структур из 3 строк (1 - назв. табл., 2 - назв. поля, 3 - sql-команда)
+        // для получения уникальных записей (для формирования фильров)
+        private List<sub1_ForFiltersForm> sqlCommands;
+
+        private List<CheckedListBox> checkedListBoxes;
+        private List<FilterFromTo> filtersFromTo;
 
         public Filters()
         {
@@ -24,19 +30,48 @@ namespace AIS_shop
 
         private void Filters_Load(object sender, EventArgs e)
         {
-            //connection = new SqlConnection(Common.StrSQLConnection);
-            //connection.Open();
-            //sqlCommands = new List<string[]>(10);
-            //sqlCommands.Add();
-            sqlCommands.Find()
+            try
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    FilterFromTo filterFromTo = new FilterFromTo("Проверка "+(i+1));
+                    flowLayoutPanel1.Controls.Add(filterFromTo.groupBox);
+                }
+                    
+
+                /*formSqlCommands();
+                Common.SqlConnection = new SqlConnection(Common.StrSQLConnection);
+                Common.SqlConnection.Open();
+
+                foreach (var it in sqlCommands)
+                {
+                    if (it.field.num == 1)
+                    {
+                        
+                        //flowLayoutPanel1.Controls.Add(new CheckedListBox()
+                    }
+                        
+                }*/
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+
+            }
+
         }
 
+        // сформировать sql команды для получения критериев фильтрации
         void formSqlCommands()
         {
             foreach (var table in Common.fieldsForFilters)
-                foreach (var field in table.field)
-                    sqlCommands.Add(new KeyValuePair<TableFields, string>
-                        (table, "SELECT DISTINCT [" + field + "] FROM [" + table + "]"));
+                foreach (var field in table.fields)
+                    sqlCommands.Add(new sub1_ForFiltersForm(
+                            table.name, field, "SELECT DISTINCT [" + field + "] FROM [" + table + "]"));
         }
 
         private void Filters_FormClosing(object sender, FormClosingEventArgs e)

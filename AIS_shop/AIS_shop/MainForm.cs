@@ -39,7 +39,7 @@ namespace AIS_shop
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString(), "!!! " + ex.Source.ToString(), 
+                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(), 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
