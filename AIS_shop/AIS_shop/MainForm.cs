@@ -13,7 +13,7 @@ namespace AIS_shop
 {
     public partial class MainForm : Form
     {
-        private string sqlCommand = "SELECT * FROM [vComputers]";
+        private string sqlCommand = "SELECT * FROM [vComputers]", tableName = "Computers";
 
         public MainForm()
         {
@@ -28,9 +28,9 @@ namespace AIS_shop
                 // поместить в sqlCommand соответствующую команду на вывод представления
                 //
 
-                Common.SqlConnection = new SqlConnection(Common.StrSQLConnection);
-                Common.SqlConnection.Open();
-                SqlDataAdapter sqlAdapter = new SqlDataAdapter(sqlCommand, Common.SqlConnection);
+                Common.connection = new SqlConnection(Common.StrSQLConnection);
+                Common.connection.Open();
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(sqlCommand, Common.connection);
                 DataSet dataSet = new DataSet();
                 dataSet.Clear();
                 sqlAdapter.Fill(dataSet);
@@ -43,8 +43,8 @@ namespace AIS_shop
             }
             finally
             {
-                if (Common.SqlConnection != null && Common.SqlConnection.State != ConnectionState.Closed)
-                    Common.SqlConnection.Close();
+                if (Common.connection != null && Common.connection.State != ConnectionState.Closed)
+                    Common.connection.Close();
             }
         }
 
@@ -67,7 +67,7 @@ namespace AIS_shop
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Filters filters = new Filters();
+            Filters filters = new Filters(tableName);
             filters.ShowDialog();
         }
 
@@ -87,8 +87,8 @@ namespace AIS_shop
             if (MessageBox.Show("Выход из программы", "Закрыть программу?", 
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                if (Common.SqlConnection != null && Common.SqlConnection.State != ConnectionState.Closed)
-                    Common.SqlConnection.Close();
+                if (Common.connection != null && Common.connection.State != ConnectionState.Closed)
+                    Common.connection.Close();
                 Close();
             }
         }
@@ -98,12 +98,13 @@ namespace AIS_shop
             Welcome welcome = new Welcome();
             welcome.ShowDialog();
             loadDataToGridView();
+            Common.Crutch();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (Common.SqlConnection != null && Common.SqlConnection.State != ConnectionState.Closed)
-                Common.SqlConnection.Close();
+            if (Common.connection != null && Common.connection.State != ConnectionState.Closed)
+                Common.connection.Close();
         }
 
         private void label1_Click(object sender, EventArgs e)

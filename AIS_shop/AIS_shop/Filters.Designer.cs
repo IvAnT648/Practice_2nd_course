@@ -37,10 +37,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(884, 608);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(847, 699);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(89, 42);
+            this.button1.Size = new System.Drawing.Size(126, 51);
             this.button1.TabIndex = 0;
             this.button1.Text = "Применить";
             this.button1.UseVisualStyleBackColor = true;
@@ -48,10 +49,11 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(792, 608);
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Location = new System.Drawing.Point(698, 699);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(88, 42);
+            this.button2.Size = new System.Drawing.Size(125, 51);
             this.button2.TabIndex = 1;
             this.button2.Text = "Вернуться";
             this.button2.UseVisualStyleBackColor = true;
@@ -80,7 +82,7 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(9, 42);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(964, 553);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(964, 643);
             this.flowLayoutPanel1.TabIndex = 20;
             this.flowLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel1_Paint);
             // 
@@ -88,7 +90,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 661);
+            this.ClientSize = new System.Drawing.Size(984, 761);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button2);
@@ -96,9 +98,9 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(1000, 700);
+            this.MaximumSize = new System.Drawing.Size(1000, 800);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(1000, 700);
+            this.MinimumSize = new System.Drawing.Size(1000, 800);
             this.Name = "Filters";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DETShop - Фильтры отображения товаров";

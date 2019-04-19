@@ -13,63 +13,65 @@ namespace AIS_shop
 {
     public partial class Filters : Form
     {
-        // контейнер структур из 3 строк (1 - назв. табл., 2 - назв. поля, 3 - sql-команда)
-        // для получения уникальных записей (для формирования фильров)
-        private List<sub1_ForFiltersForm> sqlCommands = null;
-
         private List<FilterChecked> filtersChecked = null;
         private List<FilterFromTo> filtersFromTo = null;
+        private string tableName;
 
         public Filters()
         {
             InitializeComponent();
         }
 
+        public Filters(string name_of_table)
+        {
+            InitializeComponent();
+            this.tableName = name_of_table;
+        }
+
         private void Filters_Load(object sender, EventArgs e)
         {
             try
             {
-                /*
-                filtersFromTo.Add(new FilterFromTo("Ch2"));
-                
-                
-                filtersFromTo.Add(new FilterFromTo("Ch4"));
-                  
-                foreach (var it in filtersChecked)
-                    flowLayoutPanel1.Controls.Add(it.groupBox);
-                
-                foreach (var it in filtersFromTo)
-                    flowLayoutPanel1.Controls.Add(it.groupBox);
-                    */
-                if (sqlCommands == null)
-                    sqlCommands = new List<sub1_ForFiltersForm>();
+                Common.connection = new SqlConnection(Common.StrSQLConnection);
+                Common.connection.Open();
 
-                foreach (var table in Common.fieldsForFilters)
-                    foreach (var field in table.fields)
-                        sqlCommands.Add(new sub1_ForFiltersForm(
-                                table.name, field, "SELECT DISTINCT [" + field + "] FROM [" + table + "]"));
+                List<string> variants = new List<string>(5);
 
-                foreach (var it in sqlCommands)
+                var table = Common.tablesForFilters.Find(item => item.name == this.tableName);
+
+                foreach (var field in table.fields)
                 {
-                    if (it.field.num == 1)
+                    SqlCommand command = new SqlCommand(field.sqlCommand, Common.connection);
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                    if (field.num == 1)
                     {
+                        DataSet ds = new DataSet();
+                        adapter.Fill(ds);
+                        foreach (DataRow row in ds.Tables[0].Rows)
+                           variants.Add(Convert.ToString(row.ItemArray[0]));
+                        ds.Clear();
+                        
                         if (filtersChecked == null)
                             filtersChecked = new List<FilterChecked>(10);
-                        filtersChecked.Insert(0, new FilterChecked(it.field.name));
-                        flowLayoutPanel1.Controls.Add(filtersChecked[0].groupBox);
+                        filtersChecked.Add(new FilterChecked(field.name));
+
+                        foreach (var variant in variants)
+                            filtersChecked[filtersChecked.Count-1].checkedList.Items.Add(variant);
+                        
+                        variants.Clear();
                     }
-                    else 
-                    if (it.field.num == 2)
+                    else if (field.num == 2)
                     {
                         if (filtersFromTo == null)
                             filtersFromTo = new List<FilterFromTo>(5);
-                        filtersFromTo.Insert(0, new FilterFromTo(it.field.name));
-                        flowLayoutPanel1.Controls.Add(filtersFromTo[0].groupBox);
+                        filtersFromTo.Add(new FilterFromTo(field.name));
                     }
                 }
-
-                Common.SqlConnection = new SqlConnection(Common.StrSQLConnection);
-                Common.SqlConnection.Open();
+                foreach (var filter in filtersChecked)
+                    flowLayoutPanel1.Controls.Add(filter.groupBox);
+                foreach (var filter in filtersFromTo)
+                    flowLayoutPanel1.Controls.Add(filter.groupBox);
             }
             catch (Exception ex)
             {
@@ -78,7 +80,8 @@ namespace AIS_shop
             }
             finally
             {
-
+                if (Common.connection != null && Common.connection.State != ConnectionState.Closed)
+                    Common.connection.Close();
             }
 
         }
@@ -106,8 +109,7 @@ namespace AIS_shop
             // применяем фильтры
             // возможно, обновляем список товаров здесь
             //
-            Close();
-
+            Hide();
         }
 
         
