@@ -27,8 +27,8 @@ namespace AIS_shop
                 // TO DO: в зависимости от выбранной категории товаров
                 // поместить в sqlCommand соответствующую команду на вывод представления
                 //
-
-                Common.connection = new SqlConnection(Common.StrSQLConnection);
+                if (Common.connection == null || Common.connection.State == ConnectionState.Closed)
+                    Common.connection = new SqlConnection(Common.StrSQLConnection);
                 Common.connection.Open();
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(sqlCommand, Common.connection);
                 DataSet dataSet = new DataSet();
