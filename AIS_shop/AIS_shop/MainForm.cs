@@ -13,24 +13,22 @@ namespace AIS_shop
 {
     public partial class MainForm : Form
     {
-        private string sqlCommand = "SELECT * FROM [vComputers]", tableName = "Computers";
-
         public MainForm()
         {
             InitializeComponent();
         }
 
-        private void loadDataToGridView()
+        private void loadDataToGridView(string table_name)
         {
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             try
             {
-                // TO DO: в зависимости от выбранной категории товаров
-                // поместить в sqlCommand соответствующую команду на вывод представления
-                //
-                if (Common.connection == null || Common.connection.State == ConnectionState.Closed)
-                    Common.connection = new SqlConnection(Common.StrSQLConnection);
-                Common.connection.Open();
-                SqlDataAdapter sqlAdapter = new SqlDataAdapter(sqlCommand, Common.connection);
+                // команда получения таблицы представления
+                string sqlCommand = "SELECT * FROM [v" + table_name + "]";
+                
+                connection.Open();
+                
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(sqlCommand, connection);
                 DataSet dataSet = new DataSet();
                 dataSet.Clear();
                 sqlAdapter.Fill(dataSet);
@@ -43,8 +41,8 @@ namespace AIS_shop
             }
             finally
             {
-                if (Common.connection != null && Common.connection.State != ConnectionState.Closed)
-                    Common.connection.Close();
+                if (connection != null && connection.State != ConnectionState.Closed)
+                    connection.Close();
             }
         }
 
@@ -67,8 +65,12 @@ namespace AIS_shop
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Filters filters = new Filters(tableName);
-            filters.ShowDialog();
+            if (comboBox1.SelectedItem != null)
+            {
+                Filters filters = new Filters(Convert.ToString(comboBox1.SelectedItem));
+                filters.ShowDialog();
+            }
+            else MessageBox.Show("Выберите категорию товаров", "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -84,11 +86,9 @@ namespace AIS_shop
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Выход из программы", "Закрыть программу?", 
+            if (MessageBox.Show("Закрыть программу?", "Выход из программы",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                if (Common.connection != null && Common.connection.State != ConnectionState.Closed)
-                    Common.connection.Close();
                 Close();
             }
         }
@@ -97,14 +97,17 @@ namespace AIS_shop
         {
             Welcome welcome = new Welcome();
             welcome.ShowDialog();
-            loadDataToGridView();
             Common.Crutch();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (Common.connection != null && Common.connection.State != ConnectionState.Closed)
-                Common.connection.Close();
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            loadDataToGridView(Convert.ToString(comboBox1.SelectedItem));
         }
 
         private void label1_Click(object sender, EventArgs e)

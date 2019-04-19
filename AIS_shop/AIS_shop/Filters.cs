@@ -30,18 +30,17 @@ namespace AIS_shop
 
         private void Filters_Load(object sender, EventArgs e)
         {
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
+            List<string> variants = new List<string>();
             try
             {
-                Common.connection = new SqlConnection(Common.StrSQLConnection);
-                Common.connection.Open();
+                connection.Open();
 
-                List<string> variants = new List<string>(5);
+                Table table = Common.tablesForFilters.Find(item => item.name == this.tableName);
 
-                var table = Common.tablesForFilters.Find(item => item.name == this.tableName);
-
-                foreach (var field in table.fields)
+                foreach (Field field in table.fields)
                 {
-                    SqlCommand command = new SqlCommand(field.sqlCommand, Common.connection);
+                    SqlCommand command = new SqlCommand(field.sqlCommand, connection);
                     SqlDataAdapter adapter = new SqlDataAdapter(command);
 
                     if (field.num == 1)
@@ -53,10 +52,10 @@ namespace AIS_shop
                         ds.Clear();
                         
                         if (filtersChecked == null)
-                            filtersChecked = new List<FilterChecked>(10);
+                            filtersChecked = new List<FilterChecked>();
                         filtersChecked.Add(new FilterChecked(field.name));
 
-                        foreach (var variant in variants)
+                        foreach (string variant in variants)
                             filtersChecked[filtersChecked.Count-1].checkedList.Items.Add(variant);
                         
                         variants.Clear();
@@ -64,7 +63,7 @@ namespace AIS_shop
                     else if (field.num == 2)
                     {
                         if (filtersFromTo == null)
-                            filtersFromTo = new List<FilterFromTo>(5);
+                            filtersFromTo = new List<FilterFromTo>();
                         filtersFromTo.Add(new FilterFromTo(field.name));
                     }
                 }
@@ -80,35 +79,26 @@ namespace AIS_shop
             }
             finally
             {
-                if (Common.connection != null && Common.connection.State != ConnectionState.Closed)
-                    Common.connection.Close();
+                if (connection != null && connection.State != ConnectionState.Closed)
+                    connection.Close();
             }
-
         }
 
         private void Filters_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // сброс установленных фильтров 
-            // (установить те, которые были установлены при этом отображении формы)
-            //
-            
-            
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            // сброс установленных фильтров 
-            // (установить те, которые были установлены при этом отображении формы)
-            //
             Close();
-            
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             // применяем фильтры
             // возможно, обновляем список товаров здесь
-            //
+            // сохранить состояние фильтров
             Hide();
         }
 
