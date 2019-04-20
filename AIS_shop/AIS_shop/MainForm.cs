@@ -13,23 +13,24 @@ namespace AIS_shop
 {
     public partial class MainForm : Form
     {
+        DataSet dataSet = null;
+
         public MainForm()
         {
             InitializeComponent();
+            dataGridView1.ReadOnly = true;
         }
 
-        private void loadDataToGridView(string table_name)
+        public void loadDataToGridView(string sqlCommand)
         {
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             try
             {
-                // команда получения таблицы представления
-                string sqlCommand = "SELECT * FROM [v" + table_name + "]";
-                
                 connection.Open();
                 
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(sqlCommand, connection);
-                DataSet dataSet = new DataSet();
+                if (dataSet == null)
+                    dataSet = new DataSet();
                 dataSet.Clear();
                 sqlAdapter.Fill(dataSet);
                 dataGridView1.DataSource = dataSet.Tables[0];
@@ -68,6 +69,7 @@ namespace AIS_shop
             if (comboBox1.SelectedItem != null)
             {
                 Filters filters = new Filters(Convert.ToString(comboBox1.SelectedItem));
+                filters.Owner = this;
                 filters.ShowDialog();
             }
             else MessageBox.Show("Выберите категорию товаров", "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -107,7 +109,9 @@ namespace AIS_shop
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            loadDataToGridView(Convert.ToString(comboBox1.SelectedItem));
+            // команда получения таблицы представления
+            string sqlCommand = "SELECT * FROM [v" + Convert.ToString(comboBox1.SelectedItem) + "]";
+            loadDataToGridView(sqlCommand);
         }
 
         private void label1_Click(object sender, EventArgs e)
