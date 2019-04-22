@@ -13,20 +13,22 @@ namespace AIS_shop
 {
     public partial class MainForm : Form
     {
-        DataSet dataSet = null;
+        public static string QueryToUpdate = "";
+        private DataSet dataSet = null;
 
         public MainForm()
         {
             InitializeComponent();
             dataGridView1.ReadOnly = true;
+            button1.Enabled = false;
         }
 
-        public void loadDataToGridView(string sqlCommand)
+        public async void loadDataToGridView(string sqlCommand)
         {
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
                 
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(sqlCommand, connection);
                 if (dataSet == null)
@@ -44,6 +46,7 @@ namespace AIS_shop
             {
                 if (connection != null && connection.State != ConnectionState.Closed)
                     connection.Close();
+                if (dataGridView1.DataSource != null) button1.Enabled = true;
             }
         }
 
@@ -68,9 +71,14 @@ namespace AIS_shop
         {
             if (comboBox1.SelectedItem != null)
             {
+                
                 Filters filters = new Filters(Convert.ToString(comboBox1.SelectedItem));
-                filters.Owner = this;
                 filters.ShowDialog();
+                if (QueryToUpdate != "")
+                    loadDataToGridView(QueryToUpdate);
+                else
+                    MessageBox.Show("Произошла непредвиденная ошибка при формировании запроса обновления данных", "Ошибка!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else MessageBox.Show("Выберите категорию товаров", "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
