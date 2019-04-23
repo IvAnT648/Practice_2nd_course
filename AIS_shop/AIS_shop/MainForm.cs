@@ -71,14 +71,11 @@ namespace AIS_shop
         {
             if (comboBox1.SelectedItem != null)
             {
-                
+                QueryToUpdate = "";
                 Filters filters = new Filters(Convert.ToString(comboBox1.SelectedItem));
                 filters.ShowDialog();
                 if (QueryToUpdate != "")
                     loadDataToGridView(QueryToUpdate);
-                else
-                    MessageBox.Show("Произошла непредвиденная ошибка при формировании запроса обновления данных", "Ошибка!",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else MessageBox.Show("Выберите категорию товаров", "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }

@@ -36,7 +36,7 @@ namespace AIS_shop
                 // цикл по фильтрам
                 foreach (var filter in filtersChecked)
                 {
-                    // если в каком-либо чекбоксе не выбран ни один вариант
+                    // если в каком-либо группбоксе не выбран ни один вариант
                     if (filter.checkedList.CheckedItems.Count == 0)
                     {
                         MessageBox.Show("Необходимо выбрать как минимум один вариант из списка",
@@ -64,7 +64,7 @@ namespace AIS_shop
                             SQLCommandToUpdate += "\'" + filter.checkedList.GetItemText(ch) + "\'";
 
                             if (i++ != filter.checkedList.CheckedItems.Count - 1)
-                                SQLCommandToUpdate += ",";
+                                SQLCommandToUpdate += ", ";
                         }
                         SQLCommandToUpdate += ")";
                     }
@@ -176,26 +176,27 @@ namespace AIS_shop
         private void Filters_Load(object sender, EventArgs e)
         {
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
-            List<string> variants = new List<string>();
             try
             {
                 connection.Open();
-
+                List<string> variants = new List<string>();
                 Table table = Common.fieldsForFilters.Find(item => item.name == this.tableName);
-
+                // для каждого поля, для которого нужно сделать фильтр,
+                // делаем, в зависимости от от параметра "field.num"
                 foreach (Field field in table.fields)
                 {
                     SqlCommand command = new SqlCommand(field.sqlCommand, connection);
                     SqlDataAdapter adapter = new SqlDataAdapter(command);
-
+                    
                     if (field.num == 1)
-                    {
+                    { // если для поля требуется чекбоксы
+                        // загружаем
                         DataSet ds = new DataSet();
                         adapter.Fill(ds);
                         foreach (DataRow row in ds.Tables[0].Rows)
                            variants.Add(Convert.ToString(row.ItemArray[0]));
                         ds.Clear();
-                        
+                        // создаем фильтры-чекбоксы
                         if (filtersChecked == null)
                             filtersChecked = new List<FilterChecked>();
                         filtersChecked.Add(new FilterChecked(field.name));
@@ -203,9 +204,8 @@ namespace AIS_shop
                         foreach (string variant in variants)
                             filtersChecked[filtersChecked.Count - 1].checkedList.Items.Add(variant, true);
                             
-                        
                         variants.Clear();
-                    }
+                    } // иначе - если требуется - фильтр "от и до"
                     else if (field.num == 2)
                     {
                         if (filtersFromTo == null)
@@ -213,6 +213,7 @@ namespace AIS_shop
                         filtersFromTo.Add(new FilterFromTo(field.name));
                     }
                 }
+                // добавление эл-тов на форму
                 foreach (var filter in filtersChecked)
                     flowLayoutPanel1.Controls.Add(filter.groupBox);
                 foreach (var filter in filtersFromTo)

@@ -43,3 +43,4 @@ d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.exe
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.pdb
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\bin\Debug\DataBaseDET.mdf
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\bin\Debug\DataBaseDET_log.ldf
+d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.csprojAssemblyReference.cache
