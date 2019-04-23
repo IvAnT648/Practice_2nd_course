@@ -13,7 +13,7 @@ namespace AIS_shop
 {
     public partial class Filters : Form
     {
-        private List<FilterChecked> filtersChecked = null;
+        private List <FilterChecked> filtersChecked = null;
         private List<FilterFromTo> filtersFromTo = null;
         private string tableName;
         private static string SQLCommandToUpdate;
@@ -194,7 +194,11 @@ namespace AIS_shop
                         DataSet ds = new DataSet();
                         adapter.Fill(ds);
                         foreach (DataRow row in ds.Tables[0].Rows)
-                           variants.Add(Convert.ToString(row.ItemArray[0]));
+                        {
+                            if (row.ItemArray[0].ToString() == "") continue;
+                            else variants.Add(row.ItemArray[0].ToString());
+                        }
+                           
                         ds.Clear();
                         // создаем фильтры-чекбоксы
                         if (filtersChecked == null)

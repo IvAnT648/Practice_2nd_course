@@ -38,5 +38,11 @@ namespace AIS_shop
             reg.ShowDialog();
             Close();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            MainForm.flagClose = true;
+            Close();
+        }
     }
 }
