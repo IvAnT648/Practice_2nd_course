@@ -117,14 +117,15 @@
             // 
             this.войтиToolStripMenuItem.Name = "войтиToolStripMenuItem";
             this.войтиToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-            this.войтиToolStripMenuItem.Text = "Войти";
+            this.войтиToolStripMenuItem.Text = "Вход";
             this.войтиToolStripMenuItem.Click += new System.EventHandler(this.войтиToolStripMenuItem_Click);
             // 
             // зарегистрироватьсяToolStripMenuItem
             // 
             this.зарегистрироватьсяToolStripMenuItem.Name = "зарегистрироватьсяToolStripMenuItem";
             this.зарегистрироватьсяToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-            this.зарегистрироватьсяToolStripMenuItem.Text = "Зарегистрироваться";
+            this.зарегистрироватьсяToolStripMenuItem.Text = "Регистрация";
+            this.зарегистрироватьсяToolStripMenuItem.Click += new System.EventHandler(this.зарегистрироватьсяToolStripMenuItem_Click);
             // 
             // товарыToolStripMenuItem
             // 
@@ -137,7 +138,7 @@
             // корзинаToolStripMenuItem
             // 
             this.корзинаToolStripMenuItem.Name = "корзинаToolStripMenuItem";
-            this.корзинаToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.корзинаToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.корзинаToolStripMenuItem.Text = "Корзина";
             this.корзинаToolStripMenuItem.Click += new System.EventHandler(this.корзинаToolStripMenuItem_Click);
             // 

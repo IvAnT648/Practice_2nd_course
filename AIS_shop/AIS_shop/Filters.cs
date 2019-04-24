@@ -15,18 +15,11 @@ namespace AIS_shop
     {
         private List <FilterChecked> filtersChecked = null;
         private List<FilterFromTo> filtersFromTo = null;
-        private string tableName;
         private static string SQLCommandToUpdate;
 
         public Filters()
         {
             InitializeComponent();
-        }
-
-        public Filters(string name_of_table)
-        {
-            InitializeComponent();
-            this.tableName = name_of_table;
         }
 
         private int _AddQueryFilterChecked()
@@ -149,7 +142,7 @@ namespace AIS_shop
             {
                 bool ok = false;
                 // формирование SQL-запроса для вывода представления в главную форму
-                SQLCommandToUpdate = "SELECT * FROM [v" + tableName + "]";
+                SQLCommandToUpdate = "SELECT * FROM [v" + MainForm.CurrentTable + "]";
 
                 // добавление в команду для обновления запрос по фильтрам 
                 if (_AddQueryFilterChecked() != -1)
@@ -180,7 +173,7 @@ namespace AIS_shop
             {
                 connection.Open();
                 List<string> variants = new List<string>();
-                Table table = Common.fieldsForFilters.Find(item => item.name == this.tableName);
+                Table table = Common.fieldsForFilters.Find(item => item.name == MainForm.CurrentTable);
                 // для каждого поля, для которого нужно сделать фильтр,
                 // делаем, в зависимости от от параметра "field.num"
                 foreach (Field field in table.fields)
@@ -188,7 +181,7 @@ namespace AIS_shop
                     SqlCommand command = new SqlCommand(field.sqlCommand, connection);
                     SqlDataAdapter adapter = new SqlDataAdapter(command);
                     
-                    if (field.num == 1)
+                    if (field.filter == RequiredFilter.CheckedList)
                     { // если для поля требуется чекбоксы
                         // загружаем
                         DataSet ds = new DataSet();
@@ -210,7 +203,7 @@ namespace AIS_shop
                             
                         variants.Clear();
                     } // иначе - если требуется - фильтр "от и до"
-                    else if (field.num == 2)
+                    else if (field.filter == RequiredFilter.FromTo)
                     {
                         if (filtersFromTo == null)
                             filtersFromTo = new List<FilterFromTo>();

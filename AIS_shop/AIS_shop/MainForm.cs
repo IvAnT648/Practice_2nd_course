@@ -15,6 +15,7 @@ namespace AIS_shop
     {
         public static string QueryToUpdate { set; get; }
         public static bool flagClose { set; get; } = false;
+        public static string CurrentTable { set; get; }
         internal static User UserInSystem{ get; set; } = null;
 
         public MainForm()
@@ -88,7 +89,7 @@ namespace AIS_shop
             if (comboBox1.SelectedItem != null)
             {
                 QueryToUpdate = "";
-                Filters filters = new Filters(Convert.ToString(comboBox1.SelectedItem));
+                Filters filters = new Filters();
                 filters.ShowDialog();
                 if (QueryToUpdate != "")
                     loadDataToGridView(QueryToUpdate);
@@ -118,8 +119,9 @@ namespace AIS_shop
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            CurrentTable = comboBox1.SelectedItem.ToString();
             // команда получения таблицы-представления
-            string sqlCommand = "SELECT * FROM [v" + Convert.ToString(comboBox1.SelectedItem) + "]";
+            string sqlCommand = "SELECT * FROM [v" + CurrentTable + "]";
             loadDataToGridView(sqlCommand);
         }
 
@@ -128,7 +130,6 @@ namespace AIS_shop
             if (UserInSystem == null)
             {
                 войтиToolStripMenuItem.Visible = true;
-                зарегистрироватьсяToolStripMenuItem.Visible = true;
                 перейтиВЛичныйКабинетToolStripMenuItem.Visible = false;
                 выйтиИзУчетнойЗаписиToolStripMenuItem.Visible = false;
                 label1.Visible = false;
@@ -138,7 +139,6 @@ namespace AIS_shop
                 label1.Visible = true;
                 label1.Text = "Вы вошли как " + UserInSystem.Surname + " " + UserInSystem.Name;
                 войтиToolStripMenuItem.Visible = false;
-                зарегистрироватьсяToolStripMenuItem.Visible = false;
                 перейтиВЛичныйКабинетToolStripMenuItem.Visible = true;
                 выйтиИзУчетнойЗаписиToolStripMenuItem.Visible = true;
             }
@@ -156,5 +156,35 @@ namespace AIS_shop
             UserInSystem = null;
             UserStateChanged();
         }
+
+        private void зарегистрироватьсяToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Registration reg = new Registration();
+            reg.ShowDialog();
+            UserStateChanged();
+        }
     }
 }
+
+
+
+/*
+    
+    try
+    {
+        connection = new SqlConnection(Common.StrSQLConnection);
+        connection.Open();
+    
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
+            MessageBoxButtons.OK, MessageBoxIcon.Error);
+    }
+    finally
+    {
+        if (connection != null && connection.State != ConnectionState.Closed)
+            connection.Close();
+    }
+
+*/

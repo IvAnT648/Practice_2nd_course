@@ -11,6 +11,9 @@ using System.Windows.Forms;
 
 namespace AIS_shop
 {
+    enum UserStatus { Guest, UsualUser, Admin }
+    enum RequiredFilter { NotRequired, CheckedList, FromTo }
+
     class User
     {
         public string Surname { get; }
@@ -18,17 +21,17 @@ namespace AIS_shop
         public string Patronymic { get; }
         public string Email { get; }
         public string Nick { get; }
-        public string Status { get; }
+        public UserStatus Status { get; }
         public string PicturePath { get; }
 
-        public User(string surname, string name, string patronymic, string email, string nick, string status, string path_to_avatar)
+        public User(string surname, string name, string patronymic, string email, string nick, UserStatus status, string path_to_avatar)
         {
             Surname = surname ?? throw new ArgumentNullException(nameof(surname));
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Patronymic = patronymic ?? throw new ArgumentNullException(nameof(patronymic));
             Email = email ?? throw new ArgumentNullException(nameof(email));
             Nick = nick ?? throw new ArgumentNullException(nameof(nick));
-            Status = status ?? throw new ArgumentNullException(nameof(status));
+            Status = status;
             PicturePath = path_to_avatar ?? throw new ArgumentNullException(nameof(PicturePath));
         }
     }
@@ -130,7 +133,7 @@ namespace AIS_shop
         public string name { set; get; }
         // способ фильтрации
         // 0 - не использовать при фильтрации, 1 - checkBox'ы, 2 - 'от и до'
-        public uint num { set; get; }
+        public RequiredFilter filter { set; get; } = RequiredFilter.NotRequired;
         // команда для получения списка возможных значений (для checkbox'а)
         public string sqlCommand { set; get; }
 
@@ -138,15 +141,15 @@ namespace AIS_shop
         {
             this.name = field_name;
         }
-        public Field(string field_name, uint number)
+        public Field(string field_name, RequiredFilter requiredFilter)
         {
             this.name = field_name;
-            this.num = number;
+            this.filter = requiredFilter;
         }
-        public Field(string field_name, uint number, string SQLCommand)
+        public Field(string field_name, RequiredFilter requiredFilter, string SQLCommand)
         {
             this.name = field_name;
-            this.num = number;
+            this.filter = requiredFilter;
             this.sqlCommand = SQLCommand;
         }
     }
@@ -181,22 +184,22 @@ namespace AIS_shop
                     fields = new List<Field>()
                 });
 
-            fieldsForFilters[0].fields.Add(new Field("Type", 1));
-            fieldsForFilters[0].fields.Add(new Field("Brand", 1));
-            fieldsForFilters[0].fields.Add(new Field("Brand CPU", 1));
-            fieldsForFilters[0].fields.Add(new Field("Count of cores", 1));
-            fieldsForFilters[0].fields.Add(new Field("Brand GPU", 1));
-            fieldsForFilters[0].fields.Add(new Field("Type RAM", 1));
-            fieldsForFilters[0].fields.Add(new Field("Capacity RAM", 2));
-            fieldsForFilters[0].fields.Add(new Field("Capacity HDD", 2));
-            fieldsForFilters[0].fields.Add(new Field("Capacity SSD", 2));
-            fieldsForFilters[0].fields.Add(new Field("Operating system", 1));
-            fieldsForFilters[0].fields.Add(new Field("Power PSU", 1));
-            fieldsForFilters[0].fields.Add(new Field("Cost", 2));
+            fieldsForFilters[0].fields.Add(new Field("Type", RequiredFilter.CheckedList));
+            fieldsForFilters[0].fields.Add(new Field("Brand", RequiredFilter.CheckedList));
+            fieldsForFilters[0].fields.Add(new Field("Brand CPU", RequiredFilter.CheckedList));
+            fieldsForFilters[0].fields.Add(new Field("Count of cores", RequiredFilter.CheckedList));
+            fieldsForFilters[0].fields.Add(new Field("Brand GPU", RequiredFilter.CheckedList));
+            fieldsForFilters[0].fields.Add(new Field("Type RAM", RequiredFilter.CheckedList));
+            fieldsForFilters[0].fields.Add(new Field("Capacity RAM", RequiredFilter.FromTo));
+            fieldsForFilters[0].fields.Add(new Field("Capacity HDD", RequiredFilter.FromTo));
+            fieldsForFilters[0].fields.Add(new Field("Capacity SSD", RequiredFilter.FromTo));
+            fieldsForFilters[0].fields.Add(new Field("Operating system", RequiredFilter.CheckedList));
+            fieldsForFilters[0].fields.Add(new Field("Power PSU", RequiredFilter.CheckedList));
+            fieldsForFilters[0].fields.Add(new Field("Cost", RequiredFilter.FromTo));
 
             foreach (var table in Common.fieldsForFilters)
                 foreach (var field in table.fields)
-                    if (field.num == 1)
+                    if (field.filter == RequiredFilter.CheckedList)
                         field.sqlCommand = 
                             "SELECT DISTINCT [" + field.name + "] FROM [" + table.name + "]";
             /////////////////////////////////////////////////////////////////////////////
