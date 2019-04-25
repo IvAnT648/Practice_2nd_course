@@ -24,5 +24,10 @@ namespace AIS_shop
         private void Profile_FormClosing(object sender, FormClosingEventArgs e)
         {
         }
+
+        private void Profile_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

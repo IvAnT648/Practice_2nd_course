@@ -74,12 +74,6 @@
     <Compile Include="Add_product.Designer.cs">
       <DependentUpon>Add_product.cs</DependentUpon>
     </Compile>
-    <Compile Include="Admin_profile.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Admin_profile.Designer.cs">
-      <DependentUpon>Admin_profile.cs</DependentUpon>
-    </Compile>
     <Compile Include="Authorization.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,9 +142,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Add_product.resx">
       <DependentUpon>Add_product.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin_profile.resx">
-      <DependentUpon>Admin_profile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Authorization.resx">
       <DependentUpon>Authorization.cs</DependentUpon>

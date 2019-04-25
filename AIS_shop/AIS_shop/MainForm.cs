@@ -13,18 +13,19 @@ namespace AIS_shop
 {
     public partial class MainForm : Form
     {
-        public static string QueryToUpdate { set; get; }
+        // для взаимодействия других форм с главной
         public static bool flagClose { set; get; } = false;
+        public static string QueryToUpdate { set; get; }
         public static string CurrentTable { set; get; }
         internal static User UserInSystem{ get; set; } = null;
 
         public MainForm()
         {
             InitializeComponent();
-            dataGridView1.ReadOnly = true;
             button1.Enabled = false;
             flagClose = false;
-            QueryToUpdate = "";            
+            QueryToUpdate = "";
+            администрированиеToolStripMenuItem.Visible = false;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -50,9 +51,8 @@ namespace AIS_shop
                 await connection.OpenAsync();
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(sqlCommand, connection);
                 DataSet dataSet = new DataSet();
-                dataSet.Clear();
                 sqlAdapter.Fill(dataSet);
-                dataGridView1.DataSource = dataSet.Tables[0];
+                dataGridView.DataSource = dataSet.Tables[0];
             }
             catch (Exception ex)
             {
@@ -63,7 +63,7 @@ namespace AIS_shop
             {
                 if (connection != null && connection.State != ConnectionState.Closed)
                     connection.Close();
-                if (dataGridView1.DataSource != null) button1.Enabled = true;
+                if (dataGridView.DataSource != null) button1.Enabled = true;
             }
         }
 
@@ -130,15 +130,17 @@ namespace AIS_shop
             if (UserInSystem == null)
             {
                 войтиToolStripMenuItem.Visible = true;
+                зарегистрироватьсяToolStripMenuItem.Visible = true;
                 перейтиВЛичныйКабинетToolStripMenuItem.Visible = false;
                 выйтиИзУчетнойЗаписиToolStripMenuItem.Visible = false;
-                label1.Visible = false;
+                администрированиеToolStripMenuItem.Visible = false;
             }
             else
             {
-                label1.Visible = true;
-                label1.Text = "Вы вошли как " + UserInSystem.Surname + " " + UserInSystem.Name;
+                if (UserInSystem.Status == UserStatus.Admin)
+                    администрированиеToolStripMenuItem.Visible = true;
                 войтиToolStripMenuItem.Visible = false;
+                зарегистрироватьсяToolStripMenuItem.Visible = false;
                 перейтиВЛичныйКабинетToolStripMenuItem.Visible = true;
                 выйтиИзУчетнойЗаписиToolStripMenuItem.Visible = true;
             }
@@ -162,6 +164,28 @@ namespace AIS_shop
             Registration reg = new Registration();
             reg.ShowDialog();
             UserStateChanged();
+        }
+
+        private void добавитьТоварToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void регистрацияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Registration reg = new Registration();
+            reg.ShowDialog();
+            UserStateChanged();
+        }
+
+        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && e.Button == MouseButtons.Left)
+            {
+                Product product = new Product();
+                product.row = dataGridView.SelectedRows[0];
+                product.ShowDialog();
+            }
         }
     }
 }

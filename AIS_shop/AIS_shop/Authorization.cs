@@ -13,16 +13,21 @@ namespace AIS_shop
 {
     public partial class Authorization : Form
     {
-        private SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
+        DataSet usersData;
+
         public Authorization()
         {
             InitializeComponent();
         }
 
+        private void Authorization_Load(object sender, EventArgs e)
+        {
+            loadUsersData();
+        }
+
         private void Authorization_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (connection != null && connection.State != ConnectionState.Closed)
-                connection.Close();
+
         }
 
         private void bToRegistration_Click(object sender, EventArgs e)
@@ -38,56 +43,64 @@ namespace AIS_shop
             string nick = maskedTextBox1.Text, password = maskedTextBox2.Text;
             if (nick != "" && password != "")
             {
-                SqlDataReader reader = null;
-                SqlCommand query = new SqlCommand(
-                    "SELECT [User_id] FROM [Users] WHERE " +
-                    "([Nick]=\'" + nick + "\' OR [E-mail]=\'" + nick + "\') AND ([Password]=\'" + password + "\')", connection);
+                int id = 0;
+                for (int it = 0; it < usersData.Tables[0].Rows.Count; it++)
+                {
+                    string currentNick = usersData.Tables[0].Rows[it].ItemArray[1].ToString();
+                    string currentEmail = usersData.Tables[0].Rows[it].ItemArray[2].ToString();
+                    string currentPassword = usersData.Tables[0].Rows[it].ItemArray[3].ToString();
+
+                    if ((nick == currentNick || nick == currentNick) && password == currentPassword)
+                    {
+                        id = (int)usersData.Tables[0].Rows[it].ItemArray[0];
+                        break;
+                    }
+                }
+                if (id == 0)
+                {
+                    MessageBox.Show("Некорректные данные для входа. Проверьте правильность введенных данных", "Пользователь не найден",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                // далее, выполняем вход
+                SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
+                SqlCommand query = new SqlCommand("SELECT [Surname], [Name], [Patronymic], [E-mail], [Nick], UPPER([Status]), [Avatar] FROM [Users] WHERE [User_id]=" + id, connection);
                 try
                 {
                     await connection.OpenAsync();
-                    uint id = 0;
-                    object answer = await query.ExecuteScalarAsync();
-                    if (answer == null)
+                    SqlDataReader reader = await query.ExecuteReaderAsync();
+                    if (reader.HasRows)
                     {
-                        MessageBox.Show("Проверьте корректность введенных данных.", "Пользователь не обнаружен!",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                    else
-                    {
-                        id = Convert.ToUInt32(answer);
-                        // далее, выполняем вход
-                        query.CommandText = "SELECT [Surname], [Name], [Patronymic], [E-mail], [Nick], UPPER([Status]), [Avatar] FROM [Users] WHERE [User_id]=" + id;
-                        reader = await query.ExecuteReaderAsync();
-                        if (reader.HasRows)
+                        if (await reader.ReadAsync())
                         {
-                            if (await reader.ReadAsync())
+                            UserStatus status = UserStatus.Guest;
+                            switch (reader.GetValue(5)?.ToString())
                             {
-                                UserStatus status = UserStatus.Guest;
-                                switch (reader.GetValue(5)?.ToString())
-                                {
-                                    case "USER":
-                                        status = UserStatus.UsualUser;
-                                        break;
-                                    case "ADMIN":
-                                        status = UserStatus.Admin;
-                                        break;
-                                    default:
-                                        MessageBox.Show("Ошибка чтения данных о пользователе из БД.\nВход будет выполнене как гость", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                        break;
-                                }
-                                MainForm.UserInSystem = new User(
-                                    reader.GetValue(0)?.ToString(),
-                                    reader.GetValue(1)?.ToString(),
-                                    reader.GetValue(2)?.ToString(),
-                                    reader.GetValue(3)?.ToString(),
-                                    reader.GetValue(4)?.ToString(),
-                                    status,
-                                    reader.GetValue(6)?.ToString()
-                                );
+                                case "USER":
+                                    status = UserStatus.UsualUser;
+                                    break;
+                                case "ADMIN":
+                                    status = UserStatus.Admin;
+                                    break;
+                                default:
+                                    MessageBox.Show("Ошибка чтения данных о пользователе из БД.\nВход будет выполненен как гость", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    break;
                             }
+                            // авторизация пользователя
+                            MainForm.UserInSystem = new User(
+                                reader.GetValue(0)?.ToString(),
+                                reader.GetValue(1)?.ToString(),
+                                reader.GetValue(2)?.ToString(),
+                                reader.GetValue(3)?.ToString(),
+                                reader.GetValue(4)?.ToString(),
+                                status,
+                                reader.GetValue(6)?.ToString()
+                            );
                         }
-                        Close();
                     }
+                    if (!reader.IsClosed)
+                        reader.Close();
+                    Close();
                 }
                 catch (Exception ex)
                 {
@@ -96,13 +109,36 @@ namespace AIS_shop
                 }
                 finally
                 {
-                    if (reader != null)
-                        reader.Close();
                     if (connection != null && connection.State != ConnectionState.Closed)
                         connection.Close();
                 }
+                
             }
             else MessageBox.Show("Введите данные!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        // загрузка всех данных для входа, т.к. sql - регистронезависимый
+        private async void loadUsersData()
+        {
+            if (usersData == null)
+                usersData = new DataSet();
+            else usersData.Clear();
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
+            try
+            {
+                await connection.OpenAsync();
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT [User_id], [Nick], [E-mail], [Password] FROM Users", connection);
+                adapter.Fill(usersData);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (connection != null && connection.State != ConnectionState.Closed)
+                    connection.Close();
+            }
         }
     }
 }

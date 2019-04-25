@@ -156,6 +156,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DETShop - Вход в личный кабинет";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Authorization_FormClosing);
+            this.Load += new System.EventHandler(this.Authorization_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
