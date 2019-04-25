@@ -64,10 +64,10 @@ namespace AIS_shop
                 }
                 // далее, выполняем вход
                 SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
-                SqlCommand query = new SqlCommand("SELECT [Surname], [Name], [Patronymic], [E-mail], [Nick], UPPER([Status]), [Avatar] FROM [Users] WHERE [User_id]=" + id, connection);
+                SqlCommand query = new SqlCommand("SELECT [Surname], [Name], [Patronymic], [E-mail], [Nick], UPPER([Status]) FROM [Users] WHERE [Id]=" + id, connection);
                 try
                 {
-                    await connection.OpenAsync();
+                    connection.Open();
                     SqlDataReader reader = await query.ExecuteReaderAsync();
                     if (reader.HasRows)
                     {
@@ -93,8 +93,7 @@ namespace AIS_shop
                                 reader.GetValue(2)?.ToString(),
                                 reader.GetValue(3)?.ToString(),
                                 reader.GetValue(4)?.ToString(),
-                                status,
-                                reader.GetValue(6)?.ToString()
+                                status
                             );
                         }
                     }
@@ -126,7 +125,7 @@ namespace AIS_shop
             try
             {
                 await connection.OpenAsync();
-                SqlDataAdapter adapter = new SqlDataAdapter("SELECT [User_id], [Nick], [E-mail], [Password] FROM Users", connection);
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT [Id], [Nick], [E-mail], [Password] FROM Users", connection);
                 adapter.Fill(usersData);
             }
             catch (Exception ex)

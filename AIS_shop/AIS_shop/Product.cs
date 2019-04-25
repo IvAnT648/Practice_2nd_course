@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -36,6 +37,11 @@ namespace AIS_shop
                 //
                 richTextBoxReviews.Text = "Отзывы о товаре загружаются...";
                 loadReviews();
+                //
+                loadPicture(MainForm.CurrentTable, (int)row.Cells["Id"].Value);
+                //
+                if ((int)row.Cells["In stock"].Value == 0)
+                    bAddToCart.Enabled = false;
             }
             else
             {
@@ -52,8 +58,8 @@ namespace AIS_shop
             SqlDataReader reader = null;
             try
             {
-                string commandText = "SELECT [Nick] FROM [Users] WHERE [User_id]=" + id;
-                connection.OpenAsync();
+                string commandText = "SELECT [Nick] FROM [Users] WHERE [Id]=" + id;
+                connection.Open();
                 SqlCommand query = new SqlCommand(commandText, connection);
                 reader = query.ExecuteReader();
                 if (reader.HasRows)
@@ -90,7 +96,7 @@ namespace AIS_shop
             try
             {
                 string commandText = "SELECT [User_id], [Mark], [Advantages], [Disadvantages], [Comment] FROM [Reviews] WHERE [Product_id]=" + (int)row.Cells[0].Value;
-                await connection.OpenAsync();
+                connection.Open();
                 SqlCommand query = new SqlCommand(commandText, connection);
                 reader = await query.ExecuteReaderAsync();
                 if (reader.HasRows)
@@ -143,8 +149,8 @@ namespace AIS_shop
             SqlDataReader reader = null;
             try
             {
-                string commandText = "SELECT * FROM [" + MainForm.CurrentTable + "] WHERE [Id]=" + (int)row.Cells[0].Value;
-                await connection.OpenAsync();
+                string commandText = string.Format(@"SELECT * FROM [{0}] WHERE [Id]={1}", MainForm.CurrentTable, (int)row.Cells[0].Value);
+                connection.Open();
                 SqlCommand query = new SqlCommand(commandText, connection);
                 reader = await query.ExecuteReaderAsync();
                 if (reader.HasRows)
@@ -194,9 +200,9 @@ namespace AIS_shop
             SqlDataReader reader = null;
             try
             {
-                await connection.OpenAsync();
+                connection.Open();
                 SqlCommand command = new SqlCommand();
-                command.CommandText = "SELECT [Description] FROM [" + MainForm.CurrentTable + "] WHERE [Id]=" + (int)row.Cells[0].Value;
+                command.CommandText = string.Format("SELECT [Description] FROM [{0}] WHERE [Id]={1}", MainForm.CurrentTable, (int)row.Cells[0].Value);
                 command.Connection = connection;
                 reader = await command.ExecuteReaderAsync();
                 if (reader.HasRows)
@@ -232,6 +238,15 @@ namespace AIS_shop
                     connection.Close();
                 if (reader != null && !reader.IsClosed) reader.Close();
             }
+        }
+
+        private void loadPicture(string tableName, int id)
+        {
+            // загрузка из БД
+            Image image = Common.GetImageFromDB(tableName, id);
+            // загрузка изображения в pictureBox
+            if (image != null)
+                pictureBox.Image = image;
         }
     }
 }

@@ -124,7 +124,7 @@ namespace AIS_shop
                     return false;
                 }
                 // проверка на совпадение введенного e-mail с e-mail других пользователей
-                SqlCommand query = new SqlCommand("SELECT COUNT(User_id) FROM Users WHERE [E-mail]=\'" + textBoxEmail.Text + "\'", connection);
+                SqlCommand query = new SqlCommand("SELECT COUNT(Id) FROM Users WHERE [E-mail]=\'" + textBoxEmail.Text + "\'", connection);
                 int answer = -1;
                 answer = Convert.ToInt32(query.ExecuteScalar());
                 if (answer > 0 || answer == -1)
@@ -137,7 +137,7 @@ namespace AIS_shop
                     return false;
                 }
                 // проверка на совпадение введенного ника с никами другими пользователями
-                query = new SqlCommand("SELECT COUNT(User_id) FROM Users WHERE [Nick]=\'" + textBoxNick.Text + "\'", connection);
+                query = new SqlCommand("SELECT COUNT(Id) FROM Users WHERE [Nick]=\'" + textBoxNick.Text + "\'", connection);
                 answer = -1;
                 answer = Convert.ToInt32(query.ExecuteScalar());
                 if (answer > 0 || answer == -1)

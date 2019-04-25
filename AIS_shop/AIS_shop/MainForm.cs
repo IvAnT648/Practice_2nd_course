@@ -16,13 +16,13 @@ namespace AIS_shop
         // для взаимодействия других форм с главной
         public static bool flagClose { set; get; } = false;
         public static string QueryToUpdate { set; get; }
-        public static string CurrentTable { set; get; }
-        internal static User UserInSystem{ get; set; } = null;
+        public static string CurrentTable { private set; get; }
+        internal static User UserInSystem{ set; get; } = null;
 
         public MainForm()
         {
             InitializeComponent();
-            button1.Enabled = false;
+            buttonFilters.Enabled = false;
             flagClose = false;
             QueryToUpdate = "";
             администрированиеToolStripMenuItem.Visible = false;
@@ -63,7 +63,7 @@ namespace AIS_shop
             {
                 if (connection != null && connection.State != ConnectionState.Closed)
                     connection.Close();
-                if (dataGridView.DataSource != null) button1.Enabled = true;
+                if (dataGridView.DataSource != null) buttonFilters.Enabled = true;
             }
         }
 
@@ -84,19 +84,6 @@ namespace AIS_shop
             cart.ShowDialog();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (comboBox1.SelectedItem != null)
-            {
-                QueryToUpdate = "";
-                Filters filters = new Filters();
-                filters.ShowDialog();
-                if (QueryToUpdate != "")
-                    loadDataToGridView(QueryToUpdate);
-            }
-            else MessageBox.Show("Выберите категорию товаров", "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-        }
-
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
@@ -115,14 +102,6 @@ namespace AIS_shop
             {
                 Close();
             }
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            CurrentTable = comboBox1.SelectedItem.ToString();
-            // команда получения таблицы-представления
-            string sqlCommand = "SELECT * FROM [v" + CurrentTable + "]";
-            loadDataToGridView(sqlCommand);
         }
 
         private void UserStateChanged()
@@ -166,11 +145,6 @@ namespace AIS_shop
             UserStateChanged();
         }
 
-        private void добавитьТоварToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void регистрацияToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Registration reg = new Registration();
@@ -186,6 +160,37 @@ namespace AIS_shop
                 product.row = dataGridView.SelectedRows[0];
                 product.ShowDialog();
             }
+        }
+
+        private void bRefresh_Click(object sender, EventArgs e)
+        {
+            if (comboBoxCategory.SelectedIndex >= 0)
+            {
+                CurrentTable = comboBoxCategory.SelectedItem.ToString();
+                // команда получения таблицы-представления
+                string sqlCommand = "SELECT * FROM [v" + CurrentTable + "] ORDER BY [Brand]";
+                loadDataToGridView(sqlCommand);
+            }
+            else MessageBox.Show("Выберите категорию товаров", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void buttonFilters_Click(object sender, EventArgs e)
+        {
+            if (comboBoxCategory.SelectedItem != null)
+            {
+                QueryToUpdate = "";
+                Filters filters = new Filters();
+                filters.ShowDialog();
+                if (QueryToUpdate != "")
+                    loadDataToGridView(QueryToUpdate);
+            }
+            else MessageBox.Show("Выберите категорию товаров", "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        }
+
+        private void управлениеТоварамиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Change_product change = new Change_product();
+            change.ShowDialog();
         }
     }
 }

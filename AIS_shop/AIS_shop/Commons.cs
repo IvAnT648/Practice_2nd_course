@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -22,9 +23,9 @@ namespace AIS_shop
         public string Email { get; }
         public string Nick { get; }
         public UserStatus Status { get; }
-        public string PicturePath { get; }
+        public Image Picture { get; set; }
 
-        public User(string surname, string name, string patronymic, string email, string nick, UserStatus status, string path_to_avatar)
+        public User(string surname, string name, string patronymic, string email, string nick, UserStatus status)
         {
             Surname = surname ?? throw new ArgumentNullException(nameof(surname));
             Name = name ?? throw new ArgumentNullException(nameof(name));
@@ -32,7 +33,6 @@ namespace AIS_shop
             Email = email ?? throw new ArgumentNullException(nameof(email));
             Nick = nick ?? throw new ArgumentNullException(nameof(nick));
             Status = status;
-            PicturePath = path_to_avatar ?? throw new ArgumentNullException(nameof(PicturePath));
         }
     }
 
@@ -202,7 +202,78 @@ namespace AIS_shop
                     if (field.filter == RequiredFilter.CheckedList)
                         field.sqlCommand = 
                             "SELECT DISTINCT [" + field.name + "] FROM [" + table.name + "]";
+
+            //Add_product.PutImageInDB(@"C:\Dexp.jpg", "Computers", 2);
             /////////////////////////////////////////////////////////////////////////////
+        }
+
+        public async static void PutImageInDB(string path_to_file, string name_of_table, int record_id)
+        {
+            byte[] imageData = null;
+            FileInfo fInfo = new FileInfo(path_to_file);
+
+            // получение размера изображения в байтах
+            int numBytes = (int)fInfo.Length;
+            // открытие файла
+            FileStream fStream = new FileStream(path_to_file, FileMode.Open, FileAccess.Read);
+            BinaryReader binaryReader = new BinaryReader(fStream);
+            // конвертация изображения в байты
+            imageData = binaryReader.ReadBytes(numBytes);
+
+            // запись изображения в БД
+            SqlConnection sqlConnection = new SqlConnection(Common.StrSQLConnection);
+            SqlCommand command = new SqlCommand();
+            command.Connection = sqlConnection;
+            command.CommandText = string.Format("UPDATE [{0}] SET [Picture]=@image WHERE [Id]={1}", name_of_table, record_id);
+            command.Parameters.AddWithValue("@image", (object)imageData);
+            try
+            {
+                sqlConnection.Open();
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (sqlConnection != null && sqlConnection.State != ConnectionState.Closed)
+                    sqlConnection.Close();
+            }
+        }
+
+        public static Image GetImageFromDB(string name_of_table, int record_id)
+        {
+            byte[] imageData = null;
+            SqlConnection sqlConnection = new SqlConnection(Common.StrSQLConnection);
+            try
+            {
+                sqlConnection.Open();
+                SqlCommand sqlCommand = new SqlCommand();
+                sqlCommand.Connection = sqlConnection;
+                sqlCommand.CommandText = string.Format(@"SELECT [Picture] FROM [{0}] WHERE [Id]={1}", name_of_table, record_id);
+                object answer = sqlCommand.ExecuteScalar();
+                imageData = sqlCommand.ExecuteScalar() as byte[];
+                if (imageData != null)
+                {
+                    MemoryStream ms = new MemoryStream(imageData);
+                    return Image.FromStream(ms);
+                }
+                else return null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                if (sqlConnection != null && sqlConnection.State != ConnectionState.Closed)
+                    sqlConnection.Close();
+            }
+                
         }
     }
 }
