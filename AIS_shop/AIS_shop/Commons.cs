@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
-using System.Configuration;
 using System.Windows.Forms;
 
 namespace AIS_shop
@@ -137,77 +136,26 @@ namespace AIS_shop
         // команда для получения списка возможных значений (для checkbox'а)
         public string sqlCommand { set; get; }
 
-        public Field(string field_name)
-        {
-            this.name = field_name;
-        }
         public Field(string field_name, RequiredFilter requiredFilter)
         {
-            this.name = field_name;
+            this.name = field_name ?? throw new ArgumentNullException(nameof(name));
             this.filter = requiredFilter;
         }
+
         public Field(string field_name, RequiredFilter requiredFilter, string SQLCommand)
         {
-            this.name = field_name;
+            this.name = field_name ?? throw new ArgumentNullException(nameof(name));
             this.filter = requiredFilter;
-            this.sqlCommand = SQLCommand;
+            this.sqlCommand = SQLCommand ?? throw new ArgumentNullException(nameof(SQLCommand));
         }
     }
 
-    class Table
+    static class ImageTools
     {
-        public string name { set; get; }
-        public List<Field> fields;
-    }
-
-    static class Common
-    {
-        // строка соед. с БД
-        public static string StrSQLConnection = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
-
-        // контейнер полей, для которых нужны фильтры
-        // кол-во объектов в контенере = кол-во таблиц с товарами;
-        // т.е для каждого стобца таблицы есть описательная структура
-        // ... заполняется при созданиии таблиц
-        public static List<Table> fieldsForFilters = null;
-
-        public static void Crutch()
-        {
-            // этот код должен выполняться при создании категории товаров (новой таблицы)
-            string table_name = "Computers";
-            if (fieldsForFilters == null)
-                fieldsForFilters = new List<Table>();
-            fieldsForFilters.Add(
-                new Table
-                {
-                    name = table_name,
-                    fields = new List<Field>()
-                });
-
-            fieldsForFilters[0].fields.Add(new Field("Type", RequiredFilter.CheckedList));
-            fieldsForFilters[0].fields.Add(new Field("Brand", RequiredFilter.CheckedList));
-            fieldsForFilters[0].fields.Add(new Field("Brand CPU", RequiredFilter.CheckedList));
-            fieldsForFilters[0].fields.Add(new Field("Count of cores", RequiredFilter.CheckedList));
-            fieldsForFilters[0].fields.Add(new Field("Brand GPU", RequiredFilter.CheckedList));
-            fieldsForFilters[0].fields.Add(new Field("Type RAM", RequiredFilter.CheckedList));
-            fieldsForFilters[0].fields.Add(new Field("Capacity RAM", RequiredFilter.FromTo));
-            fieldsForFilters[0].fields.Add(new Field("Capacity HDD", RequiredFilter.FromTo));
-            fieldsForFilters[0].fields.Add(new Field("Capacity SSD", RequiredFilter.FromTo));
-            fieldsForFilters[0].fields.Add(new Field("Operating system", RequiredFilter.CheckedList));
-            fieldsForFilters[0].fields.Add(new Field("Power PSU", RequiredFilter.CheckedList));
-            fieldsForFilters[0].fields.Add(new Field("Cost", RequiredFilter.FromTo));
-
-            foreach (var table in Common.fieldsForFilters)
-                foreach (var field in table.fields)
-                    if (field.filter == RequiredFilter.CheckedList)
-                        field.sqlCommand = 
-                            "SELECT DISTINCT [" + field.name + "] FROM [" + table.name + "]";
-
-            //Add_product.PutImageInDB(@"C:\Dexp.jpg", "Computers", 2);
-            /////////////////////////////////////////////////////////////////////////////
-        }
-
-        public async static void PutImageInDB(string path_to_file, string name_of_table, int record_id)
+        // загружает изображение в базу данных, а также возвращает его.
+        // аргументы: путь к файлу, строка подключения к БД, название таблицы, ячейки и id записи для сохранения. 
+        // Поле таблицы "field" должно иметь тип "Image" 
+        public static Image PutImageInDB(string path_to_file, string strConnectionToDB, string name_of_table, string field, int record_id)
         {
             byte[] imageData = null;
             FileInfo fInfo = new FileInfo(path_to_file);
@@ -219,22 +167,26 @@ namespace AIS_shop
             BinaryReader binaryReader = new BinaryReader(fStream);
             // конвертация изображения в байты
             imageData = binaryReader.ReadBytes(numBytes);
-
+            if (imageData == null) return null;
             // запись изображения в БД
-            SqlConnection sqlConnection = new SqlConnection(Common.StrSQLConnection);
+            SqlConnection sqlConnection = new SqlConnection(strConnectionToDB);
             SqlCommand command = new SqlCommand();
             command.Connection = sqlConnection;
-            command.CommandText = string.Format("UPDATE [{0}] SET [Picture]=@image WHERE [Id]={1}", name_of_table, record_id);
+            command.CommandText = string.Format("UPDATE [{0}] SET [{1}]=@image WHERE [Id]={2}", name_of_table, field, record_id);
             command.Parameters.AddWithValue("@image", (object)imageData);
             try
             {
+                // загрузка в БД
                 sqlConnection.Open();
-                await command.ExecuteNonQueryAsync();
+                command.ExecuteNonQuery();
+                // возвращение этого изображения
+                return Image.FromStream(new MemoryStream(imageData));
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
             }
             finally
             {
@@ -243,23 +195,22 @@ namespace AIS_shop
             }
         }
 
-        public static Image GetImageFromDB(string name_of_table, int record_id)
+        // загружает и возвращает изображение из базы данных.
+        // аргументы: строка подключения к БД, название таблицы и id записи из которой выполняется загрузка изображения из поля "field".
+        // Поле таблицы "field" должно иметь тип "Image" 
+        public static Image GetImageFromDB(string strConnectionToDB, string name_of_table, string field, int record_id)
         {
             byte[] imageData = null;
-            SqlConnection sqlConnection = new SqlConnection(Common.StrSQLConnection);
+            SqlConnection sqlConnection = new SqlConnection(strConnectionToDB);
             try
             {
                 sqlConnection.Open();
                 SqlCommand sqlCommand = new SqlCommand();
                 sqlCommand.Connection = sqlConnection;
-                sqlCommand.CommandText = string.Format(@"SELECT [Picture] FROM [{0}] WHERE [Id]={1}", name_of_table, record_id);
+                sqlCommand.CommandText = string.Format(@"SELECT [{0}] FROM [{1}] WHERE [Id]={2}", field, name_of_table, record_id);
                 object answer = sqlCommand.ExecuteScalar();
                 imageData = sqlCommand.ExecuteScalar() as byte[];
-                if (imageData != null)
-                {
-                    MemoryStream ms = new MemoryStream(imageData);
-                    return Image.FromStream(ms);
-                }
+                if (imageData != null) return Image.FromStream(new MemoryStream(imageData));
                 else return null;
             }
             catch (Exception ex)
@@ -274,6 +225,48 @@ namespace AIS_shop
                     sqlConnection.Close();
             }
                 
+        }
+        public static bool PutBytesToDb(byte[] data, string strConnectionToDB, string name_of_table, string field, int record_id)
+        {
+            if (data.Length == 0) return false;
+            SqlConnection sqlConnection = new SqlConnection(strConnectionToDB);
+            SqlCommand command = new SqlCommand();
+            command.Connection = sqlConnection;
+            command.CommandText = string.Format("UPDATE [{0}] SET [{1}]=@image WHERE [Id]={2}", name_of_table, field, record_id);
+            command.Parameters.AddWithValue("@image", (object)data);
+            try
+            {
+                // загрузка в БД
+                sqlConnection.Open();
+                command.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                if (sqlConnection != null && sqlConnection.State != ConnectionState.Closed)
+                    sqlConnection.Close();
+            }
+        }
+
+        public static byte[] GetFilesBytes(string path_to_file)
+        {
+            byte[] data = null;
+            FileInfo fInfo = new FileInfo(path_to_file);
+            // получение размера файла в байтах
+            int numBytes = (int)fInfo.Length;
+            // открытие файла
+            FileStream fStream = new FileStream(path_to_file, FileMode.Open, FileAccess.Read);
+            BinaryReader binaryReader = new BinaryReader(fStream);
+            // конвертация файла в байты
+            data = binaryReader.ReadBytes(numBytes);
+            if (data == null) return null;
+            else return data;
         }
     }
 }

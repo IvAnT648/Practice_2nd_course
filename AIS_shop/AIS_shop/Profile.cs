@@ -15,7 +15,6 @@ namespace AIS_shop
         public Profile()
         {
             InitializeComponent();
-            StartPosition = FormStartPosition.CenterScreen;
             // ввод информации из бд
             //
             //

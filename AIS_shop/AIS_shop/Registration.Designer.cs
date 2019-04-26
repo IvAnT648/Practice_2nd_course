@@ -160,6 +160,7 @@
             // bRegistration
             // 
             this.bRegistration.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.bRegistration.Cursor = System.Windows.Forms.Cursors.Hand;
             this.bRegistration.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.bRegistration.Location = new System.Drawing.Point(120, 293);
             this.bRegistration.Margin = new System.Windows.Forms.Padding(2);
@@ -186,6 +187,7 @@
             // 
             this.regAsAdmin.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.regAsAdmin.AutoSize = true;
+            this.regAsAdmin.Cursor = System.Windows.Forms.Cursors.Hand;
             this.regAsAdmin.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.regAsAdmin.Location = new System.Drawing.Point(86, 259);
             this.regAsAdmin.Name = "regAsAdmin";
@@ -237,7 +239,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "Registration";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

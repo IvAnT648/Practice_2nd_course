@@ -15,7 +15,6 @@ namespace AIS_shop
         public Cart()
         {
             InitializeComponent();
-            StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void button2_Click(object sender, EventArgs e)

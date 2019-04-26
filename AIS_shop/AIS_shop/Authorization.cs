@@ -13,7 +13,7 @@ namespace AIS_shop
 {
     public partial class Authorization : Form
     {
-        DataSet usersData;
+        DataSet usersData = null;
 
         public Authorization()
         {
@@ -22,7 +22,17 @@ namespace AIS_shop
 
         private void Authorization_Load(object sender, EventArgs e)
         {
-            loadUsersData();
+            bool flag = loadUsersData();
+            int count = 10;
+            while (!flag && count != 0)
+            {
+                flag = loadUsersData();
+                count--;
+            }
+            if (!flag)
+            {
+                MessageBox.Show("Данные о пользователях не были загружены из базы данных. Попробуйте перезапустить форму. Попыток подключения: "+ count, "Ошибка загрузки данных", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void Authorization_FormClosing(object sender, FormClosingEventArgs e)
@@ -40,8 +50,9 @@ namespace AIS_shop
 
         private async void bEnter_Click(object sender, EventArgs e)
         {
+            
             string nick = maskedTextBox1.Text, password = maskedTextBox2.Text;
-            if (nick != "" && password != "")
+            if (!string.IsNullOrWhiteSpace(nick) && !string.IsNullOrWhiteSpace(password))
             {
                 int id = 0;
                 for (int it = 0; it < usersData.Tables[0].Rows.Count; it++)
@@ -63,7 +74,7 @@ namespace AIS_shop
                     return;
                 }
                 // далее, выполняем вход
-                SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
+                SqlConnection connection = new SqlConnection(MainForm.StrSQLConnection);
                 SqlCommand query = new SqlCommand("SELECT [Surname], [Name], [Patronymic], [E-mail], [Nick], UPPER([Status]) FROM [Users] WHERE [Id]=" + id, connection);
                 try
                 {
@@ -116,22 +127,22 @@ namespace AIS_shop
             else MessageBox.Show("Введите данные!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         // загрузка всех данных для входа, т.к. sql - регистронезависимый
-        private async void loadUsersData()
+        private bool loadUsersData()
         {
-            if (usersData == null)
-                usersData = new DataSet();
-            else usersData.Clear();
-            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
+            usersData = new DataSet();
+            SqlConnection connection = new SqlConnection(MainForm.StrSQLConnection);
             try
             {
-                await connection.OpenAsync();
+                connection.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter("SELECT [Id], [Nick], [E-mail], [Password] FROM Users", connection);
                 adapter.Fill(usersData);
+                return true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
             finally
             {

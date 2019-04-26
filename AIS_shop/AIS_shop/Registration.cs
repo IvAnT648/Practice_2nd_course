@@ -43,7 +43,7 @@ namespace AIS_shop
                     status = "USER";
                 try
                 {
-                    connection = new SqlConnection(Common.StrSQLConnection);
+                    connection = new SqlConnection(MainForm.StrSQLConnection);
                     connection.Open();
                     SqlCommand command = new SqlCommand();
                     command.Connection = connection;
@@ -79,7 +79,7 @@ namespace AIS_shop
         {
             try
             {
-                connection = new SqlConnection(Common.StrSQLConnection);
+                connection = new SqlConnection(MainForm.StrSQLConnection);
                 connection.Open();
 
                 // если не введены необходимые данные
