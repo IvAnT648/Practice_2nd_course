@@ -25,7 +25,6 @@ namespace AIS_shop
         // Кнопка "Войти"
         private void button2_Click(object sender, EventArgs e)
         {
-            Hide();
             Authorization auth = new Authorization();
             auth.ShowDialog();
             Close();
@@ -33,10 +32,14 @@ namespace AIS_shop
         // Кнопка "Регистрация"
         private void button3_Click(object sender, EventArgs e)
         {
-            Hide();
             Registration reg = new Registration();
             reg.ShowDialog();
             Close();
+        }
+
+        private void Welcome_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

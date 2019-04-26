@@ -68,17 +68,11 @@
     <Compile Include="AboutProgram.Designer.cs">
       <DependentUpon>AboutProgram.cs</DependentUpon>
     </Compile>
-    <Compile Include="Add_product.cs">
+    <Compile Include="AddNewProduct.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Add_product.Designer.cs">
-      <DependentUpon>Add_product.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Admin_profile.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Admin_profile.Designer.cs">
-      <DependentUpon>Admin_profile.cs</DependentUpon>
+    <Compile Include="AddNewProduct.Designer.cs">
+      <DependentUpon>AddNewProduct.cs</DependentUpon>
     </Compile>
     <Compile Include="Authorization.cs">
       <SubType>Form</SubType>
@@ -92,11 +86,11 @@
     <Compile Include="Cart.Designer.cs">
       <DependentUpon>Cart.cs</DependentUpon>
     </Compile>
-    <Compile Include="Change_product.cs">
+    <Compile Include="ProductManager.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Change_product.Designer.cs">
-      <DependentUpon>Change_product.cs</DependentUpon>
+    <Compile Include="ProductManager.Designer.cs">
+      <DependentUpon>ProductManager.cs</DependentUpon>
     </Compile>
     <Compile Include="Commons.cs" />
     <Compile Include="Filters.cs">
@@ -129,11 +123,22 @@
     <Compile Include="Profile.Designer.cs">
       <DependentUpon>Profile.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Registration.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Registration.Designer.cs">
       <DependentUpon>Registration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateProduct.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateProduct.Designer.cs">
+      <DependentUpon>UpdateProduct.cs</DependentUpon>
     </Compile>
     <Compile Include="Welcome.cs">
       <SubType>Form</SubType>
@@ -146,11 +151,8 @@
     <EmbeddedResource Include="AboutProgram.resx">
       <DependentUpon>AboutProgram.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Add_product.resx">
-      <DependentUpon>Add_product.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Admin_profile.resx">
-      <DependentUpon>Admin_profile.cs</DependentUpon>
+    <EmbeddedResource Include="AddNewProduct.resx">
+      <DependentUpon>AddNewProduct.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Authorization.resx">
       <DependentUpon>Authorization.cs</DependentUpon>
@@ -158,8 +160,8 @@
     <EmbeddedResource Include="Cart.resx">
       <DependentUpon>Cart.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Change_product.resx">
-      <DependentUpon>Change_product.cs</DependentUpon>
+    <EmbeddedResource Include="ProductManager.resx">
+      <DependentUpon>ProductManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Filters.resx">
       <DependentUpon>Filters.cs</DependentUpon>
@@ -178,15 +180,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Registration.resx">
       <DependentUpon>Registration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateProduct.resx">
+      <DependentUpon>UpdateProduct.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Welcome.resx">
       <DependentUpon>Welcome.cs</DependentUpon>
@@ -226,6 +227,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>DataBaseDET.mdf</DependentUpon>
     </Content>
+    <None Include="Resources\net_foto-1200x800.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pictures\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

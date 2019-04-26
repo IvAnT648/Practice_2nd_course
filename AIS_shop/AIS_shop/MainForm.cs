@@ -8,43 +8,66 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
+
 
 namespace AIS_shop
 {
+    
+
     public partial class MainForm : Form
     {
-        private string sqlCommand = "SELECT * FROM [vComputers]";
+        // строка соед. с БД
+        public static string StrSQLConnection = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
+        // для взаимодействия других форм с главной
+        //--- SQL-запрос для обовления данных в dataGridView
+        public static string QueryToUpdate { set; get; }
+        //--- пользователь в системе (сделать Singleton)
+        internal static User UserInSystem{ set; get; } = null;
 
         public MainForm()
         {
             InitializeComponent();
+            buttonFilters.Enabled = false;
+            QueryToUpdate = "";
+            администрированиеToolStripMenuItem.Visible = false;
         }
 
-        private void loadDataToGridView()
+        private void MainForm_Load(object sender, EventArgs e)
         {
+            Show();
+            Welcome welcome = new Welcome();
+            welcome.ShowDialog();
+            UserStateChange();
+            loadDataToGridView(@"SELECT * FROM vComputers ORDER BY Brand");
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+        }
+
+        private async void loadDataToGridView(string sqlCommand)
+        {
+            SqlConnection connection = new SqlConnection(StrSQLConnection);
             try
             {
-                // TO DO: в зависимости от выбранной категории товаров
-                // поместить в sqlCommand соответствующую команду на вывод представления
-                //
-
-                Common.SqlConnection = new SqlConnection(Common.StrSQLConnection);
-                Common.SqlConnection.Open();
-                SqlDataAdapter sqlAdapter = new SqlDataAdapter(sqlCommand, Common.SqlConnection);
+                await connection.OpenAsync();
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(sqlCommand, connection);
                 DataSet dataSet = new DataSet();
-                dataSet.Clear();
                 sqlAdapter.Fill(dataSet);
-                dataGridView1.DataSource = dataSet.Tables[0];
+                dataGridView.DataSource = dataSet.Tables[0];
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(), 
+                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
-                if (Common.SqlConnection != null && Common.SqlConnection.State != ConnectionState.Closed)
-                    Common.SqlConnection.Close();
+                if (connection != null && connection.State != ConnectionState.Closed)
+                    connection.Close();
+                if (dataGridView.DataSource != null) buttonFilters.Enabled = true;
             }
         }
 
@@ -65,12 +88,6 @@ namespace AIS_shop
             cart.ShowDialog();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Filters filters = new Filters();
-            filters.ShowDialog();
-        }
-
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
@@ -84,31 +101,113 @@ namespace AIS_shop
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Выход из программы", "Закрыть программу?", 
+            if (MessageBox.Show("Закрыть программу?", "Выход из программы",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                if (Common.SqlConnection != null && Common.SqlConnection.State != ConnectionState.Closed)
-                    Common.SqlConnection.Close();
                 Close();
             }
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        private void UserStateChange()
         {
-            Welcome welcome = new Welcome();
-            welcome.ShowDialog();
-            loadDataToGridView();
+            if (UserInSystem == null)
+            {
+                войтиToolStripMenuItem.Visible = true;
+                зарегистрироватьсяToolStripMenuItem.Visible = true;
+                перейтиВЛичныйКабинетToolStripMenuItem.Visible = false;
+                выйтиИзУчетнойЗаписиToolStripMenuItem.Visible = false;
+                администрированиеToolStripMenuItem.Visible = false;
+            }
+            else
+            {
+                if (UserInSystem.Status == UserStatus.Admin)
+                    администрированиеToolStripMenuItem.Visible = true;
+                войтиToolStripMenuItem.Visible = false;
+                зарегистрироватьсяToolStripMenuItem.Visible = false;
+                перейтиВЛичныйКабинетToolStripMenuItem.Visible = true;
+                выйтиИзУчетнойЗаписиToolStripMenuItem.Visible = true;
+            }
         }
 
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void войтиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Common.SqlConnection != null && Common.SqlConnection.State != ConnectionState.Closed)
-                Common.SqlConnection.Close();
+            Authorization auth = new Authorization();
+            auth.ShowDialog();
+            UserStateChange();
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void выйтиИзУчетнойЗаписиToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            UserInSystem = null;
+            UserStateChange();
+        }
 
+        private void зарегистрироватьсяToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Registration reg = new Registration();
+            reg.ShowDialog();
+            UserStateChange();
+        }
+
+        private void регистрацияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Registration reg = new Registration();
+            reg.ShowDialog();
+            UserStateChange();
+        }
+
+        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && e.Button == MouseButtons.Left)
+            {
+                Product product = new Product(dataGridView.SelectedRows[0]);
+                product.ShowDialog();
+            }
+        }
+
+        private void bRefresh_Click(object sender, EventArgs e)
+        {
+            // команда получения таблицы-представления
+            string sqlCommand = @"SELECT * FROM vComputers ORDER BY Brand";
+            loadDataToGridView(sqlCommand);
+        }
+
+        private void buttonFilters_Click(object sender, EventArgs e)
+        {
+            QueryToUpdate = null;
+            Filters filters = new Filters();
+            filters.ShowDialog();
+            if (!string.IsNullOrWhiteSpace(QueryToUpdate))
+                loadDataToGridView(QueryToUpdate);
+        }
+
+        private void управлениеТоварамиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ProductManager change = new ProductManager();
+            change.ShowDialog();
         }
     }
 }
+
+
+
+/*
+    
+    try
+    {
+        connection = new SqlConnection(Common.StrSQLConnection);
+        connection.Open();
+    
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
+            MessageBoxButtons.OK, MessageBoxIcon.Error);
+    }
+    finally
+    {
+        if (connection != null && connection.State != ConnectionState.Closed)
+            connection.Close();
+    }
+
+*/
