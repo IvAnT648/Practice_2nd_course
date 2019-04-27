@@ -24,9 +24,9 @@ namespace AIS_shop
 
         private void Product_Load(object sender, EventArgs e)
         {
-            lableProductName.Text = Row.Cells["Brand"].Value.ToString() + " " + Row.Cells["Model"].Value.ToString();
-            labelCost.Text = "Цена: " + Row.Cells["Cost"].Value.ToString();
-            labelInStock.Text = "На складе: " + Row.Cells["Stock"].Value;
+            lableProductName.Text = Row.Cells["Производитель"].Value.ToString() + " " + Row.Cells["Модель"].Value.ToString();
+            labelCost.Text = "Цена: " + Row.Cells["Цена"].Value.ToString();
+            labelInStock.Text = "На складе: " + Row.Cells[11].Value.ToString();
             //
             richTextBoxDescription.Text = "Описание загружается...";
             loadDescription();
@@ -43,9 +43,9 @@ namespace AIS_shop
             if (richTextBoxReviews.Text == "Отзывы о товаре загружаются...")
                 richTextBoxReviews.Text = "*** Отзывы не были загружены ***";
             //
-            loadPicture("Computers", (int)Row.Cells["Id"].Value);
+            loadPicture("Products", (int)Row.Cells["Id"].Value);
             //
-            if ((int)Row.Cells["Stock"].Value == 0)
+            if ((int)Row.Cells["Склад"].Value == 0)
                 bAddToCart.Enabled = false;
         }
 
@@ -147,7 +147,7 @@ namespace AIS_shop
             SqlDataReader reader = null;
             try
             {
-                string commandText = string.Format(@"SELECT * FROM Computers WHERE Id={0}", (int)Row.Cells[0].Value);
+                string commandText = string.Format(@"SELECT * FROM Products WHERE Id={0}", (int)Row.Cells[0].Value);
                 connection.Open();
                 SqlCommand query = new SqlCommand(commandText, connection);
                 reader = await query.ExecuteReaderAsync();
@@ -156,7 +156,7 @@ namespace AIS_shop
                     if (await reader.ReadAsync())
                     {
                         listBoxChars.Items.Clear();
-                        for (int i = 1; i < reader.FieldCount-2; i++)
+                        for (int i = 1; i < reader.FieldCount-3; i++)
                         {
                             if (string.IsNullOrWhiteSpace(reader.GetValue(i).ToString())) continue;
                             string text = reader.GetName(i).ToString() + ": " + reader.GetValue(i).ToString();
@@ -200,7 +200,7 @@ namespace AIS_shop
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand();
-                command.CommandText = string.Format(@"SELECT Description FROM Computers WHERE [Id]={0}", (int)Row.Cells[0].Value);
+                command.CommandText = string.Format(@"SELECT Описание FROM Products WHERE [Id]={0}", (int)Row.Cells[0].Value);
                 command.Connection = connection;
                 reader = await command.ExecuteReaderAsync();
                 if (reader.HasRows)
@@ -241,7 +241,7 @@ namespace AIS_shop
         private void loadPicture(string tableName, int id)
         {
             // загрузка из БД
-            Image image = ImageTools.GetImageFromDB(MainForm.StrSQLConnection, tableName, "Picture", id);
+            Image image = ImageTools.GetImageFromDB(MainForm.StrSQLConnection, tableName, "Изображение", id);
             // загрузка изображения в pictureBox
             if (image != null)
                 pictureBox.Image = image;

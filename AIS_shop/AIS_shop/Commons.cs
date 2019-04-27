@@ -14,6 +14,21 @@ namespace AIS_shop
     enum UserStatus { Guest, UsualUser, Admin }
     enum RequiredFilter { NotRequired, CheckedList, FromTo }
 
+    class _strToGridView
+    {
+        public string name { get; }
+        public string obligation { get; }
+        public string type { get; }
+        public string value { get; set; } = "";
+
+        public _strToGridView(string table_field, string obligation, string type)
+        {
+            this.name = table_field;
+            this.obligation = obligation;
+            this.type = type;
+        }
+    }
+
     class User
     {
         public string Surname { get; }

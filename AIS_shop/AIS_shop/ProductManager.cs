@@ -13,6 +13,7 @@ namespace AIS_shop
 {
     public partial class ProductManager : Form
     {
+        public static bool updateFlag = false;
         public ProductManager()
         {
             InitializeComponent();
@@ -25,7 +26,7 @@ namespace AIS_shop
             SqlDataReader reader = null;
             try
             {
-                string str = @"SELECT * FROM vComputers";
+                string str = @"SELECT * FROM Products";
                 SqlCommand command = new SqlCommand(str, connection);
                 await connection.OpenAsync();
                 reader = await command.ExecuteReaderAsync();
@@ -67,6 +68,11 @@ namespace AIS_shop
         {
             AddNewProduct newProduct = new AddNewProduct();
             newProduct.ShowDialog();
+            if (updateFlag)
+            {
+                updateListViewData();
+                updateFlag = false;
+            }
         }
 
         private void bUpdate_Click(object sender, EventArgs e)
@@ -91,9 +97,9 @@ namespace AIS_shop
                         if (i != 0) recordToDelete += " | ";
                         recordToDelete += item.SubItems[i].Text;
                     }
-                    
                 }
-                if (recordToDelete != null) qst += recordToDelete + "\"";
+                recordToDelete += "\"";
+                if (recordToDelete != null) qst += recordToDelete;
                 if (MessageBox.Show(qst, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     SqlConnection connection = new SqlConnection(MainForm.StrSQLConnection);
@@ -101,7 +107,7 @@ namespace AIS_shop
                     {
                         connection.Open();
                         SqlCommand query = new SqlCommand();
-                        query.CommandText = string.Format(@"DELETE FROM Computers WHERE Id={0}", listViewProducts.SelectedItems[0].Text);
+                        query.CommandText = string.Format(@"DELETE FROM Products WHERE Id={0}", listViewProducts.SelectedItems[0].Text);
                         query.Connection = connection;
                         if (query.ExecuteNonQuery() != 0)
                         {

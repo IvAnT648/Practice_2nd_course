@@ -9,13 +9,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace AIS_shop
 {
+    
+
     public partial class AddNewProduct : Form
     {
-        bool Saved = false;
+        // структура для вывода в dataGridView
+        List<_strToGridView> fields = new List<_strToGridView>(15);
+        // словарь "поле таблицы"-"значение"
+        Dictionary <string, object> CommandValue = new Dictionary<string, object>(15);
+        // изображение
         byte[] dataImage = null;
+        // команда добавления в бд
+        string sqlCommand = @"INSERT INTO Products (";
+
         public AddNewProduct()
         {
             InitializeComponent();
@@ -23,39 +33,40 @@ namespace AIS_shop
 
         private void AddNewProduct_Load(object sender, EventArgs e)
         {
+            fields.Add(new _strToGridView("Тип ПК", "Да", "Текст"));
+            fields.Add(new _strToGridView("Производитель", "Да", "Текст"));
+            fields.Add(new _strToGridView("Модель", "Да", "Текст"));
+            fields.Add(new _strToGridView("CPU", "Да", "Текст"));
+            fields.Add(new _strToGridView("Кол-во ядер", "Да", "Целое неотрицательное число"));
+            fields.Add(new _strToGridView("GPU", "Да", "Текст"));
+            fields.Add(new _strToGridView("Объем RAM", "Да", "Целое неотрицательное число"));
+            fields.Add(new _strToGridView("Тип RAM", "Да", "Текст"));
+            fields.Add(new _strToGridView("HDD", "Нет", "Целое неотрицательное число"));
+            fields.Add(new _strToGridView("SSD", "Нет", "Целое неотрицательное число"));
+            fields.Add(new _strToGridView("Операционная система", "Нет", "Текст"));
+            fields.Add(new _strToGridView("Блок питания", "Нет", "Целое неотрицательное число"));
+            fields.Add(new _strToGridView("Склад", "Да", "Целое неотрицательное число"));
+            fields.Add(new _strToGridView("Цена", "Да", "Дробное неотрицательное число"));
+            fields.Add(new _strToGridView("Описание", "Нет", "Текст"));
+            
             labelFileName.Visible = false;
             pictureBox.Visible = false;
             buttonDelImage.Visible = false;
-            // Type
-            dgv.Rows.Add("Тип ПК", "Да", "Текст");
-            // Brand
-            dgv.Rows.Add("Производитель", "Да", "Текст");
-            // Model
-            dgv.Rows.Add("Модель", "Да", "Текст");
-            // Brand CPU
-            dgv.Rows.Add("Процессор", "Да", "Текст");
-            // Count of cores
-            dgv.Rows.Add("Кол-во ядер", "Да", "Целое число");
-            // Brand GPU
-            dgv.Rows.Add("Видеокарта", "Да", "Текст");
-            // Type RAM
-            dgv.Rows.Add("Тип оперативной памяти", "Да", "Текст");
-            // Capacity RAM
-            dgv.Rows.Add("Объем оперативной памяти (Гб)", "Да", "Целое число");
-            // HDD                            
-            dgv.Rows.Add("Объем жесткого диска (Гб)", "Нет", "Целое число");
-            // SSD                            
-            dgv.Rows.Add("Объем SSD (Гб)", "Нет", "Целое число");
-            // Operating system                        
-            dgv.Rows.Add("Операционная система", "Нет", "Текст");
-            // PSU                               
-            dgv.Rows.Add("Мощность блока питаня (Вт)", "Нет", "Целое число");
-            // Stock
-            dgv.Rows.Add("Кол-во на складе", "Да", "Целое число");
-            // Cost
-            dgv.Rows.Add("Цена", "Да", "Дробное число");
-            // Description
-            dgv.Rows.Add("Описание", "Нет", "Текст");
+            dgv.RowHeadersVisible = false;
+
+            // вывод в DataGridView
+            for (int i = 0; i < fields.Count; i++)
+                dgv.Rows.Add(fields[i].name, fields[i].obligation, fields[i].type);
+            // добавление к запросу полей, в которые будет осуществляться вставка
+            foreach (var f in fields)
+            {
+                
+                CommandValue.Add(f.name, null);
+                // 
+                if (f != fields[0]) sqlCommand += @", ";
+                sqlCommand += $@"[{f.name}]";
+            }
+            sqlCommand += @", [Изображение])";
         }
 
         private void AddNewProduct_FormClosing(object sender, FormClosingEventArgs e)
@@ -67,39 +78,122 @@ namespace AIS_shop
         {
             if (!valid())
             {
-                
-                return;
+                MessageBox.Show("Пожалуйста, заполните все обязательные поля корректно", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // подготавливаем почву для следующего нажатия на кнопку "Сохранить" - очистка от уже введенных данных
+                //for (int i = 0; i < CommandValue.Count; i++)
+                //    CommandValue[CommandValue.ElementAt(i).Key] = null;
             }
-            if (MessageBox.Show("Вы уверены, что хотите добавить этот товар?", "Добавить товар",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
-                return;
+            else
+            {
+                if (MessageBox.Show("Вы уверены, что хотите добавить этот товар?", "Добавить товар",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    addProductToDB();
+                }
+            }
+        }
+        private async void addProductToDB()
+        {
+            // добавление введенных значений столбцов в команду
+            sqlCommand += @" VALUES (";
+            foreach (var field in CommandValue)
+            {
+                if (field.Key != CommandValue.First().Key)
+                    sqlCommand += @", ";
+                if (field.Value == null)
+                {
+                    sqlCommand += $@"NULL";
+                    continue;
+                }
+                if (field.Value is string)
+                    sqlCommand += $@"'{field.Value.ToString()}'";
+                else sqlCommand += $@"{field.Value.ToString()}";
+            }
+            sqlCommand += @", @image)";
+            // выполнение команды
+            SqlConnection connection = new SqlConnection(MainForm.StrSQLConnection);
+            try
+            {
+                connection.Open();
+                SqlCommand query = new SqlCommand(this.sqlCommand, connection);
+                query.Parameters.AddWithValue("@image", (object)dataImage);
+                if (await query.ExecuteNonQueryAsync() == 1)
+                {
+                    MessageBox.Show("Запись была успешно добавлена в таблицу", "Сообщение",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ProductManager.updateFlag = true;
+                    Close();
+                }
+                    
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (connection != null && connection.State != ConnectionState.Closed)
+                    connection.Close();
+            }
         }
 
         private bool valid()
         {
-            // row.Cells[].Value.ToString()
-            foreach (DataGridViewRow row in dgv.Rows)
+            string intPattern = @"^\d+$";
+            string floatPattern = @"^\d+(\.|,)?\d+$";
+
+            foreach (
+                DataGridViewRow row in dgv.Rows)
             {
-                if (string.IsNullOrWhiteSpace(row.Cells[3].Value.ToString()))
+                string sValue = null;
+                string sChar = row.Cells[0]?.Value?.ToString();
+                string sObligation = row.Cells[1]?.Value?.ToString();
+                string sType = row.Cells[2]?.Value?.ToString();
+                if (row.Cells[3].Value == null)
+                    sValue = "";
+                else sValue = row.Cells[3]?.Value?.ToString();
+
+                if (string.IsNullOrWhiteSpace(sValue))
                 { // если строка пустая или с одними пробелами
-                    if (row.Cells[1].Value.ToString() == "Да")
+                    if (sObligation == "Да")
                     { // если обязательное поле
-                        MessageBox.Show("Поле "+ row.Cells[3].Value.ToString()+" должно быть заполнено", "Некорректный ввод!", 
+                        MessageBox.Show("Поле "+ sChar + " должно быть заполнено", "Некорректный ввод!", 
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
                     continue;
                 }
-                switch (row.Cells[2].Value.ToString())
+                Regex regex = null;
+                switch (sType)
                 {
-                    case "Текст":
-                        if (!row.Cells[3].Value.ToString().All(_____________))
+                    case "Целое неотрицательное число":
+                        regex = new Regex(intPattern);
+                        if (regex.IsMatch(sValue))
                         {
-                            MessageBox.Show("Некорректный ввод в поле \"" + row.Cells[3].Value.ToString()+"\"", "Ошибка!",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return false;
+                            uint val = uint.Parse(sValue);
+                            CommandValue[sChar] = val;
                         }
+                        else return false;
                         break;
+                    case "Дробное неотрицательное число":
+                        regex = new Regex(floatPattern);
+                        if (regex.IsMatch(sValue))
+                        {
+                            if (sValue.Contains("."))
+                                sValue = sValue.Replace(".", ",");
+                            float val = float.Parse(sValue);
+                            CommandValue[sChar] = val;
+                        }
+                        else return false;
+                        break;
+                    case "Текст":
+                        CommandValue[sChar] = sValue;
+                        break;
+                    default:
+                        MessageBox.Show("Произошла ошибка при распозновании типа значения. См. код \'AddNewProduct.valid()\'", "Ошибка!", 
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
                 }
             }
             return true;

@@ -15,7 +15,7 @@ namespace AIS_shop
     {
         List <FilterChecked> filtersChecked = null;
         List <FilterFromTo> filtersFromTo = null;
-        List <Field> fields = new List<Field>(14);
+        List <Field> fields = new List<Field>(13);
         private string SQLCommandToUpdate = null;
 
         public Filters()
@@ -25,28 +25,28 @@ namespace AIS_shop
 
         private void Filters_Load(object sender, EventArgs e)
         {            
-            fields.Add(new Field("Type", RequiredFilter.CheckedList));
-            fields.Add(new Field("Brand", RequiredFilter.CheckedList));
-            fields.Add(new Field("Model", RequiredFilter.CheckedList));
+            fields.Add(new Field("Тип ПК", RequiredFilter.CheckedList));
+            fields.Add(new Field("Производитель", RequiredFilter.CheckedList));
+            fields.Add(new Field("Модель", RequiredFilter.CheckedList));
             fields.Add(new Field("CPU", RequiredFilter.CheckedList));
-            fields.Add(new Field("Count of cores", RequiredFilter.CheckedList));
+            fields.Add(new Field("Кол-во ядер", RequiredFilter.CheckedList));
             fields.Add(new Field("GPU", RequiredFilter.CheckedList));
-            fields.Add(new Field("Type RAM", RequiredFilter.CheckedList));
-            fields.Add(new Field("Capacity RAM", RequiredFilter.FromTo));
+            fields.Add(new Field("Объем RAM", RequiredFilter.FromTo));
+            fields.Add(new Field("Тип RAM", RequiredFilter.CheckedList));
             fields.Add(new Field("HDD", RequiredFilter.FromTo));
             fields.Add(new Field("SSD", RequiredFilter.FromTo));
-            fields.Add(new Field("Operating system", RequiredFilter.CheckedList));
-            fields.Add(new Field("PSU", RequiredFilter.CheckedList));
-            fields.Add(new Field("Cost", RequiredFilter.FromTo));
+            fields.Add(new Field("Операционная система", RequiredFilter.CheckedList));
+            fields.Add(new Field("Блок питания", RequiredFilter.CheckedList));
+            fields.Add(new Field("Цена", RequiredFilter.FromTo));
 
             foreach (var field in fields)
                 if (field.filter == RequiredFilter.CheckedList)
-                    field.sqlCommand = @"SELECT DISTINCT [" + field.name + "] FROM [Computers]";
+                    field.sqlCommand = @"SELECT DISTINCT [" + field.name + "] FROM [Products]";
 
             SqlConnection connection = new SqlConnection(MainForm.StrSQLConnection);
             try
             {
-                List<string> variants = new List<string>();
+                
                 connection.Open();
                 // для каждого поля делаем фильтр, в зависимости от параметра "field.num"
                 foreach (Field field in fields)
@@ -57,6 +57,7 @@ namespace AIS_shop
                     if (field.filter == RequiredFilter.CheckedList)
                     { // если для поля требуется чекбоксы
                         // загружаем
+                        List<string> variants = new List<string>();
                         DataSet ds = new DataSet();
                         adapter.Fill(ds);
                         foreach (DataRow row in ds.Tables[0].Rows)
@@ -106,13 +107,31 @@ namespace AIS_shop
             try
             {
                 bool ok = false;
-                // формирование SQL-запроса для вывода представления в главную форму
-                SQLCommandToUpdate = @"SELECT * FROM [vComputers]";
+                // формирование SQL-запроса
+
+                SQLCommandToUpdate = @"SELECT";
+                foreach (var f in fields)
+                {
+                    if (f != fields[0]) SQLCommandToUpdate += @",";
+                    SQLCommandToUpdate += $@" [{f.name}]";
+                }
+                SQLCommandToUpdate += @", [Склад]";
+                SQLCommandToUpdate += $@" FROM Products";
 
                 // добавление в команду для обновления запрос по фильтрам 
                 if (_TakeAccountOfFiltersChecked() != -1)
                     if (_TakeAccountOfFiltersFromTo() != -1)
                         ok = true;
+
+                if (checkBoxStock.Checked)
+                {
+                    // если команда не была модифицирована на более ранних итерациях
+                    if (SQLCommandToUpdate.Contains("WHERE"))
+                        SQLCommandToUpdate += @" AND";
+                    else SQLCommandToUpdate += @" WHERE";
+                    SQLCommandToUpdate += @" [Склад]>0";
+                }
+                
 
                 if (ok)
                 { // если все ок - записываем команду в главной форме
@@ -131,8 +150,6 @@ namespace AIS_shop
             }
         }
 
-        
-
         private void Filters_FormClosing(object sender, FormClosingEventArgs e)
         {
 
@@ -146,8 +163,8 @@ namespace AIS_shop
         private void button1_Click(object sender, EventArgs e)
         {
             // применяем фильтры
-            ApplyChanges();
-            Close();
+            if (ApplyChanges() == 1)
+                Close();
         }
 
         private int _TakeAccountOfFiltersChecked()
@@ -212,7 +229,7 @@ namespace AIS_shop
                         t = 0; // правая граница диапазона
 
                     // пропуск фильтров с пустыми textBox
-                    if (!string.IsNullOrWhiteSpace(filter.from.Text) && !string.IsNullOrWhiteSpace(filter.to.Text))
+                    if (string.IsNullOrWhiteSpace(filter.from.Text) && string.IsNullOrWhiteSpace(filter.to.Text))
                         continue;
                     // если команда не была модифицирована на более ранних стадиях
                     if (SQLCommandToUpdate.Contains("WHERE"))
@@ -221,7 +238,11 @@ namespace AIS_shop
 
                     if (!string.IsNullOrWhiteSpace(filter.from.Text))
                     {
-                        if (!filter.from.Text.All(char.IsDigit))
+                        if (filter.from.Text.All(char.IsDigit))
+                        {
+                            f = int.Parse(filter.from.Text);
+                        }
+                        else
                         {
                             MessageBox.Show("Некорректный ввод в поле \'" + filter.groupBox.Text + "\'. Допустимы только целые числа.", "Ошибка ввода!",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -231,12 +252,17 @@ namespace AIS_shop
 
                     if (!string.IsNullOrWhiteSpace(filter.to.Text))
                     {
-                        if (!filter.to.Text.All(char.IsDigit))
+                        if (filter.to.Text.All(char.IsDigit))
+                        {
+                            t = int.Parse(filter.to.Text);
+                        }
+                        else
                         {
                             MessageBox.Show("Некорректный ввод в поле \'" + filter.groupBox.Text + "\'. Допустимы только целые числа.", "Ошибка ввода!",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return -1;
                         }
+
                     }
 
                     SQLCommandToUpdate += " [" + filter.groupBox.Text + "]";
@@ -260,6 +286,16 @@ namespace AIS_shop
                 return 1;
             }
             return 0;
+        }
+
+        private void groupBox6_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox5_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

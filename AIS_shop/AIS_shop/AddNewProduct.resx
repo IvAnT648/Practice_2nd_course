@@ -135,11 +135,11 @@
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="buttonDelImage.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAADNSURBVChTbZBNCsIwEIUnZymtsZqEHkA8gz+giG7Ei/QI3bU3qqjbbl0rKHiANs5LohR04DEv
-        35tMSimUkFk2RfdHVz9M7EySvzS1BxMVOEPwYMgcS7SeADwM2aehbmviilXCgyHDjNu459s3TR3L3rlD
-        8GDIwiuuxIq3XMdk+wJD5kd8iSXDJiXbjILYgyHzI2w2OioukrrzkCx63yPDDKX8oacBtbUke+RgruJq
-        puISHgwZZtzGhUpygPXnNgseDFlgroRUf374lxG9AQFdZ7C/6+3uAAAAAElFTkSuQmCC
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAM1JREFUKFNt
+        kE0KwjAQhSdnKa2xmoQeQDyDP6CIbsSL9AjdtTeqqNtuXSsoeIA2zkuiFHTgMS/fm0xKKZSQWTZF90dX
+        P0zsTJK/NLUHExU4Q/BgyBxLtJ4APAzZp6Fua+KKVcKDIcOM27jn2zdNHcveuUPwYMjCK67Eirdcx2T7
+        AkPmR3yJJcMmJduMgtiDIfMjbDY6Ki6SuvOQLHrfI8MMpfyhpwG1tSR75GCu4mqm4hIeDBlm3MaFSnKA
+        9ec2Cx4MWWCuhFR/fviXEb0BAV1nsL/r7e4AAAAASUVORK5CYII=
 </value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

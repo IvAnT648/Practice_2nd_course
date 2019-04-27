@@ -42,11 +42,11 @@
             this.buttonCancel = new System.Windows.Forms.Button();
             this.groupBoxProduct = new System.Windows.Forms.GroupBox();
             this.dgv = new System.Windows.Forms.DataGridView();
-            this.label2 = new System.Windows.Forms.Label();
             this.Field = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Obligation = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FieldType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label2 = new System.Windows.Forms.Label();
             this.buttonAddImage = new System.Windows.Forms.Button();
             this.labelFileName = new System.Windows.Forms.Label();
             this.openImageFile = new System.Windows.Forms.OpenFileDialog();
@@ -108,6 +108,7 @@
             this.dgv.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -148,6 +149,39 @@
             this.dgv.Size = new System.Drawing.Size(662, 320);
             this.dgv.TabIndex = 0;
             // 
+            // Field
+            // 
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Field.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Field.HeaderText = "Характеристика";
+            this.Field.Name = "Field";
+            this.Field.ReadOnly = true;
+            // 
+            // Obligation
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Obligation.DefaultCellStyle = dataGridViewCellStyle4;
+            this.Obligation.HeaderText = "Обязательно к заполнению";
+            this.Obligation.Name = "Obligation";
+            this.Obligation.ReadOnly = true;
+            // 
+            // FieldType
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.FieldType.DefaultCellStyle = dataGridViewCellStyle5;
+            this.FieldType.HeaderText = "Тип поля";
+            this.FieldType.Name = "FieldType";
+            this.FieldType.ReadOnly = true;
+            // 
+            // Value
+            // 
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            this.Value.DefaultCellStyle = dataGridViewCellStyle6;
+            this.Value.HeaderText = "Значение";
+            this.Value.Name = "Value";
+            // 
             // label2
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -158,43 +192,6 @@
             this.label2.Size = new System.Drawing.Size(195, 28);
             this.label2.TabIndex = 5;
             this.label2.Text = "Добавить товар";
-            // 
-            // Field
-            // 
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Field.DefaultCellStyle = dataGridViewCellStyle3;
-            this.Field.HeaderText = "Характеристика";
-            this.Field.Name = "Field";
-            this.Field.ReadOnly = true;
-            this.Field.Width = 180;
-            // 
-            // Obligation
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Obligation.DefaultCellStyle = dataGridViewCellStyle4;
-            this.Obligation.HeaderText = "Обязательно к заполнению";
-            this.Obligation.Name = "Obligation";
-            this.Obligation.ReadOnly = true;
-            this.Obligation.Width = 150;
-            // 
-            // FieldType
-            // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.FieldType.DefaultCellStyle = dataGridViewCellStyle5;
-            this.FieldType.HeaderText = "Тип поля";
-            this.FieldType.Name = "FieldType";
-            this.FieldType.ReadOnly = true;
-            this.FieldType.Width = 120;
-            // 
-            // Value
-            // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            this.Value.DefaultCellStyle = dataGridViewCellStyle6;
-            this.Value.HeaderText = "Значение";
-            this.Value.Name = "Value";
-            this.Value.Width = 150;
             // 
             // buttonAddImage
             // 
@@ -237,6 +234,7 @@
             // 
             // buttonDelImage
             // 
+            this.buttonDelImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonDelImage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonDelImage.Image = ((System.Drawing.Image)(resources.GetObject("buttonDelImage.Image")));
             this.buttonDelImage.Location = new System.Drawing.Point(192, 423);

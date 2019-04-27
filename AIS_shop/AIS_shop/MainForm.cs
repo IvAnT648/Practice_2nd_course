@@ -21,15 +21,15 @@ namespace AIS_shop
         public static string StrSQLConnection = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
         // для взаимодействия других форм с главной
         //--- SQL-запрос для обовления данных в dataGridView
-        public static string QueryToUpdate { set; get; }
+        public static string QueryToUpdate { set; get; } = "";
         //--- пользователь в системе (сделать Singleton)
         internal static User UserInSystem{ set; get; } = null;
+        
 
         public MainForm()
         {
             InitializeComponent();
             buttonFilters.Enabled = false;
-            QueryToUpdate = "";
             администрированиеToolStripMenuItem.Visible = false;
         }
 
@@ -39,7 +39,9 @@ namespace AIS_shop
             Welcome welcome = new Welcome();
             welcome.ShowDialog();
             UserStateChange();
-            loadDataToGridView(@"SELECT * FROM vComputers ORDER BY Brand");
+            dataGridView.RowHeadersVisible = false;
+            string sqlCommand = @"SELECT * FROM vProducts ORDER BY Производитель";
+            loadDataToGridView(sqlCommand);
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -167,8 +169,9 @@ namespace AIS_shop
 
         private void bRefresh_Click(object sender, EventArgs e)
         {
+            dataGridView.DataSource = null;
             // команда получения таблицы-представления
-            string sqlCommand = @"SELECT * FROM vComputers ORDER BY Brand";
+            string sqlCommand = @"SELECT * FROM vProducts ORDER BY Производитель";
             loadDataToGridView(sqlCommand);
         }
 
