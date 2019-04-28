@@ -26,7 +26,7 @@ namespace AIS_shop
         {
             lableProductName.Text = Row.Cells["Производитель"].Value.ToString() + " " + Row.Cells["Модель"].Value.ToString();
             labelCost.Text = "Цена: " + Row.Cells["Цена"].Value.ToString();
-            labelInStock.Text = "На складе: " + Row.Cells[11].Value.ToString();
+            labelInStock.Text = "На складе: " + Row.Cells["Склад"].Value.ToString();
             //
             richTextBoxDescription.Text = "Описание загружается...";
             loadDescription();
@@ -156,7 +156,7 @@ namespace AIS_shop
                     if (await reader.ReadAsync())
                     {
                         listBoxChars.Items.Clear();
-                        for (int i = 1; i < reader.FieldCount-3; i++)
+                        for (int i = 1; i < reader.FieldCount-4; i++)
                         {
                             if (string.IsNullOrWhiteSpace(reader.GetValue(i).ToString())) continue;
                             string text = reader.GetName(i).ToString() + ": " + reader.GetValue(i).ToString();

@@ -14,6 +14,7 @@ namespace AIS_shop
     enum UserStatus { Guest, UsualUser, Admin }
     enum RequiredFilter { NotRequired, CheckedList, FromTo }
 
+    // используется при добавлении товара
     class _strToGridView
     {
         public string name { get; }
@@ -26,6 +27,35 @@ namespace AIS_shop
             this.name = table_field;
             this.obligation = obligation;
             this.type = type;
+        }
+    }
+
+    class UserTable
+    {
+        public uint id { get; private set; } = 0;
+        public string Surname { get; private set; } = null;
+        public string Name { get; private set; } = null;
+        public string Patronymic { get; private set; } = null;
+        public string Email { get; private set; } = null;
+        public string Nick { get; private set; } = null;
+        private string Password { get; set; } = null;
+        public string Status { get; private set; } = null;
+        public Image Picture { get; private set; } = null;
+
+        public UserTable() { }
+
+        public UserTable(uint id, string surname, string name, string patronymic, string email, 
+            string nick, string password, string status, Image picture)
+        {
+            this.id = id;
+            Surname = surname ?? throw new ArgumentNullException(nameof(surname));
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Patronymic = patronymic ?? throw new ArgumentNullException(nameof(patronymic));
+            Email = email ?? throw new ArgumentNullException(nameof(email));
+            Nick = nick ?? throw new ArgumentNullException(nameof(nick));
+            Password = password ?? throw new ArgumentNullException(nameof(password));
+            Status = status ?? throw new ArgumentNullException(nameof(status));
+            Picture = picture ?? throw new ArgumentNullException(nameof(picture));
         }
     }
 

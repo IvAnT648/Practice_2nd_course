@@ -25,12 +25,11 @@ namespace AIS_shop
         //--- пользователь в системе (сделать Singleton)
         internal static User UserInSystem{ set; get; } = null;
         
-
         public MainForm()
         {
             InitializeComponent();
             buttonFilters.Enabled = false;
-            администрированиеToolStripMenuItem.Visible = false;
+            //администрированиеToolStripMenuItem.Visible = false;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -42,6 +41,7 @@ namespace AIS_shop
             dataGridView.RowHeadersVisible = false;
             string sqlCommand = @"SELECT * FROM vProducts ORDER BY Производитель";
             loadDataToGridView(sqlCommand);
+            администрированиеToolStripMenuItem.Visible = true;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -59,6 +59,7 @@ namespace AIS_shop
                 DataSet dataSet = new DataSet();
                 sqlAdapter.Fill(dataSet);
                 dataGridView.DataSource = dataSet.Tables[0];
+                dataGridView.Columns[0].Visible = false;
             }
             catch (Exception ex)
             {
@@ -186,8 +187,14 @@ namespace AIS_shop
 
         private void управлениеТоварамиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ProductManager change = new ProductManager();
+            ProductsManagement change = new ProductsManagement();
             change.ShowDialog();
+        }
+
+        private void управлениеУчетнымиЗаписямиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UsersManagement management = new UsersManagement();
+            management.ShowDialog();
         }
     }
 }

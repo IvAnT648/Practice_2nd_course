@@ -177,6 +177,7 @@
             this.управлениеУчетнымиЗаписямиToolStripMenuItem.Name = "управлениеУчетнымиЗаписямиToolStripMenuItem";
             this.управлениеУчетнымиЗаписямиToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
             this.управлениеУчетнымиЗаписямиToolStripMenuItem.Text = "Управление учетными записями";
+            this.управлениеУчетнымиЗаписямиToolStripMenuItem.Click += new System.EventHandler(this.управлениеУчетнымиЗаписямиToolStripMenuItem_Click);
             // 
             // dataGridView
             // 

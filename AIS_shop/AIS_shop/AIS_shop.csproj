@@ -86,11 +86,11 @@
     <Compile Include="Cart.Designer.cs">
       <DependentUpon>Cart.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProductManager.cs">
+    <Compile Include="ProductsManagement.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProductManager.Designer.cs">
-      <DependentUpon>ProductManager.cs</DependentUpon>
+    <Compile Include="ProductsManagement.Designer.cs">
+      <DependentUpon>ProductsManagement.cs</DependentUpon>
     </Compile>
     <Compile Include="Commons.cs" />
     <Compile Include="Filters.cs">
@@ -140,6 +140,12 @@
     <Compile Include="UpdateProduct.Designer.cs">
       <DependentUpon>UpdateProduct.cs</DependentUpon>
     </Compile>
+    <Compile Include="UsersManagement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UsersManagement.Designer.cs">
+      <DependentUpon>UsersManagement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Welcome.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -160,8 +166,8 @@
     <EmbeddedResource Include="Cart.resx">
       <DependentUpon>Cart.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProductManager.resx">
-      <DependentUpon>ProductManager.cs</DependentUpon>
+    <EmbeddedResource Include="ProductsManagement.resx">
+      <DependentUpon>ProductsManagement.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Filters.resx">
       <DependentUpon>Filters.cs</DependentUpon>
@@ -188,6 +194,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateProduct.resx">
       <DependentUpon>UpdateProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UsersManagement.resx">
+      <DependentUpon>UsersManagement.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Welcome.resx">
       <DependentUpon>Welcome.cs</DependentUpon>

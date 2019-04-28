@@ -92,6 +92,7 @@ namespace AIS_shop
                 }
             }
         }
+
         private async void addProductToDB()
         {
             // добавление введенных значений столбцов в команду
@@ -121,7 +122,7 @@ namespace AIS_shop
                 {
                     MessageBox.Show("Запись была успешно добавлена в таблицу", "Сообщение",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    ProductManager.updateFlag = true;
+                    ProductsManagement.updateFlag = true;
                     Close();
                 }
                     
@@ -158,8 +159,8 @@ namespace AIS_shop
                 { // если строка пустая или с одними пробелами
                     if (sObligation == "Да")
                     { // если обязательное поле
-                        MessageBox.Show("Поле "+ sChar + " должно быть заполнено", "Некорректный ввод!", 
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show($"Поле {sChar} должно быть заполнено", "Некорректный ввод!", 
+                        //    MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
                     continue;

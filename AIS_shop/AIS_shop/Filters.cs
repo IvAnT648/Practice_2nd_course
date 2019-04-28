@@ -108,7 +108,7 @@ namespace AIS_shop
             {
                 bool ok = false;
                 // формирование SQL-запроса
-
+                /*
                 SQLCommandToUpdate = @"SELECT";
                 foreach (var f in fields)
                 {
@@ -117,7 +117,8 @@ namespace AIS_shop
                 }
                 SQLCommandToUpdate += @", [Склад]";
                 SQLCommandToUpdate += $@" FROM Products";
-
+                */
+                SQLCommandToUpdate = "SELECT * FROM vProducts";
                 // добавление в команду для обновления запрос по фильтрам 
                 if (_TakeAccountOfFiltersChecked() != -1)
                     if (_TakeAccountOfFiltersFromTo() != -1)
