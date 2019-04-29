@@ -14,7 +14,7 @@ namespace AIS_shop
     enum UserStatus { Guest, UsualUser, Admin }
     enum RequiredFilter { NotRequired, CheckedList, FromTo }
 
-    // используется при добавлении товара
+    // используется при добавлении/изменении товара
     class _strToGridView
     {
         public string name { get; }
@@ -27,35 +27,6 @@ namespace AIS_shop
             this.name = table_field;
             this.obligation = obligation;
             this.type = type;
-        }
-    }
-
-    class UserTable
-    {
-        public uint id { get; private set; } = 0;
-        public string Surname { get; private set; } = null;
-        public string Name { get; private set; } = null;
-        public string Patronymic { get; private set; } = null;
-        public string Email { get; private set; } = null;
-        public string Nick { get; private set; } = null;
-        private string Password { get; set; } = null;
-        public string Status { get; private set; } = null;
-        public Image Picture { get; private set; } = null;
-
-        public UserTable() { }
-
-        public UserTable(uint id, string surname, string name, string patronymic, string email, 
-            string nick, string password, string status, Image picture)
-        {
-            this.id = id;
-            Surname = surname ?? throw new ArgumentNullException(nameof(surname));
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-            Patronymic = patronymic ?? throw new ArgumentNullException(nameof(patronymic));
-            Email = email ?? throw new ArgumentNullException(nameof(email));
-            Nick = nick ?? throw new ArgumentNullException(nameof(nick));
-            Password = password ?? throw new ArgumentNullException(nameof(password));
-            Status = status ?? throw new ArgumentNullException(nameof(status));
-            Picture = picture ?? throw new ArgumentNullException(nameof(picture));
         }
     }
 
@@ -199,7 +170,7 @@ namespace AIS_shop
     {
         // загружает изображение в базу данных, а также возвращает его.
         // аргументы: путь к файлу, строка подключения к БД, название таблицы, ячейки и id записи для сохранения. 
-        // Поле таблицы "field" должно иметь тип "Image" 
+        // Поле таблицы "field" в базе данных должно иметь тип "Image" 
         public static Image PutImageInDB(string path_to_file, string strConnectionToDB, string name_of_table, string field, int record_id)
         {
             byte[] imageData = null;
@@ -217,7 +188,7 @@ namespace AIS_shop
             SqlConnection sqlConnection = new SqlConnection(strConnectionToDB);
             SqlCommand command = new SqlCommand();
             command.Connection = sqlConnection;
-            command.CommandText = string.Format("UPDATE [{0}] SET [{1}]=@image WHERE [Id]={2}", name_of_table, field, record_id);
+            command.CommandText = string.Format($@"UPDATE [{name_of_table}] SET [{field}]=@image WHERE [Id]={record_id}");
             command.Parameters.AddWithValue("@image", (object)imageData);
             try
             {
@@ -252,7 +223,7 @@ namespace AIS_shop
                 sqlConnection.Open();
                 SqlCommand sqlCommand = new SqlCommand();
                 sqlCommand.Connection = sqlConnection;
-                sqlCommand.CommandText = string.Format(@"SELECT [{0}] FROM [{1}] WHERE [Id]={2}", field, name_of_table, record_id);
+                sqlCommand.CommandText = string.Format($@"SELECT [{field}] FROM [{name_of_table}] WHERE [Id]={record_id}");
                 object answer = sqlCommand.ExecuteScalar();
                 imageData = sqlCommand.ExecuteScalar() as byte[];
                 if (imageData != null) return Image.FromStream(new MemoryStream(imageData));
@@ -271,13 +242,48 @@ namespace AIS_shop
             }
                 
         }
-        public static bool PutBytesToDb(byte[] data, string strConnectionToDB, string name_of_table, string field, int record_id)
+    }
+
+    static class FileTools
+    {
+        // загружает и возвращает изображение из базы данных.
+        // аргументы: строка подключения к БД, название таблицы и id записи из которой выполняется загрузка изображения из поля "field".
+        // Поле таблицы "field" должно иметь тип "Image" 
+        public static byte[] GetFileFromDB(string strConnectionToDB, string name_of_table, string field, int record_id)
+        {
+            byte[] data = null;
+            SqlConnection sqlConnection = new SqlConnection(strConnectionToDB);
+            try
+            {
+                sqlConnection.Open();
+                SqlCommand sqlCommand = new SqlCommand();
+                sqlCommand.Connection = sqlConnection;
+                sqlCommand.CommandText = string.Format($@"SELECT [{field}] FROM [{name_of_table}] WHERE [Id]={record_id}");
+                object answer = sqlCommand.ExecuteScalar();
+                data = sqlCommand.ExecuteScalar() as byte[];
+                return data;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                if (sqlConnection != null && sqlConnection.State != ConnectionState.Closed)
+                    sqlConnection.Close();
+            }
+
+        }
+
+        public static bool PutBytesToDB(byte[] data, string strConnectionToDB, string name_of_table, string field, int record_id)
         {
             if (data.Length == 0) return false;
             SqlConnection sqlConnection = new SqlConnection(strConnectionToDB);
             SqlCommand command = new SqlCommand();
             command.Connection = sqlConnection;
-            command.CommandText = string.Format("UPDATE [{0}] SET [{1}]=@image WHERE [Id]={2}", name_of_table, field, record_id);
+            command.CommandText = string.Format($@"UPDATE [{name_of_table}] SET [{field}]=@image WHERE [Id]={record_id}");
             command.Parameters.AddWithValue("@image", (object)data);
             try
             {
@@ -299,7 +305,7 @@ namespace AIS_shop
             }
         }
 
-        public static byte[] GetFilesBytes(string path_to_file)
+        public static byte[] FileInBytes(string path_to_file)
         {
             byte[] data = null;
             FileInfo fInfo = new FileInfo(path_to_file);

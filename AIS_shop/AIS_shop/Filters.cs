@@ -118,7 +118,7 @@ namespace AIS_shop
                 SQLCommandToUpdate += @", [Склад]";
                 SQLCommandToUpdate += $@" FROM Products";
                 */
-                SQLCommandToUpdate = "SELECT * FROM vProducts";
+                SQLCommandToUpdate = "SELECT * FROM Products";
                 // добавление в команду для обновления запрос по фильтрам 
                 if (_TakeAccountOfFiltersChecked() != -1)
                     if (_TakeAccountOfFiltersFromTo() != -1)

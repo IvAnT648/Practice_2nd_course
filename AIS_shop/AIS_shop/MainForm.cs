@@ -39,7 +39,7 @@ namespace AIS_shop
             welcome.ShowDialog();
             UserStateChange();
             dataGridView.RowHeadersVisible = false;
-            string sqlCommand = @"SELECT * FROM vProducts ORDER BY Производитель";
+            string sqlCommand = @"SELECT * FROM Products ORDER BY Производитель";
             loadDataToGridView(sqlCommand);
             администрированиеToolStripMenuItem.Visible = true;
         }
@@ -60,6 +60,8 @@ namespace AIS_shop
                 sqlAdapter.Fill(dataSet);
                 dataGridView.DataSource = dataSet.Tables[0];
                 dataGridView.Columns[0].Visible = false;
+                dataGridView.Columns[15].Visible = false;
+                dataGridView.Columns[16].Visible = false;
             }
             catch (Exception ex)
             {
@@ -172,7 +174,7 @@ namespace AIS_shop
         {
             dataGridView.DataSource = null;
             // команда получения таблицы-представления
-            string sqlCommand = @"SELECT * FROM vProducts ORDER BY Производитель";
+            string sqlCommand = @"SELECT * FROM Products ORDER BY Производитель";
             loadDataToGridView(sqlCommand);
         }
 
@@ -187,14 +189,14 @@ namespace AIS_shop
 
         private void управлениеТоварамиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ProductsManagement change = new ProductsManagement();
+            ProductManagement change = new ProductManagement();
             change.ShowDialog();
         }
 
         private void управлениеУчетнымиЗаписямиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UsersManagement management = new UsersManagement();
-            management.ShowDialog();
+            Registration reg = new Registration();
+            reg.ShowDialog();
         }
     }
 }
