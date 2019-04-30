@@ -8,22 +8,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Configuration;
 
 
 namespace AIS_shop
 {
-    
-
     public partial class MainForm : Form
     {
-        // строка соед. с БД
-        public static string StrSQLConnection = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
+        // Первая инициализация пользователя - как гость
+        User user = User.GetUser();
         // для взаимодействия других форм с главной
         //--- SQL-запрос для обовления данных в dataGridView
         public static string QueryToUpdate { set; get; } = "";
-        //--- пользователь в системе (сделать Singleton)
-        internal static User UserInSystem{ set; get; } = null;
         
         public MainForm()
         {
@@ -39,8 +34,7 @@ namespace AIS_shop
             welcome.ShowDialog();
             UserStateChange();
             dataGridView.RowHeadersVisible = false;
-            string sqlCommand = @"SELECT * FROM Products ORDER BY Производитель";
-            loadDataToGridView(sqlCommand);
+            loadDataToGridView(@"SELECT * FROM Products ORDER BY Производитель");
             администрированиеToolStripMenuItem.Visible = true;
         }
 
@@ -51,7 +45,8 @@ namespace AIS_shop
 
         private async void loadDataToGridView(string sqlCommand)
         {
-            SqlConnection connection = new SqlConnection(StrSQLConnection);
+            Cursor = Cursors.WaitCursor;
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             try
             {
                 await connection.OpenAsync();
@@ -73,29 +68,14 @@ namespace AIS_shop
                 if (connection != null && connection.State != ConnectionState.Closed)
                     connection.Close();
                 if (dataGridView.DataSource != null) buttonFilters.Enabled = true;
+                Cursor = Cursors.Default;
             }
-        }
-
-        private void личныйКабинетToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
         }
 
         private void перейтиВЛичныйКабинетToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Profile profile = new Profile();
             profile.ShowDialog();
-        }
-
-        private void корзинаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Cart cart = new Cart();
-            cart.ShowDialog();
-        }
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
         }
 
         private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
@@ -115,7 +95,7 @@ namespace AIS_shop
 
         private void UserStateChange()
         {
-            if (UserInSystem == null)
+            if (user.Status == UserStatus.Guest)
             {
                 войтиToolStripMenuItem.Visible = true;
                 зарегистрироватьсяToolStripMenuItem.Visible = true;
@@ -125,7 +105,7 @@ namespace AIS_shop
             }
             else
             {
-                if (UserInSystem.Status == UserStatus.Admin)
+                if (user.Status == UserStatus.Admin)
                     администрированиеToolStripMenuItem.Visible = true;
                 войтиToolStripMenuItem.Visible = false;
                 зарегистрироватьсяToolStripMenuItem.Visible = false;
@@ -143,7 +123,7 @@ namespace AIS_shop
 
         private void выйтиИзУчетнойЗаписиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UserInSystem = null;
+            User.Logout();
             UserStateChange();
         }
 
@@ -154,19 +134,15 @@ namespace AIS_shop
             UserStateChange();
         }
 
-        private void регистрацияToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Registration reg = new Registration();
-            reg.ShowDialog();
-            UserStateChange();
-        }
 
         private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && e.Button == MouseButtons.Left)
             {
+                Cursor = Cursors.WaitCursor;
                 Product product = new Product(dataGridView.SelectedRows[0]);
                 product.ShowDialog();
+                Cursor = Cursors.Default;
             }
         }
 
@@ -197,6 +173,12 @@ namespace AIS_shop
         {
             Registration reg = new Registration();
             reg.ShowDialog();
+        }
+
+        private void buttonCart_Click(object sender, EventArgs e)
+        {
+            Cart cart = new Cart();
+            cart.ShowDialog();
         }
     }
 }

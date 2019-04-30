@@ -151,6 +151,7 @@
             this.bAddToCart.TabIndex = 5;
             this.bAddToCart.Text = "Добавить в корзину";
             this.bAddToCart.UseVisualStyleBackColor = true;
+            this.bAddToCart.Click += new System.EventHandler(this.bAddToCart_Click);
             // 
             // labelCost
             // 
@@ -190,8 +191,6 @@
             // 
             // pictureBox
             // 
-            this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox.Image = global::AIS_shop.Properties.Resources.net_foto_1200x800;
             this.pictureBox.Location = new System.Drawing.Point(21, 20);
             this.pictureBox.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox.Name = "pictureBox";

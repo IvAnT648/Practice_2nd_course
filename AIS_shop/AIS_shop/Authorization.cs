@@ -22,22 +22,19 @@ namespace AIS_shop
 
         private void Authorization_Load(object sender, EventArgs e)
         {
-            bool flag = loadUsersData();
-            int count = 10;
-            while (!flag && count != 0)
+            Cursor = Cursors.WaitCursor;
+            if (!loadUsersData())
             {
-                flag = loadUsersData();
-                count--;
+                MessageBox.Show("Данные о пользователях не были загружены из базы данных. Попробуйте перезапустить форму.", "Сообщение", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
             }
-            if (!flag)
-            {
-                MessageBox.Show("Данные о пользователях не были загружены из базы данных. Попробуйте перезапустить форму. Попыток подключения: "+ count, "Ошибка загрузки данных", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            Cursor = Cursors.Default;
         }
 
         private void Authorization_FormClosing(object sender, FormClosingEventArgs e)
         {
-
+            Cursor = Cursors.Default;
         }
 
         private void bToRegistration_Click(object sender, EventArgs e)
@@ -50,7 +47,6 @@ namespace AIS_shop
 
         private async void bEnter_Click(object sender, EventArgs e)
         {
-            
             string nick = maskedTextBox1.Text, password = maskedTextBox2.Text;
             if (!string.IsNullOrWhiteSpace(nick) && !string.IsNullOrWhiteSpace(password))
             {
@@ -74,8 +70,8 @@ namespace AIS_shop
                     return;
                 }
                 // далее, выполняем вход
-                SqlConnection connection = new SqlConnection(MainForm.StrSQLConnection);
-                SqlCommand query = new SqlCommand("SELECT [Surname], [Name], [Patronymic], [E-mail], [Nick], UPPER([Status]) FROM [Users] WHERE [Id]=" + id, connection);
+                SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
+                SqlCommand query = new SqlCommand(@"SELECT [Surname], [Name], [Patronymic], [E-mail], [Nick], UPPER([Status]) FROM [Users] WHERE [Id]=" + id, connection);
                 try
                 {
                     connection.Open();
@@ -88,17 +84,20 @@ namespace AIS_shop
                             switch (reader.GetValue(5)?.ToString())
                             {
                                 case "USER":
-                                    status = UserStatus.UsualUser;
+                                    status = UserStatus.Normal;
                                     break;
                                 case "ADMIN":
                                     status = UserStatus.Admin;
                                     break;
                                 default:
-                                    MessageBox.Show("Ошибка чтения данных о пользователе из БД.\nВход будет выполненен как гость", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Ошибка чтения данных о пользователе из БД.\n" +
+                                        "Вход будет выполненен как гость", "Ошибка", 
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     break;
                             }
                             // авторизация пользователя
-                            MainForm.UserInSystem = new User(
+                            User user = User.Login(
+                                id,
                                 reader.GetValue(0)?.ToString(),
                                 reader.GetValue(1)?.ToString(),
                                 reader.GetValue(2)?.ToString(),
@@ -106,6 +105,7 @@ namespace AIS_shop
                                 reader.GetValue(4)?.ToString(),
                                 status
                             );
+
                         }
                     }
                     if (!reader.IsClosed)
@@ -130,11 +130,11 @@ namespace AIS_shop
         private bool loadUsersData()
         {
             usersData = new DataSet();
-            SqlConnection connection = new SqlConnection(MainForm.StrSQLConnection);
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             try
             {
                 connection.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter("SELECT [Id], [Nick], [E-mail], [Password] FROM Users", connection);
+                SqlDataAdapter adapter = new SqlDataAdapter(@"SELECT [Id], [Nick], [E-mail], [Password] FROM Users", connection);
                 adapter.Fill(usersData);
                 return true;
             }

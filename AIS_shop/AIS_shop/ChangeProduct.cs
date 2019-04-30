@@ -69,7 +69,7 @@ namespace AIS_shop
 
             // загрузка изображения из БД
 
-            oldImage = FileTools.GetFileFromDB(MainForm.StrSQLConnection, @"Products", @"Изображение", (int)Row.Cells[0].Value);
+            oldImage = FileTools.GetFileFromDB(Common.StrSQLConnection, @"Products", @"Изображение", (int)Row.Cells[0].Value);
             dataImage = oldImage;
             if (dataImage != null) pictureBox.Image = Image.FromStream(new MemoryStream(dataImage));
 
@@ -128,19 +128,22 @@ namespace AIS_shop
                     if (Changeflags.Last())
                     {
                         if (count != 0) sqlCommand += ", ";
-                        sqlCommand += @"[Изображение]=@image";
+                        if (dataImage != null)
+                            sqlCommand += @"[Изображение]=@image";
+                        else sqlCommand += @"[Изображение]=NULL";
                         count++;
                     }
                     sqlCommand += $@" WHERE Id={Row.Cells[0].Value}";
 
                     if (count == 0) return;
                     // выполнение команды
-                    SqlConnection connection = new SqlConnection(MainForm.StrSQLConnection);
+                    SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
                     try
                     {
                         connection.Open();
                         SqlCommand query = new SqlCommand(this.sqlCommand, connection);
-                        if (sqlCommand.Contains("@image")) query.Parameters.AddWithValue("@image", (object)dataImage);
+                        if (sqlCommand.Contains("@image"))
+                                query.Parameters.AddWithValue("@image", (object)dataImage);
                         if (await query.ExecuteNonQueryAsync() == 1)
                         {
                             MessageBox.Show("Запись была успешно обновлена", "Сообщение",
@@ -245,7 +248,7 @@ namespace AIS_shop
             buttonDelImage.Visible = false;
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
+        private void buttonCancel_Click_1(object sender, EventArgs e)
         {
             Close();
         }

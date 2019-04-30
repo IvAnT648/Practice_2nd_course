@@ -43,7 +43,7 @@ namespace AIS_shop
                 if (field.filter == RequiredFilter.CheckedList)
                     field.sqlCommand = @"SELECT DISTINCT [" + field.name + "] FROM [Products]";
 
-            SqlConnection connection = new SqlConnection(MainForm.StrSQLConnection);
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             try
             {
                 
@@ -103,21 +103,10 @@ namespace AIS_shop
         // применение изменений - создание sql-запроса 
         private int ApplyChanges()
         {
-            SqlConnection connection = new SqlConnection(MainForm.StrSQLConnection);
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             try
             {
                 bool ok = false;
-                // формирование SQL-запроса
-                /*
-                SQLCommandToUpdate = @"SELECT";
-                foreach (var f in fields)
-                {
-                    if (f != fields[0]) SQLCommandToUpdate += @",";
-                    SQLCommandToUpdate += $@" [{f.name}]";
-                }
-                SQLCommandToUpdate += @", [Склад]";
-                SQLCommandToUpdate += $@" FROM Products";
-                */
                 SQLCommandToUpdate = "SELECT * FROM Products";
                 // добавление в команду для обновления запрос по фильтрам 
                 if (_TakeAccountOfFiltersChecked() != -1)
@@ -245,7 +234,7 @@ namespace AIS_shop
                         }
                         else
                         {
-                            MessageBox.Show("Некорректный ввод в поле \'" + filter.groupBox.Text + "\'. Допустимы только целые числа.", "Ошибка ввода!",
+                            MessageBox.Show("Некорректный ввод в поле \'" + filter.groupBox.Text + "\'. Допустимы только натуральные числа.", "Ошибка ввода!",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return -1;
                         }
@@ -259,7 +248,7 @@ namespace AIS_shop
                         }
                         else
                         {
-                            MessageBox.Show("Некорректный ввод в поле \'" + filter.groupBox.Text + "\'. Допустимы только целые числа.", "Ошибка ввода!",
+                            MessageBox.Show("Некорректный ввод в поле \'" + filter.groupBox.Text + "\'. Допустимы только натуральные числа.", "Ошибка ввода!",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return -1;
                         }

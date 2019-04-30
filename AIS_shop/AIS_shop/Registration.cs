@@ -24,7 +24,7 @@ namespace AIS_shop
 
         private void Registration_Load(object sender, EventArgs e)
         {
-            if (MainForm.UserInSystem?.Status == UserStatus.Admin)
+            if (User.GetUser()?.Status == UserStatus.Admin)
                 regAsAdmin.Visible = true;
         }
 
@@ -45,7 +45,7 @@ namespace AIS_shop
                     status = "USER";
                 try
                 {
-                    connection = new SqlConnection(MainForm.StrSQLConnection);
+                    connection = new SqlConnection(Common.StrSQLConnection);
                     connection.Open();
                     SqlCommand command = new SqlCommand();
                     command.Connection = connection;
@@ -62,6 +62,40 @@ namespace AIS_shop
                     await command.ExecuteNonQueryAsync();
 
                     MessageBox.Show("Пользователь зарегистрирован", "Сообщение", MessageBoxButtons.OK);
+                    SqlCommand query = new SqlCommand($@"SELECT [Id], [Surname], [Name], [Patronymic], [E-mail], [Nick], UPPER([Status]) FROM [Users] WHERE [Nick]='{textBoxNick.Text}'", connection);
+                    SqlDataReader reader = await query.ExecuteReaderAsync();
+                    if (reader.HasRows)
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            UserStatus userStatus = UserStatus.Guest;
+                            switch (reader.GetValue(5)?.ToString())
+                            {
+                                case "USER":
+                                    userStatus = UserStatus.Normal;
+                                    break;
+                                case "ADMIN":
+                                    userStatus = UserStatus.Admin;
+                                    break;
+                                default:
+                                    MessageBox.Show("Ошибка чтения данных о пользователе из БД.\nВход будет выполненен как гость", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    break;
+                            }
+                            // авторизация пользователя
+                            User user = User.Login(
+                                (int)reader.GetValue(0),
+                                reader.GetValue(0)?.ToString(),
+                                reader.GetValue(1)?.ToString(),
+                                reader.GetValue(2)?.ToString(),
+                                reader.GetValue(3)?.ToString(),
+                                reader.GetValue(4)?.ToString(),
+                                userStatus
+                            );
+                        }
+                    }
+                    if (!reader.IsClosed)
+                        reader.Close();
+                    Close();
                 }
                 catch (Exception ex)
                 {
@@ -81,7 +115,7 @@ namespace AIS_shop
         {
             try
             {
-                connection = new SqlConnection(MainForm.StrSQLConnection);
+                connection = new SqlConnection(Common.StrSQLConnection);
                 connection.Open();
                 Regex regex = null;
                 // если не введены необходимые данные
@@ -198,11 +232,11 @@ namespace AIS_shop
                     return match.Groups[1].Value + domainName;
                 }
             }
-            catch (RegexMatchTimeoutException e)
+            catch (RegexMatchTimeoutException)
             {
                 return false;
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
                 return false;
             }

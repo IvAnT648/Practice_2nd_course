@@ -43,15 +43,13 @@
             this.выйтиИзУчетнойЗаписиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.войтиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.зарегистрироватьсяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.товарыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.myOrdersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.администрированиеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.управлениеТоварамиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.управлениеУчетнымиЗаписямиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.buttonFilters = new System.Windows.Forms.Button();
             this.bRefresh = new System.Windows.Forms.Button();
+            this.buttonCart = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -62,7 +60,6 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.файлToolStripMenuItem,
             this.личныйКабинетToolStripMenuItem,
-            this.товарыToolStripMenuItem,
             this.администрированиеToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -70,7 +67,6 @@
             this.menuStrip1.Size = new System.Drawing.Size(1134, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
-            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // файлToolStripMenuItem
             // 
@@ -105,7 +101,6 @@
             this.личныйКабинетToolStripMenuItem.Name = "личныйКабинетToolStripMenuItem";
             this.личныйКабинетToolStripMenuItem.Size = new System.Drawing.Size(111, 20);
             this.личныйКабинетToolStripMenuItem.Text = "Личный кабинет";
-            this.личныйКабинетToolStripMenuItem.Click += new System.EventHandler(this.личныйКабинетToolStripMenuItem_Click);
             // 
             // перейтиВЛичныйКабинетToolStripMenuItem
             // 
@@ -134,28 +129,6 @@
             this.зарегистрироватьсяToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.зарегистрироватьсяToolStripMenuItem.Text = "Регистрация";
             this.зарегистрироватьсяToolStripMenuItem.Click += new System.EventHandler(this.зарегистрироватьсяToolStripMenuItem_Click);
-            // 
-            // товарыToolStripMenuItem
-            // 
-            this.товарыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.myOrdersToolStripMenuItem,
-            this.cartToolStripMenuItem});
-            this.товарыToolStripMenuItem.Name = "товарыToolStripMenuItem";
-            this.товарыToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.товарыToolStripMenuItem.Text = "Товары";
-            // 
-            // myOrdersToolStripMenuItem
-            // 
-            this.myOrdersToolStripMenuItem.Name = "myOrdersToolStripMenuItem";
-            this.myOrdersToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.myOrdersToolStripMenuItem.Text = "Мои заказы...";
-            // 
-            // cartToolStripMenuItem
-            // 
-            this.cartToolStripMenuItem.Name = "cartToolStripMenuItem";
-            this.cartToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.cartToolStripMenuItem.Text = "Корзина...";
-            this.cartToolStripMenuItem.Click += new System.EventHandler(this.корзинаToolStripMenuItem_Click);
             // 
             // администрированиеToolStripMenuItem
             // 
@@ -260,12 +233,23 @@
             this.bRefresh.UseVisualStyleBackColor = true;
             this.bRefresh.Click += new System.EventHandler(this.bRefresh_Click);
             // 
+            // buttonCart
+            // 
+            this.buttonCart.Location = new System.Drawing.Point(932, 106);
+            this.buttonCart.Name = "buttonCart";
+            this.buttonCart.Size = new System.Drawing.Size(44, 39);
+            this.buttonCart.TabIndex = 11;
+            this.buttonCart.Text = "Корзина";
+            this.buttonCart.UseVisualStyleBackColor = true;
+            this.buttonCart.Click += new System.EventHandler(this.buttonCart_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1134, 661);
+            this.Controls.Add(this.buttonCart);
             this.Controls.Add(this.bRefresh);
             this.Controls.Add(this.buttonFilters);
             this.Controls.Add(this.dataGridView);
@@ -296,17 +280,14 @@
         private System.Windows.Forms.ToolStripMenuItem личныйКабинетToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem перейтиВЛичныйКабинетToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem выйтиИзУчетнойЗаписиToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem товарыToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cartToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem войтиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem зарегистрироватьсяToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Button buttonFilters;
         private System.Windows.Forms.ToolStripMenuItem администрированиеToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem управлениеТоварамиToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem myOrdersToolStripMenuItem;
         private System.Windows.Forms.Button bRefresh;
         private System.Windows.Forms.ToolStripMenuItem управлениеУчетнымиЗаписямиToolStripMenuItem;
-        private System.Windows.Forms.BindingSource dataBaseDETDataSetBindingSource;
+        private System.Windows.Forms.Button buttonCart;
     }
 }

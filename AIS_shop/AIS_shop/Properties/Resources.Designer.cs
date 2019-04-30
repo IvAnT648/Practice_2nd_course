@@ -63,9 +63,9 @@ namespace AIS_shop.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap net_foto_1200x800 {
+        internal static System.Drawing.Bitmap nofoto {
             get {
-                object obj = ResourceManager.GetObject("net_foto_1200x800", resourceCulture);
+                object obj = ResourceManager.GetObject("nofoto", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -103,7 +103,7 @@ namespace AIS_shop
             }
             sqlCommand += @", @image)";
             // выполнение команды
-            SqlConnection connection = new SqlConnection(MainForm.StrSQLConnection);
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             try
             {
                 connection.Open();

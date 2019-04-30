@@ -15,11 +15,14 @@ namespace AIS_shop
     public partial class Product : Form
     {
         DataGridViewRow Row { set; get; } = null;
+        User user = User.GetUser();
+        int product_id { set; get; }
 
         public Product(DataGridViewRow row)
         {
             InitializeComponent();
             Row = row ?? throw new ArgumentNullException(nameof(row));
+            product_id = (int)Row.Cells[0].Value;
         }
 
         private void Product_Load(object sender, EventArgs e)
@@ -52,7 +55,7 @@ namespace AIS_shop
         private void _printUserNickToReview(int id)
         {
             if (id <= 0) return;
-            SqlConnection connection = new SqlConnection(MainForm.StrSQLConnection);
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             SqlDataReader reader = null;
             try
             {
@@ -89,7 +92,7 @@ namespace AIS_shop
 
         private async void loadReviews()
         {
-            SqlConnection connection = new SqlConnection(MainForm.StrSQLConnection);
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             SqlDataReader reader = null;
             try
             {
@@ -143,7 +146,7 @@ namespace AIS_shop
 
         private async void loadCharacteristics()
         {
-            SqlConnection connection = new SqlConnection(MainForm.StrSQLConnection);
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             SqlDataReader reader = null;
             try
             {
@@ -194,13 +197,13 @@ namespace AIS_shop
 
         private async void loadDescription()
         {
-            SqlConnection connection = new SqlConnection(MainForm.StrSQLConnection);
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             SqlDataReader reader = null;
             try
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand();
-                command.CommandText = string.Format(@"SELECT Описание FROM Products WHERE [Id]={0}", (int)Row.Cells[0].Value);
+                command.CommandText = string.Format($@"SELECT Описание FROM Products WHERE [Id]={(int)Row.Cells[0].Value}");
                 command.Connection = connection;
                 reader = await command.ExecuteReaderAsync();
                 if (reader.HasRows)
@@ -241,10 +244,38 @@ namespace AIS_shop
         private void loadPicture(string tableName, int id)
         {
             // загрузка из БД
-            Image image = ImageTools.GetImageFromDB(MainForm.StrSQLConnection, tableName, "Изображение", id);
+            Image image = ImageTools.GetImageFromDB(Common.StrSQLConnection, tableName, "Изображение", id);
             // загрузка изображения в pictureBox
             if (image != null)
                 pictureBox.Image = image;
+            else pictureBox.Image = Properties.Resources.nofoto;
+        }
+
+        private async void bAddToCart_Click(object sender, EventArgs e)
+        {
+
+            
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
+            SqlCommand query = new SqlCommand($@"SELECT * FROM Products WHERE Id={product_id}", connection);
+            try
+            {
+                await connection.OpenAsync();
+                SqlDataReader reader = await query.ExecuteReaderAsync();
+                if (reader.HasRows)
+                    if (await reader.ReadAsync())
+                        Common.OrdersInCart.Add(new OrderInfo(user.Id, product_id, DateTime.Now, float.Parse(reader.GetValue(14).ToString()), "In process"));
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (connection != null && connection.State != ConnectionState.Closed)
+                    connection.Close();
+            }
         }
     }
 }

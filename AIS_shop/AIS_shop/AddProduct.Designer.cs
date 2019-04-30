@@ -203,10 +203,6 @@
             this.labelFileName.TabIndex = 7;
             this.labelFileName.Text = "имя_файла";
             // 
-            // openImage
-            // 
-            this.openImage.FileName = "openFileDialog1";
-            // 
             // buttonDelImage
             // 
             this.buttonDelImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));

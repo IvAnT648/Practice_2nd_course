@@ -27,7 +27,7 @@ namespace AIS_shop
 
         private void updateData()
         {
-            SqlConnection connection = new SqlConnection(MainForm.StrSQLConnection);
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             SqlDataAdapter adapter = new SqlDataAdapter(@"SELECT * FROM Products", connection);
             DataSet data = new DataSet();
             try
@@ -93,7 +93,7 @@ namespace AIS_shop
                 if (recordToDelete != null) qst += recordToDelete;
                 if (MessageBox.Show(qst, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    SqlConnection connection = new SqlConnection(MainForm.StrSQLConnection);
+                    SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
                     try
                     {
                         connection.Open();

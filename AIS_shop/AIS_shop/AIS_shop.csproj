@@ -227,7 +227,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>DataBaseDET.mdf</DependentUpon>
     </Content>
-    <None Include="Resources\net_foto-1200x800.png" />
+    <None Include="Resources\nofoto.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pictures\" />

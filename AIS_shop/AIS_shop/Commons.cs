@@ -8,11 +8,31 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace AIS_shop
 {
-    enum UserStatus { Guest, UsualUser, Admin }
     enum RequiredFilter { NotRequired, CheckedList, FromTo }
+    enum UserStatus { Guest, Normal, Admin }
+    
+    class OrderInfo
+    {
+        public int Id { get; private set; }
+        public int Customer { get; private set; }
+        public int Product { get; private set; }
+        public DateTime Date { get; private set; }
+        public float Amount { get; private set; }
+        public string Status { get; private set; }
+
+        public OrderInfo(int customer, int product, DateTime date, float amount, string status)
+        {
+            Customer = customer;
+            Product = product;
+            Date = date;
+            Amount = amount;
+            Status = status ?? throw new ArgumentNullException(nameof(status));
+        }
+    }
 
     // используется при добавлении/изменении товара
     class _strToGridView
@@ -32,22 +52,58 @@ namespace AIS_shop
 
     class User
     {
-        public string Surname { get; }
-        public string Name { get; }
-        public string Patronymic { get; }
-        public string Email { get; }
-        public string Nick { get; }
-        public UserStatus Status { get; }
-        public Image Picture { get; set; }
+        public int Id { get; private set; }
+        public string Surname { get; private set; }
+        public string Name { get; private set; }
+        public string Patronymic { get; private set; }
+        public string Email { get; private set; }
+        public string Nick { get; private set; }
+        public UserStatus Status { get; private set; }
+        public Image Picture { get; private set; }
 
-        public User(string surname, string name, string patronymic, string email, string nick, UserStatus status)
+        private static User instance = null;
+
+        private User() { }
+
+        public static User GetUser()
         {
-            Surname = surname ?? throw new ArgumentNullException(nameof(surname));
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-            Patronymic = patronymic ?? throw new ArgumentNullException(nameof(patronymic));
-            Email = email ?? throw new ArgumentNullException(nameof(email));
-            Nick = nick ?? throw new ArgumentNullException(nameof(nick));
-            Status = status;
+            if (instance == null)
+            {
+                instance = new User();
+                instance.Id = 0;
+                instance.Surname = null;
+                instance.Name = null;
+                instance.Patronymic = null;
+                instance.Email = null;
+                instance.Nick = null;
+                instance.Status = UserStatus.Guest;
+            }
+            return instance;
+        }
+
+        public static User Login(int id, string surname, string name, string patronymic, string email, string nick, UserStatus status)
+        {
+            if (instance == null)
+                instance = new User();
+            instance.Id = id;
+            instance.Surname = surname ?? throw new ArgumentNullException(nameof(surname));
+            instance.Name = name ?? throw new ArgumentNullException(nameof(name));
+            instance.Patronymic = patronymic ?? throw new ArgumentNullException(nameof(patronymic));
+            instance.Email = email ?? throw new ArgumentNullException(nameof(email));
+            instance.Nick = nick ?? throw new ArgumentNullException(nameof(nick));
+            instance.Status = status;
+            return instance;
+        }
+
+        public static void Logout()
+        {
+            instance.Id = 0;
+            instance.Surname = null;
+            instance.Name = null;
+            instance.Patronymic = null;
+            instance.Email = null;
+            instance.Nick = null;
+            instance.Status = UserStatus.Guest;
         }
     }
 
@@ -319,5 +375,13 @@ namespace AIS_shop
             if (data == null) return null;
             else return data;
         }
+    }
+
+    static class Common
+    {
+        // строка соед. с БД
+        public static string StrSQLConnection { get; } = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
+
+        public static List<OrderInfo> OrdersInCart = new List<OrderInfo>();
     }
 }
