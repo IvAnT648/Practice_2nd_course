@@ -35,18 +35,28 @@ namespace AIS_shop
 
         private void Cart_Load(object sender, EventArgs e)
         {
+            if (Common.ProductsInCart.Count != 0) loadData();
+        }
+
+        private void dgv_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private async void loadData()
+        {
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
-            SqlCommand query = new SqlCommand($@"SELECT * FROM Products WHERE", connection);
+            SqlCommand query = new SqlCommand(@"SELECT CONCAT(Производитель, ' ', Модель) AS Название, Цена FROM Products WHERE", connection);
             SqlDataAdapter adapter = new SqlDataAdapter(query);
             DataSet ds = new DataSet();
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
                 int count = 0;
-                foreach (var it in Common.OrdersInCart)
+                foreach (var it in Common.ProductsInCart)
                 {
                     if (count != 0) query.CommandText += @" OR";
-                    query.CommandText += $@" Id={it.Id}";
+                    query.CommandText += $@" Id={it.Product}";
                     count++;
                 }
                 adapter.Fill(ds);

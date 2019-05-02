@@ -111,16 +111,7 @@ namespace AIS_shop
                 // добавление в команду для обновления запрос по фильтрам 
                 if (_TakeAccountOfFiltersChecked() != -1)
                     if (_TakeAccountOfFiltersFromTo() != -1)
-                        ok = true;
-
-                if (checkBoxStock.Checked)
-                {
-                    // если команда не была модифицирована на более ранних итерациях
-                    if (SQLCommandToUpdate.Contains("WHERE"))
-                        SQLCommandToUpdate += @" AND";
-                    else SQLCommandToUpdate += @" WHERE";
-                    SQLCommandToUpdate += @" [Склад]>0";
-                }
+                        ok = true; 
                 
 
                 if (ok)

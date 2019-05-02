@@ -150,7 +150,7 @@ namespace AIS_shop
             SqlDataReader reader = null;
             try
             {
-                string commandText = string.Format(@"SELECT * FROM Products WHERE Id={0}", (int)Row.Cells[0].Value);
+                string commandText = string.Format($@"SELECT * FROM Products WHERE Id={(int)Row.Cells[0].Value}");
                 connection.Open();
                 SqlCommand query = new SqlCommand(commandText, connection);
                 reader = await query.ExecuteReaderAsync();
@@ -263,8 +263,10 @@ namespace AIS_shop
                 SqlDataReader reader = await query.ExecuteReaderAsync();
                 if (reader.HasRows)
                     if (await reader.ReadAsync())
-                        Common.OrdersInCart.Add(new OrderInfo(user.Id, product_id, DateTime.Now, float.Parse(reader.GetValue(14).ToString()), "In process"));
-
+                    {
+                        Common.ProductsInCart.Add(new OrderInfo(user.Id, product_id, DateTime.Now, float.Parse(reader.GetValue(14).ToString()), "In process"));
+                        MessageBox.Show("Товар успешно добавлен в корзину", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
             }
             catch (Exception ex)
             {

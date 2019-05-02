@@ -30,12 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Cart));
             this.label1 = new System.Windows.Forms.Label();
-            this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonCheckout = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnCost = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnStock = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.dgv = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -50,18 +47,6 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Корзина";
             // 
-            // buttonCancel
-            // 
-            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(386, 342);
-            this.buttonCancel.Margin = new System.Windows.Forms.Padding(2);
-            this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(116, 44);
-            this.buttonCancel.TabIndex = 6;
-            this.buttonCancel.Text = "Вернуться";
-            this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
-            // 
             // buttonCheckout
             // 
             this.buttonCheckout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -74,42 +59,31 @@
             this.buttonCheckout.UseVisualStyleBackColor = true;
             this.buttonCheckout.Click += new System.EventHandler(this.buttonCheckout_Click);
             // 
-            // listView1
+            // dgv
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnName,
-            this.columnCost,
-            this.columnStock});
-            this.listView1.Location = new System.Drawing.Point(13, 72);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(616, 254);
-            this.listView1.TabIndex = 8;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            // 
-            // columnName
-            // 
-            this.columnName.Text = "Название товара";
-            this.columnName.Width = 168;
-            // 
-            // columnCost
-            // 
-            this.columnCost.Text = "Стоимость";
-            this.columnCost.Width = 104;
-            // 
-            // columnStock
-            // 
-            this.columnStock.Text = "В наличии";
-            this.columnStock.Width = 96;
+            this.dgv.AllowUserToAddRows = false;
+            this.dgv.AllowUserToDeleteRows = false;
+            this.dgv.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv.Location = new System.Drawing.Point(12, 73);
+            this.dgv.MultiSelect = false;
+            this.dgv.Name = "dgv";
+            this.dgv.ReadOnly = true;
+            this.dgv.RowHeadersVisible = false;
+            this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv.Size = new System.Drawing.Size(616, 250);
+            this.dgv.TabIndex = 8;
             // 
             // Cart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 396);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.dgv);
             this.Controls.Add(this.buttonCheckout);
-            this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -122,6 +96,7 @@
             this.Text = "DETShop - Корзина";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Cart_FormClosing);
             this.Load += new System.EventHandler(this.Cart_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -129,11 +104,7 @@
 
         #endregion
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonCheckout;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader columnName;
-        private System.Windows.Forms.ColumnHeader columnStock;
-        private System.Windows.Forms.ColumnHeader columnCost;
+        private System.Windows.Forms.DataGridView dgv;
     }
 }

@@ -50,8 +50,13 @@
             this.buttonFilters = new System.Windows.Forms.Button();
             this.bRefresh = new System.Windows.Forms.Button();
             this.buttonCart = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.radioButtonAllProduct = new System.Windows.Forms.RadioButton();
+            this.radioButtonStock = new System.Windows.Forms.RadioButton();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -63,8 +68,8 @@
             this.администрированиеToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1134, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1323, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -167,7 +172,7 @@
             this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle2.NullValue = "(нет)";
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
@@ -183,14 +188,14 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dataGridView.Location = new System.Drawing.Point(0, 150);
+            this.dataGridView.Location = new System.Drawing.Point(0, 173);
             this.dataGridView.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle4.NullValue = "(нет)";
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
@@ -205,7 +210,7 @@
             this.dataGridView.RowTemplate.DefaultCellStyle.NullValue = "(нет)";
             this.dataGridView.RowTemplate.Height = 24;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView.Size = new System.Drawing.Size(1134, 511);
+            this.dataGridView.Size = new System.Drawing.Size(1323, 590);
             this.dataGridView.TabIndex = 0;
             this.dataGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
             // 
@@ -213,9 +218,9 @@
             // 
             this.buttonFilters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonFilters.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonFilters.Location = new System.Drawing.Point(1025, 106);
+            this.buttonFilters.Location = new System.Drawing.Point(1196, 113);
             this.buttonFilters.Name = "buttonFilters";
-            this.buttonFilters.Size = new System.Drawing.Size(97, 39);
+            this.buttonFilters.Size = new System.Drawing.Size(113, 45);
             this.buttonFilters.TabIndex = 9;
             this.buttonFilters.Text = "Фильтры";
             this.buttonFilters.UseVisualStyleBackColor = true;
@@ -226,38 +231,82 @@
             this.bRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.bRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
             this.bRefresh.Image = ((System.Drawing.Image)(resources.GetObject("bRefresh.Image")));
-            this.bRefresh.Location = new System.Drawing.Point(982, 106);
+            this.bRefresh.Location = new System.Drawing.Point(1146, 113);
             this.bRefresh.Name = "bRefresh";
-            this.bRefresh.Size = new System.Drawing.Size(37, 39);
+            this.bRefresh.Size = new System.Drawing.Size(43, 45);
             this.bRefresh.TabIndex = 10;
             this.bRefresh.UseVisualStyleBackColor = true;
             this.bRefresh.Click += new System.EventHandler(this.bRefresh_Click);
             // 
             // buttonCart
             // 
-            this.buttonCart.Location = new System.Drawing.Point(932, 106);
+            this.buttonCart.Location = new System.Drawing.Point(1087, 113);
             this.buttonCart.Name = "buttonCart";
-            this.buttonCart.Size = new System.Drawing.Size(44, 39);
+            this.buttonCart.Size = new System.Drawing.Size(51, 45);
             this.buttonCart.TabIndex = 11;
             this.buttonCart.Text = "Корзина";
             this.buttonCart.UseVisualStyleBackColor = true;
             this.buttonCart.Click += new System.EventHandler(this.buttonCart_Click);
             // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.radioButtonStock);
+            this.panel1.Controls.Add(this.radioButtonAllProduct);
+            this.panel1.Location = new System.Drawing.Point(18, 101);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(161, 57);
+            this.panel1.TabIndex = 12;
+            // 
+            // radioButtonAllProduct
+            // 
+            this.radioButtonAllProduct.AutoSize = true;
+            this.radioButtonAllProduct.Checked = true;
+            this.radioButtonAllProduct.Location = new System.Drawing.Point(5, 5);
+            this.radioButtonAllProduct.Name = "radioButtonAllProduct";
+            this.radioButtonAllProduct.Size = new System.Drawing.Size(92, 19);
+            this.radioButtonAllProduct.TabIndex = 0;
+            this.radioButtonAllProduct.TabStop = true;
+            this.radioButtonAllProduct.Text = "Все товары";
+            this.radioButtonAllProduct.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonStock
+            // 
+            this.radioButtonStock.AutoSize = true;
+            this.radioButtonStock.Location = new System.Drawing.Point(5, 31);
+            this.radioButtonStock.Name = "radioButtonStock";
+            this.radioButtonStock.Size = new System.Drawing.Size(134, 19);
+            this.radioButtonStock.TabIndex = 1;
+            this.radioButtonStock.Text = "Товары в наличии";
+            this.radioButtonStock.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(15, 78);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(82, 15);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Показывать:";
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1134, 661);
+            this.ClientSize = new System.Drawing.Size(1323, 763);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.buttonCart);
             this.Controls.Add(this.bRefresh);
             this.Controls.Add(this.buttonFilters);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.menuStrip1);
+            this.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.MinimumSize = new System.Drawing.Size(551, 678);
+            this.MinimumSize = new System.Drawing.Size(640, 776);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DETShop - Магазин цифровой электронной техники";
@@ -266,6 +315,8 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -289,5 +340,9 @@
         private System.Windows.Forms.Button bRefresh;
         private System.Windows.Forms.ToolStripMenuItem управлениеУчетнымиЗаписямиToolStripMenuItem;
         private System.Windows.Forms.Button buttonCart;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.RadioButton radioButtonStock;
+        private System.Windows.Forms.RadioButton radioButtonAllProduct;
+        private System.Windows.Forms.Label label1;
     }
 }

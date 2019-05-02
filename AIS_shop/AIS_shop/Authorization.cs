@@ -27,6 +27,7 @@ namespace AIS_shop
             {
                 MessageBox.Show("Данные о пользователях не были загружены из базы данных. Попробуйте перезапустить форму.", "Сообщение", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Cursor = Cursors.Default;
                 Close();
             }
             Cursor = Cursors.Default;

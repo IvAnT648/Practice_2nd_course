@@ -17,7 +17,6 @@ namespace AIS_shop
     
     class OrderInfo
     {
-        public int Id { get; private set; }
         public int Customer { get; private set; }
         public int Product { get; private set; }
         public DateTime Date { get; private set; }
@@ -382,6 +381,6 @@ namespace AIS_shop
         // строка соед. с БД
         public static string StrSQLConnection { get; } = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
 
-        public static List<OrderInfo> OrdersInCart = new List<OrderInfo>();
+        public static List<OrderInfo> ProductsInCart { get; } = new List<OrderInfo>();
     }
 }

@@ -33,7 +33,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.checkBoxStock = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // button1
@@ -86,18 +85,6 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(848, 478);
             this.flowLayoutPanel1.TabIndex = 20;
             // 
-            // checkBoxStock
-            // 
-            this.checkBoxStock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkBoxStock.AutoSize = true;
-            this.checkBoxStock.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.checkBoxStock.Location = new System.Drawing.Point(21, 564);
-            this.checkBoxStock.Name = "checkBoxStock";
-            this.checkBoxStock.Size = new System.Drawing.Size(193, 19);
-            this.checkBoxStock.TabIndex = 13;
-            this.checkBoxStock.Text = "Показать товары в наличии";
-            this.checkBoxStock.UseVisualStyleBackColor = true;
-            // 
             // Filters
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -107,7 +94,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.checkBoxStock);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
@@ -129,6 +115,5 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.CheckBox checkBoxStock;
     }
 }
