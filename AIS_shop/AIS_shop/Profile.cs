@@ -64,15 +64,9 @@ namespace AIS_shop
             else pictureBox.Image = Properties.Resources.nofoto;
         }
 
-        private void linkNewImage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private async void loadReviews()
         {
-            openNewImage.Filter = "Изображения (*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG";
-            if (openNewImage.ShowDialog() == DialogResult.Cancel) return;
-            // получаем файл в виде байтов
-            dataImage = FileTools.FileInBytes(openNewImage.FileName);
-            // выводим его в pictureBox
-            pictureBox.Image = Image.FromStream(new MemoryStream(dataImage));
-            if (pictureBox.Image != null) Unsaved = true;
+
         }
 
         private async void loadOrders()
@@ -102,6 +96,17 @@ namespace AIS_shop
                 if (connection != null && connection.State != ConnectionState.Closed)
                     connection.Close();
             }
+        }
+
+        private void linkNewImage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            openNewImage.Filter = "Изображения (*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG";
+            if (openNewImage.ShowDialog() == DialogResult.Cancel) return;
+            // получаем файл в виде байтов
+            dataImage = FileTools.FileInBytes(openNewImage.FileName);
+            // выводим его в pictureBox
+            pictureBox.Image = Image.FromStream(new MemoryStream(dataImage));
+            if (pictureBox.Image != null) Unsaved = true;
         }
     }
 }

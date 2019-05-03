@@ -44,7 +44,7 @@ namespace AIS_shop
             fields.Add(new _strToGridView("Операционная система", "Нет", "Текст"));
             fields.Add(new _strToGridView("Блок питания", "Нет", "Текст"));
             fields.Add(new _strToGridView("Склад", "Да", "Целое неотрицательное число"));
-            fields.Add(new _strToGridView("Цена", "Да", "Дробное неотрицательное число"));
+            fields.Add(new _strToGridView("Цена", "Да", "Целое неотрицательное число"));
             fields.Add(new _strToGridView("Описание", "Нет", "Текст"));
             
             labelFileName.Visible = false;
@@ -133,7 +133,6 @@ namespace AIS_shop
         private bool valid()
         {
             string intPattern = @"^\d+$";
-            string floatPattern = @"^\d+(\.|,)?\d+$";
 
             foreach (DataGridViewRow row in dgv.Rows)
             {
@@ -162,23 +161,7 @@ namespace AIS_shop
                         regex = new Regex(intPattern);
                         if (regex.IsMatch(sValue))
                         {
-                            uint val = uint.Parse(sValue);
-                            FieldValue[sChar] = val;
-                        }
-                        else
-                        {
-                            MessageBox.Show($"Поле \"{sChar}\" заполнено не корректно", "Некорректный ввод!",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return false;
-                        }
-                        break;
-                    case "Дробное неотрицательное число":
-                        regex = new Regex(floatPattern);
-                        if (regex.IsMatch(sValue))
-                        {
-                            if (sValue.Contains("."))
-                                sValue = sValue.Replace(".", ",");
-                            float val = float.Parse(sValue);
+                            int val = int.Parse(sValue);
                             FieldValue[sChar] = val;
                         }
                         else

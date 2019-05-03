@@ -107,7 +107,7 @@ namespace AIS_shop
             try
             {
                 bool ok = false;
-                SQLCommandToUpdate = "SELECT * FROM Products";
+                SQLCommandToUpdate = @"SELECT * FROM Products";
                 // добавление в команду для обновления запрос по фильтрам 
                 if (_TakeAccountOfFiltersChecked() != -1)
                     if (_TakeAccountOfFiltersFromTo() != -1)

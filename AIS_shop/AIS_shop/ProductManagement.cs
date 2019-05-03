@@ -81,7 +81,7 @@ namespace AIS_shop
             if (dataGridView.SelectedRows.Count == 1)
             {
                 string title = "Подтвердите действие";
-                string qst = "Вы уверены, что хотите удалить выбранную запись из таблицы?";
+                string qst = "Вы уверены, что хотите удалить выбранный товар из базы данных?";
                 string recordToDelete = null;
                 qst += "\nЗапись \"";
                 for (int i = 0; i < 4; i++)
@@ -100,12 +100,14 @@ namespace AIS_shop
                         SqlCommand query = new SqlCommand();
                         query.CommandText = string.Format($@"DELETE FROM Products WHERE Id={dataGridView.SelectedCells[0].Value}");
                         query.Connection = connection;
-                        if (query.ExecuteNonQuery() != 0)
+                        if (query.ExecuteNonQuery() == 1)
                         {
-                            MessageBox.Show("Удаление записи \"" + recordToDelete + "\" успешно выполнено", "Операция выполнена", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show($"Удаление записи \"{recordToDelete}\" успешно выполнено", "Операция выполнена", 
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
                             updateData();
                         }
-                        else MessageBox.Show("Удаление записи \'" + recordToDelete + "\' не выполнено", "Операция невыполнена", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        else MessageBox.Show($"Удаление записи \"{recordToDelete}\" не выполнено", "Операция невыполнена", 
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     }
                     catch (Exception ex)

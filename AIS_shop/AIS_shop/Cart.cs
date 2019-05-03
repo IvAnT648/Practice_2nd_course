@@ -23,9 +23,49 @@ namespace AIS_shop
             
         }
         
-        private void buttonCheckout_Click(object sender, EventArgs e)
+        private async void buttonCheckout_Click(object sender, EventArgs e)
         {
+            if (User.GetUser().Status == UserStatus.Guest)
+            {
+                MessageBox.Show("Вы не вошли в систему. Оформлять заказы могут только зарегистрированные пользователи.", "Некорректное действие",
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            if (dgv.SelectedRows.Count != 1)
+            {
+                MessageBox.Show("Выберите товар", "Некорректное действие", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            
+            var id = dgv.SelectedCells[0].Value;
+            int cost = (int)dgv.SelectedCells[2].Value;//int.Parse(dgv.SelectedCells[2].Value.ToString());
 
+
+            string text = $@"INSERT INTO Orders (Customer_id, Product_id, Date, Amount, Status) 
+                        VALUES ({User.GetUser().Id},{id},'{DateTime.Now.ToString()}',{cost},'Process')";
+            var connection = new SqlConnection(Common.StrSQLConnection);
+            var query = new SqlCommand(text, connection);
+            try
+            {
+                await connection.OpenAsync();
+                if (await query.ExecuteNonQueryAsync() != 0)
+                    MessageBox.Show("Заказ успешно оформлен.", "Оформление заказа", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                else
+                    MessageBox.Show("Заказ не был оформлен.", "Оформление заказа",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (connection != null && connection.State != ConnectionState.Closed)
+                    connection.Close();
+            }
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
@@ -36,6 +76,7 @@ namespace AIS_shop
         private void Cart_Load(object sender, EventArgs e)
         {
             if (Common.ProductsInCart.Count != 0) loadData();
+            else Close();
         }
 
         private void dgv_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -46,7 +87,7 @@ namespace AIS_shop
         private async void loadData()
         {
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
-            SqlCommand query = new SqlCommand(@"SELECT CONCAT(Производитель, ' ', Модель) AS Название, Цена FROM Products WHERE", connection);
+            SqlCommand query = new SqlCommand(@"SELECT Id, CONCAT(Производитель, ' ', Модель) AS Название, Цена FROM Products WHERE", connection);
             SqlDataAdapter adapter = new SqlDataAdapter(query);
             DataSet ds = new DataSet();
             try
@@ -61,6 +102,7 @@ namespace AIS_shop
                 }
                 adapter.Fill(ds);
                 dgv.DataSource = ds.Tables[0];
+                dgv.Columns[0].Visible = false;
             }
             catch (Exception ex)
             {

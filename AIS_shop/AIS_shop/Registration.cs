@@ -49,19 +49,18 @@ namespace AIS_shop
                     connection.Open();
                     SqlCommand command = new SqlCommand();
                     command.Connection = connection;
-                    command.CommandText = "INSERT INTO " +
-                        "Users ([Surname], [Name], [Patronymic], [E-mail], [Nick], [Password], [Status]) VALUES (" +
-                        "\'" + textBoxSurname.Text + "\', " +
-                        "\'" + textBoxName.Text + "\', " +
-                        "\'" + textBoxPatronymic.Text + "\', " +
-                        "\'" + textBoxEmail.Text + "\', " +
-                        "\'" + textBoxNick.Text + "\', " +
-                        "\'" + textBoxPassword.Text + "\', " +
-                        "\'" + status + "\')";
+                    command.CommandText = $@"INSERT INTO Users ([Surname], [Name], [Patronymic], [E-mail], [Nick], [Password], [Status]) 
+VALUES ('{textBoxSurname.Text}', '{textBoxName.Text}', '{textBoxPatronymic.Text}', '{textBoxEmail.Text}', '{textBoxNick.Text}', '{textBoxPassword.Text}', '{status}')";
 
-                    await command.ExecuteNonQueryAsync();
-
-                    MessageBox.Show("Пользователь зарегистрирован", "Сообщение", MessageBoxButtons.OK);
+                    if (await command.ExecuteNonQueryAsync() != 1)
+                    {
+                        MessageBox.Show("Пользователь не был зарегистрирован", "Ошибка при регистрации",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+                    else 
+                    MessageBox.Show("Пользователь зарегистрирован", "Сообщение",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
                     SqlCommand query = new SqlCommand($@"SELECT [Id], [Surname], [Name], [Patronymic], [E-mail], [Nick], UPPER([Status]) FROM [Users] WHERE [Nick]='{textBoxNick.Text}'", connection);
                     SqlDataReader reader = await query.ExecuteReaderAsync();
                     if (reader.HasRows)
@@ -169,7 +168,7 @@ namespace AIS_shop
                     return false;
                 }
                 // проверка на совпадение введенного e-mail с e-mail других пользователей
-                SqlCommand query = new SqlCommand("SELECT COUNT(Id) FROM Users WHERE [E-mail]=\'" + textBoxEmail.Text + "\'", connection);
+                SqlCommand query = new SqlCommand($@"SELECT COUNT(Id) FROM Users WHERE [E-mail]='{textBoxEmail.Text}'", connection);
                 int answer = -1;
                 answer = Convert.ToInt32(query.ExecuteScalar());
                 if (answer > 0 || answer == -1)
@@ -182,7 +181,7 @@ namespace AIS_shop
                     return false;
                 }
                 // проверка на совпадение введенного ника с никами другими пользователями
-                query = new SqlCommand("SELECT COUNT(Id) FROM Users WHERE [Nick]=\'" + textBoxNick.Text + "\'", connection);
+                query = new SqlCommand(@"SELECT COUNT(Id) FROM Users WHERE [Nick]=\'" + textBoxNick.Text + "\'", connection);
                 answer = -1;
                 answer = Convert.ToInt32(query.ExecuteScalar());
                 if (answer > 0 || answer == -1)

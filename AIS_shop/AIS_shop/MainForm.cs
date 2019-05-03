@@ -40,7 +40,11 @@ namespace AIS_shop
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-
+            if (MessageBox.Show("Закрыть программу?", "Выход из программы",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
         }
 
         private async void updateDataInGridView()
@@ -117,11 +121,7 @@ namespace AIS_shop
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Закрыть программу?", "Выход из программы",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                Close();
-            }
+            Close();
         }
 
         private void войтиToolStripMenuItem_Click(object sender, EventArgs e)
@@ -160,7 +160,6 @@ namespace AIS_shop
             // очистка dataGridView
             dataGridView.DataSource = null;
             // загрузка данных из БД
-            
             if (!string.IsNullOrWhiteSpace(QueryToUpdate))
                 updateDataInGridView();
         }

@@ -20,10 +20,10 @@ namespace AIS_shop
         public int Customer { get; private set; }
         public int Product { get; private set; }
         public DateTime Date { get; private set; }
-        public float Amount { get; private set; }
+        public int Amount { get; private set; }
         public string Status { get; private set; }
 
-        public OrderInfo(int customer, int product, DateTime date, float amount, string status)
+        public OrderInfo(int customer, int product, DateTime date, int amount, string status)
         {
             Customer = customer;
             Product = product;

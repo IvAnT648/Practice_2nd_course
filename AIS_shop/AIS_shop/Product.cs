@@ -46,7 +46,7 @@ namespace AIS_shop
             if (richTextBoxReviews.Text == "Отзывы о товаре загружаются...")
                 richTextBoxReviews.Text = "*** Отзывы не были загружены ***";
             //
-            loadPicture("Products", (int)Row.Cells["Id"].Value);
+            loadPicture("Products", product_id);
             //
             if ((int)Row.Cells["Склад"].Value == 0)
                 bAddToCart.Enabled = false;
@@ -96,7 +96,7 @@ namespace AIS_shop
             SqlDataReader reader = null;
             try
             {
-                string commandText = @"SELECT [User_id], [Mark], [Advantages], [Disadvantages], [Comment] FROM [Reviews] WHERE [Product_id]=" + (int)Row.Cells[0].Value;
+                string commandText = @"SELECT [User_id], [Mark], [Advantages], [Disadvantages], [Comment] FROM [Reviews] WHERE [Product_id]=" + product_id;
                 connection.Open();
                 SqlCommand query = new SqlCommand(commandText, connection);
                 reader = await query.ExecuteReaderAsync();
@@ -150,8 +150,8 @@ namespace AIS_shop
             SqlDataReader reader = null;
             try
             {
-                string commandText = string.Format($@"SELECT * FROM Products WHERE Id={(int)Row.Cells[0].Value}");
-                connection.Open();
+                string commandText = string.Format($@"SELECT * FROM Products WHERE Id={product_id}");
+                await connection.OpenAsync();
                 SqlCommand query = new SqlCommand(commandText, connection);
                 reader = await query.ExecuteReaderAsync();
                 if (reader.HasRows)
@@ -201,7 +201,7 @@ namespace AIS_shop
             SqlDataReader reader = null;
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
                 SqlCommand command = new SqlCommand();
                 command.CommandText = string.Format($@"SELECT Описание FROM Products WHERE [Id]={(int)Row.Cells[0].Value}");
                 command.Connection = connection;
@@ -253,8 +253,11 @@ namespace AIS_shop
 
         private async void bAddToCart_Click(object sender, EventArgs e)
         {
-
-            
+            if (Common.ProductsInCart.Find(x => x.Product == product_id) != null)
+            {
+                MessageBox.Show("Товар уже в корзине", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             SqlCommand query = new SqlCommand($@"SELECT * FROM Products WHERE Id={product_id}", connection);
             try
@@ -264,7 +267,7 @@ namespace AIS_shop
                 if (reader.HasRows)
                     if (await reader.ReadAsync())
                     {
-                        Common.ProductsInCart.Add(new OrderInfo(user.Id, product_id, DateTime.Now, float.Parse(reader.GetValue(14).ToString()), "In process"));
+                        Common.ProductsInCart.Add(new OrderInfo(user.Id, product_id, DateTime.Now, int.Parse(reader.GetValue(14).ToString()), "In process"));
                         MessageBox.Show("Товар успешно добавлен в корзину", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
             }
