@@ -224,11 +224,10 @@ namespace AIS_shop
 
 
 /*
-    
+    var connection = new SqlConnection(Common.StrSQLConnection);
     try
     {
-        connection = new SqlConnection(Common.StrSQLConnection);
-        connection.Open();
+        await connection.OpenAsync();
     
     }
     catch (Exception ex)

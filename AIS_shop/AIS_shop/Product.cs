@@ -251,7 +251,35 @@ namespace AIS_shop
             else pictureBox.Image = Properties.Resources.nofoto;
         }
 
-        private async void bAddToCart_Click(object sender, EventArgs e)
+        private void buttonAddReview_Click(object sender, EventArgs e)
+        {
+            if (user.Status == UserStatus.Guest)
+            {
+                MessageBox.Show("Оставлять отзывы могут только авторизованные пользователи. Войдите или зарегистрируйтесь.", "Некорректное действие", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            var connection = new SqlConnection(Common.StrSQLConnection);
+            var query = new SqlCommand($@"SELECT * FROM Reviews WHERE Product_id={product_id} AND User_id={user.Id}", connection);
+            try
+            {
+                connection.Open();
+                
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (connection != null && connection.State != ConnectionState.Closed)
+                    connection.Close();
+            }
+        }
+
+        private async void buttonAddToCart_Click(object sender, EventArgs e)
         {
             if (Common.ProductsInCart.Find(x => x.Product == product_id) != null)
             {
