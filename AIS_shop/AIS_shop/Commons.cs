@@ -39,7 +39,7 @@ namespace AIS_shop
         public string name { get; }
         public string obligation { get; }
         public string type { get; }
-        public string value { get; set; } = "";
+        public object value { get; set; } = null;
 
         public _strToGridView(string table_field, string obligation, string type)
         {
@@ -91,6 +91,16 @@ namespace AIS_shop
             instance.Email = email ?? throw new ArgumentNullException(nameof(email));
             instance.Nick = nick ?? throw new ArgumentNullException(nameof(nick));
             instance.Status = status;
+
+            string message = null;
+            if (instance.Status == UserStatus.Normal)
+                message = $"Добро пожаловать {instance.Surname} {instance.Name} {instance.Patronymic}!";
+            if (instance.Status == UserStatus.Admin)
+                message = $"Добро пожаловать {instance.Surname} {instance.Name} {instance.Patronymic}! Вы вошли как администратор.";
+            if (instance.Status == UserStatus.Guest)
+                message = $"Добро пожаловать! Вы вошли как гость.";
+            MessageBox.Show(message, "Вход в систему выполнен", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             return instance;
         }
 
@@ -103,6 +113,8 @@ namespace AIS_shop
             instance.Email = null;
             instance.Nick = null;
             instance.Status = UserStatus.Guest;
+
+            MessageBox.Show("Вы вышли из системы", "Выполнен выход из системы", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 
@@ -378,9 +390,15 @@ namespace AIS_shop
 
     static class Common
     {
-        // строка соед. с БД
         public static string StrSQLConnection { get; } = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
 
         public static List<OrderInfo> ProductsInCart { get; } = new List<OrderInfo>();
+
+        public static string NormalizeText(string text)
+        {
+            string result = text;
+            result = result.Replace("'", "''");
+            return result;
+        }
     }
 }

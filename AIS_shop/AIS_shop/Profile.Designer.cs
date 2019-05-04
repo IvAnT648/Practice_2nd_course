@@ -37,9 +37,6 @@
             this.labelName = new System.Windows.Forms.Label();
             this.labelSurname = new System.Windows.Forms.Label();
             this.labelNick = new System.Windows.Forms.Label();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.linkNewImage = new System.Windows.Forms.LinkLabel();
             this.openNewImage = new System.Windows.Forms.OpenFileDialog();
             this.textBoxSurname = new System.Windows.Forms.TextBox();
@@ -52,10 +49,10 @@
             this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
+            this.groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox
@@ -124,45 +121,11 @@
             this.labelNick.TabIndex = 22;
             this.labelNick.Text = "Никнейм:";
             // 
-            // tabControl1
-            // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(0, 302);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(713, 192);
-            this.tabControl1.TabIndex = 23;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.dgv);
-            this.tabPage1.Location = new System.Drawing.Point(4, 24);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(705, 164);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Мои заказы";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 24);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(705, 164);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Мои отзывы";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
             // linkNewImage
             // 
             this.linkNewImage.AutoSize = true;
             this.linkNewImage.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.linkNewImage.Location = new System.Drawing.Point(42, 262);
+            this.linkNewImage.Location = new System.Drawing.Point(44, 266);
             this.linkNewImage.Name = "linkNewImage";
             this.linkNewImage.Size = new System.Drawing.Size(149, 19);
             this.linkNewImage.TabIndex = 24;
@@ -222,7 +185,7 @@
             this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Cambria", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -236,20 +199,20 @@
             this.Status});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv.Location = new System.Drawing.Point(3, 3);
+            this.dgv.Location = new System.Drawing.Point(3, 22);
             this.dgv.MultiSelect = false;
             this.dgv.Name = "dgv";
             this.dgv.ReadOnly = true;
             this.dgv.RowHeadersVisible = false;
             this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv.Size = new System.Drawing.Size(699, 158);
+            this.dgv.Size = new System.Drawing.Size(769, 247);
             this.dgv.TabIndex = 0;
             // 
             // Product
@@ -276,18 +239,32 @@
             this.Status.Name = "Status";
             this.Status.ReadOnly = true;
             // 
+            // groupBox
+            // 
+            this.groupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox.Controls.Add(this.dgv);
+            this.groupBox.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.groupBox.Location = new System.Drawing.Point(12, 306);
+            this.groupBox.Name = "groupBox";
+            this.groupBox.Size = new System.Drawing.Size(775, 272);
+            this.groupBox.TabIndex = 30;
+            this.groupBox.TabStop = false;
+            this.groupBox.Text = "Мои заказы";
+            // 
             // Profile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(713, 494);
+            this.ClientSize = new System.Drawing.Size(799, 590);
+            this.Controls.Add(this.groupBox);
             this.Controls.Add(this.textBoxNick);
             this.Controls.Add(this.textBoxEmail);
             this.Controls.Add(this.textBoxPatronymic);
             this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.textBoxSurname);
             this.Controls.Add(this.linkNewImage);
-            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.labelNick);
             this.Controls.Add(this.labelPatronymic);
             this.Controls.Add(this.labelEmail);
@@ -297,16 +274,15 @@
             this.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.MinimumSize = new System.Drawing.Size(729, 533);
+            this.MinimumSize = new System.Drawing.Size(815, 629);
             this.Name = "Profile";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DETShop - Личный кабинет";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Profile_FormClosing);
             this.Load += new System.EventHandler(this.Profile_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
+            this.groupBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -320,9 +296,6 @@
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.Label labelSurname;
         private System.Windows.Forms.Label labelNick;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.LinkLabel linkNewImage;
         private System.Windows.Forms.OpenFileDialog openNewImage;
         private System.Windows.Forms.TextBox textBoxSurname;
@@ -335,5 +308,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn Amount;
         private System.Windows.Forms.DataGridViewTextBoxColumn Status;
+        private System.Windows.Forms.GroupBox groupBox;
     }
 }

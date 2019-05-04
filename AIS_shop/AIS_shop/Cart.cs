@@ -39,13 +39,15 @@ namespace AIS_shop
             }
             
             var id = dgv.SelectedCells[0].Value;
-            int cost = (int)dgv.SelectedCells[2].Value;//int.Parse(dgv.SelectedCells[2].Value.ToString());
+            int cost = (int)dgv.SelectedCells[2].Value;
 
 
             string text = $@"INSERT INTO Orders (Customer_id, Product_id, Date, Amount, Status) 
-                        VALUES ({User.GetUser().Id},{id},'{DateTime.Now.ToString()}',{cost},'Process')";
+                        VALUES ({User.GetUser().Id},{id},@date,{cost},@status)";
             var connection = new SqlConnection(Common.StrSQLConnection);
             var query = new SqlCommand(text, connection);
+            query.Parameters.AddWithValue("date", DateTime.Now.ToString());
+            query.Parameters.AddWithValue("status", @"Обработка");
             try
             {
                 await connection.OpenAsync();

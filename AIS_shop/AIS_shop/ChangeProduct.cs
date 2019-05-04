@@ -19,15 +19,20 @@ namespace AIS_shop
         // стобцы в dataGridView
         List<_strToGridView> fields = null;
         // флаги изменения
-        bool[] Changeflags = null;
+        //bool[] Changeflags = null;
         // словарь "поле таблицы"-"значение"
         Dictionary<string, object> FieldValue = null;
         // "старое" изображение
-        byte[] oldImage = null;
+        //byte[] oldImage = null;
         // изображение
         byte[] dataImage = null;
         // команда добавления в бд
-        string sqlCommand = @"UPDATE Products SET ";
+        string commandText = @"UPDATE Products SET ";
+
+        public ChangeProduct()
+        {
+            InitializeComponent();
+        }
 
         public ChangeProduct(DataGridViewRow row)
         {
@@ -39,7 +44,7 @@ namespace AIS_shop
         {
             FieldValue = new Dictionary<string, object>(15);
             fields = new List<_strToGridView>(15);
-            Changeflags = new bool[16];
+            //Changeflags = new bool[16];
 
             fields.Add(new _strToGridView("Тип ПК", "Да", "Текст"));
             fields.Add(new _strToGridView("Производитель", "Да", "Текст"));
@@ -54,7 +59,7 @@ namespace AIS_shop
             fields.Add(new _strToGridView("Операционная система", "Нет", "Текст"));
             fields.Add(new _strToGridView("Блок питания", "Нет", "Текст"));
             fields.Add(new _strToGridView("Склад", "Да", "Целое неотрицательное число"));
-            fields.Add(new _strToGridView("Цена", "Да", "Дробное неотрицательное число"));
+            fields.Add(new _strToGridView("Цена", "Да", "Целое неотрицательное число"));
             fields.Add(new _strToGridView("Описание", "Нет", "Текст"));
 
             foreach (var f in fields)
@@ -68,11 +73,8 @@ namespace AIS_shop
                 dgv.Rows.Add(f.name, f.obligation, f.type, f.value);
 
             // загрузка изображения из БД
-
-            oldImage = FileTools.GetFileFromDB(Common.StrSQLConnection, @"Products", @"Изображение", (int)Row.Cells[0].Value);
-            dataImage = oldImage;
+            dataImage = FileTools.GetFileFromDB(Common.StrSQLConnection, @"Products", @"Изображение", (int)Row.Cells[0].Value);
             if (dataImage != null) pictureBox.Image = Image.FromStream(new MemoryStream(dataImage));
-
             if (pictureBox.Image == null) buttonDelImage.Visible = false;
             else buttonDelImage.Visible = true;
         }
@@ -101,10 +103,13 @@ namespace AIS_shop
                 if (MessageBox.Show("Вы уверены, что хотите изменить товар?", "Изменение товара",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    checkChange();
                     // добавление введенных значений столбцов в команду
-                    int count = 0; // счетчик изменений
-                    int i = 0;
+                    //int count = 0; // счетчик изменений
+                    //int i = 0;
+
+
+
+                    /*
                     foreach (var field in FieldValue)
                     {
                         if (Changeflags[i])
@@ -123,6 +128,10 @@ namespace AIS_shop
                             else sqlCommand += $@"{dgv.Rows[i].Cells[3].Value.ToString()}";
                             count++;
                         }
+                        else
+                        {
+
+                        }
                         i++;
                     }
                     if (Changeflags.Last())
@@ -134,19 +143,35 @@ namespace AIS_shop
                         count++;
                     }
                     sqlCommand += $@" WHERE Id={Row.Cells[0].Value}";
+                    */
+                    commandText = $@"UPDATE Products SET [Тип ПК]=@type, [Производитель]=@brand, [Модель]=@model, [CPU]=@cpu, [Кол-во ядер]=@cores, [GPU]=@gpu, [Объем RAM]=@ram, [Тип RAM]=@typeram, [HDD]=@hdd, [SSD]=@ssd, [Операционная система]=@os, [Блок питания]=@psu, [Склад]=@stock, [Цена]=@cost, [Описание]=@descripton, [Изображение]=@image WHERE Id={(int)Row.Cells[0].Value}";
 
-                    if (count == 0) return;
                     // выполнение команды
                     SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
+                    SqlCommand query = new SqlCommand(commandText, connection);
+                    query.Parameters.AddWithValue("@type", dgv.Rows[0].Cells[3].Value);
+                    query.Parameters.AddWithValue("@brand", dgv.Rows[1].Cells[3].Value);
+                    query.Parameters.AddWithValue("@model", dgv.Rows[2].Cells[3].Value);
+                    query.Parameters.AddWithValue("@cpu", dgv.Rows[3].Cells[3].Value);
+                    query.Parameters.AddWithValue("@cores", dgv.Rows[4].Cells[3].Value);
+                    query.Parameters.AddWithValue("@gpu", dgv.Rows[5].Cells[3].Value);
+                    query.Parameters.AddWithValue("@ram", dgv.Rows[6].Cells[3].Value);
+                    query.Parameters.AddWithValue("@typeram", dgv.Rows[7].Cells[3].Value);
+                    query.Parameters.AddWithValue("@hdd", dgv.Rows[8].Cells[3].Value);
+                    query.Parameters.AddWithValue("@ssd", dgv.Rows[9].Cells[3].Value);
+                    query.Parameters.AddWithValue("@os", dgv.Rows[10].Cells[3].Value);
+                    query.Parameters.AddWithValue("@psu", dgv.Rows[11].Cells[3].Value);
+                    query.Parameters.AddWithValue("@stock", dgv.Rows[12].Cells[3].Value);
+                    query.Parameters.AddWithValue("@cost", dgv.Rows[13].Cells[3].Value);
+                    query.Parameters.AddWithValue("@descripton", dgv.Rows[14].Cells[3].Value);
+                    if (dataImage != null) query.Parameters.AddWithValue("@image", dataImage);
+                    else query.CommandText = query.CommandText.Replace("@image", "NULL");
                     try
                     {
                         connection.Open();
-                        SqlCommand query = new SqlCommand(this.sqlCommand, connection);
-                        if (sqlCommand.Contains("@image"))
-                                query.Parameters.AddWithValue("@image", (object)dataImage);
                         if (await query.ExecuteNonQueryAsync() == 1)
                         {
-                            MessageBox.Show("Запись была успешно обновлена", "Сообщение",
+                            MessageBox.Show("Информация успешно обновлена", "Сообщение",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
                             ProductManagement.updateFlag = true;
                             Close();
@@ -170,7 +195,6 @@ namespace AIS_shop
         private bool valid()
         {
             string intPattern = @"^\d+$";
-            string floatPattern = @"^\d+(\.|,)?\d+$";
 
             foreach (DataGridViewRow row in dgv.Rows)
             {
@@ -192,21 +216,11 @@ namespace AIS_shop
                     }
                     continue;
                 }
-                Regex regex = null;
+                
                 switch (sType)
                 {
                     case "Целое неотрицательное число":
-                        regex = new Regex(intPattern);
-                        if (!regex.IsMatch(sValue))
-                        {
-                            MessageBox.Show($"Поле \"{sChar}\" заполнено не корректно", "Некорректный ввод!",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return false;
-                        }
-                            
-                        break;
-                    case "Дробное неотрицательное число":
-                        regex = new Regex(floatPattern);
+                        Regex regex = new Regex(intPattern);
                         if (!regex.IsMatch(sValue))
                         {
                             MessageBox.Show($"Поле \"{sChar}\" заполнено не корректно", "Некорректный ввод!",
@@ -217,7 +231,7 @@ namespace AIS_shop
                     case "Текст":
                         break;
                     default:
-                        MessageBox.Show("Произошла ошибка при распозновании типа значения. См. код \'AddNewProduct.valid()\'", "Ошибка!",
+                        MessageBox.Show("Произошла ошибка при распозновании типа значения. См. код 'AddNewProduct.valid()'", "Ошибка!",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                 }
@@ -225,21 +239,21 @@ namespace AIS_shop
             return true;
         }
 
-        private void checkChange()
-        {
-            int i = 0;
-            foreach (DataGridViewRow dgvRow in dgv.Rows)
-            {
-                if (dgvRow.Cells["Value"].Value.ToString() == Row.Cells[i+1].Value.ToString())
-                    Changeflags[i] = false;
-                else Changeflags[i] = true;
-                i++;
-            }
+        //private void checkChange()
+        //{
+        //    int i = 0;
+        //    foreach (DataGridViewRow dgvRow in dgv.Rows)
+        //    {
+        //        if (dgvRow.Cells["Value"].Value.ToString() == Row.Cells[i+1].Value.ToString())
+        //            Changeflags[i] = false;
+        //        else Changeflags[i] = true;
+        //        i++;
+        //    }
             
-            if (dataImage == oldImage)
-                Changeflags[i] = false;
-            else Changeflags[i] = true;
-        }
+        //    if (dataImage == oldImage)
+        //        Changeflags[i] = false;
+        //    else Changeflags[i] = true;
+        //}
 
         private void buttonDelImage_Click(object sender, EventArgs e)
         {

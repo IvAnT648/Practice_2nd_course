@@ -72,7 +72,7 @@ namespace AIS_shop
                 }
                 // далее, выполняем вход
                 SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
-                SqlCommand query = new SqlCommand(@"SELECT [Surname], [Name], [Patronymic], [E-mail], [Nick], UPPER([Status]) FROM [Users] WHERE [Id]=" + id, connection);
+                SqlCommand query = new SqlCommand(@"SELECT Surname, Name, Patronymic, [E-mail], Nick, UPPER(Status) FROM Users WHERE Id=" + id, connection);
                 try
                 {
                     connection.Open();
@@ -130,12 +130,13 @@ namespace AIS_shop
         // загрузка всех данных для входа, т.к. sql - регистронезависимый
         private bool loadUsersData()
         {
+
             usersData = new DataSet();
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             try
             {
                 connection.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter(@"SELECT [Id], [Nick], [E-mail], [Password] FROM Users", connection);
+                SqlDataAdapter adapter = new SqlDataAdapter(@"SELECT Id, Nick, [E-mail], Password FROM Users", connection);
                 adapter.Fill(usersData);
                 return true;
             }

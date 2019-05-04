@@ -92,11 +92,11 @@ namespace AIS_shop
 
         private async void loadReviews()
         {
-            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);;
             SqlDataReader reader = null;
             try
             {
-                string commandText = @"SELECT [User_id], [Mark], [Advantages], [Disadvantages], [Comment] FROM [Reviews] WHERE [Product_id]=" + product_id;
+                string commandText = @"SELECT User_id, Mark, Advantages, Disadvantages, Comment FROM Reviews WHERE Product_id=" + product_id;
                 connection.Open();
                 SqlCommand query = new SqlCommand(commandText, connection);
                 reader = await query.ExecuteReaderAsync();
@@ -106,20 +106,20 @@ namespace AIS_shop
                     while (await reader.ReadAsync())
                     {
                         _printUserNickToReview((int)reader.GetValue(0));
-                        richTextBoxReviews.Text += "\nОценка по 10-бальной шкале: " + reader.GetValue(1).ToString();
+                        richTextBoxReviews.Text += "\nОценка по 5-бальной шкале: " + reader.GetValue(1).ToString();
                         //
                         richTextBoxReviews.Text += "\n---Достоинства:\n";
-                        if (reader.GetValue(2).ToString() != "")
+                        if (!string.IsNullOrWhiteSpace(reader.GetValue(2).ToString()))
                             richTextBoxReviews.Text += reader.GetValue(2).ToString();
                         else richTextBoxReviews.Text += " *Не указано*";
                         //
                         richTextBoxReviews.Text += "\n---Недостатки:\n";
-                        if (reader.GetValue(3).ToString() != "")
+                        if (!string.IsNullOrWhiteSpace(reader.GetValue(3).ToString()))
                             richTextBoxReviews.Text += reader.GetValue(3).ToString();
                         else richTextBoxReviews.Text += " *Не указано*";
                         //
                         richTextBoxReviews.Text += "\n---Комментарий:\n";
-                        if (reader.GetValue(4).ToString() != "")
+                        if (!string.IsNullOrWhiteSpace(reader.GetValue(4).ToString()))
                             richTextBoxReviews.Text += reader.GetValue(4).ToString();
                         else richTextBoxReviews.Text += " *Не указано*";
                         richTextBoxReviews.Text += "\n--------------------------------------------------------------------------------------------------------------------------\n";
@@ -146,7 +146,7 @@ namespace AIS_shop
 
         private async void loadCharacteristics()
         {
-            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);;
             SqlDataReader reader = null;
             try
             {
@@ -197,7 +197,7 @@ namespace AIS_shop
 
         private async void loadDescription()
         {
-            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);;
             SqlDataReader reader = null;
             try
             {
@@ -259,13 +259,27 @@ namespace AIS_shop
                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-            var connection = new SqlConnection(Common.StrSQLConnection);
-            var query = new SqlCommand($@"SELECT * FROM Reviews WHERE Product_id={product_id} AND User_id={user.Id}", connection);
+            var connection = new SqlConnection(Common.StrSQLConnection);;
+            var query = new SqlCommand($@"SELECT COUNT(Id) FROM Reviews WHERE Product_id={product_id} AND User_id={user.Id}", connection);
             try
             {
                 connection.Open();
-                
-
+                int result = (int)query.ExecuteScalar();
+                if (result > 0)
+                {
+                    if (MessageBox.Show("Вы уже добавляли отзыв об этом товаре. Хотите отредактировать его?", "Сообщение", 
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        ReviewEditor editReview = new ReviewEditor(product_id);
+                        editReview.ShowDialog();
+                    }
+                }
+                else
+                {
+                    ReviewEditor createReview = new ReviewEditor(product_id);
+                    createReview.ShowDialog();
+                }
+                loadReviews();
             }
             catch (Exception ex)
             {
@@ -286,7 +300,7 @@ namespace AIS_shop
                 MessageBox.Show("Товар уже в корзине", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);;
             SqlCommand query = new SqlCommand($@"SELECT * FROM Products WHERE Id={product_id}", connection);
             try
             {

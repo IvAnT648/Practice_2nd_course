@@ -29,30 +29,30 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReviewEditor));
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelProductName = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownMark = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxAdvantages = new System.Windows.Forms.RichTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxDisadvantages = new System.Windows.Forms.RichTextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxComment = new System.Windows.Forms.RichTextBox();
             this.buttonApplyChanges = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMark)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // labelProductName
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Cambria", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(44, 74);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(171, 25);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Название товара";
+            this.labelProductName.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelProductName.AutoSize = true;
+            this.labelProductName.Font = new System.Drawing.Font("Cambria", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelProductName.Location = new System.Drawing.Point(44, 74);
+            this.labelProductName.Name = "labelProductName";
+            this.labelProductName.Size = new System.Drawing.Size(171, 25);
+            this.labelProductName.TabIndex = 0;
+            this.labelProductName.Text = "Название товара";
             // 
             // label2
             // 
@@ -65,25 +65,26 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Ваша оценка:";
             // 
-            // numericUpDown1
+            // numericUpDownMark
             // 
-            this.numericUpDown1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.numericUpDown1.Location = new System.Drawing.Point(171, 132);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.numericUpDownMark.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.numericUpDownMark.Location = new System.Drawing.Point(171, 132);
+            this.numericUpDownMark.Maximum = new decimal(new int[] {
             5,
             0,
             0,
             0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {
+            this.numericUpDownMark.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(36, 23);
-            this.numericUpDown1.TabIndex = 2;
-            this.numericUpDown1.ThousandsSeparator = true;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.numericUpDownMark.Name = "numericUpDownMark";
+            this.numericUpDownMark.ReadOnly = true;
+            this.numericUpDownMark.Size = new System.Drawing.Size(36, 23);
+            this.numericUpDownMark.TabIndex = 2;
+            this.numericUpDownMark.ThousandsSeparator = true;
+            this.numericUpDownMark.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -94,21 +95,21 @@
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Cambria", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(266, 23);
+            this.label3.Location = new System.Drawing.Point(255, 23);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(329, 32);
             this.label3.TabIndex = 3;
             this.label3.Text = "Редактирование отзыва";
             // 
-            // richTextBox1
+            // richTextBoxAdvantages
             // 
-            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.richTextBoxAdvantages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox1.Location = new System.Drawing.Point(46, 190);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(754, 85);
-            this.richTextBox1.TabIndex = 4;
-            this.richTextBox1.Text = "";
+            this.richTextBoxAdvantages.Location = new System.Drawing.Point(46, 190);
+            this.richTextBoxAdvantages.Name = "richTextBoxAdvantages";
+            this.richTextBoxAdvantages.Size = new System.Drawing.Size(732, 85);
+            this.richTextBoxAdvantages.TabIndex = 4;
+            this.richTextBoxAdvantages.Text = "";
             // 
             // label4
             // 
@@ -134,15 +135,15 @@
             this.label5.TabIndex = 6;
             this.label5.Text = "Недостатки:";
             // 
-            // richTextBox2
+            // richTextBoxDisadvantages
             // 
-            this.richTextBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.richTextBoxDisadvantages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox2.Location = new System.Drawing.Point(46, 305);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(754, 85);
-            this.richTextBox2.TabIndex = 7;
-            this.richTextBox2.Text = "";
+            this.richTextBoxDisadvantages.Location = new System.Drawing.Point(46, 305);
+            this.richTextBoxDisadvantages.Name = "richTextBoxDisadvantages";
+            this.richTextBoxDisadvantages.Size = new System.Drawing.Size(732, 85);
+            this.richTextBoxDisadvantages.TabIndex = 7;
+            this.richTextBoxDisadvantages.Text = "";
             // 
             // label6
             // 
@@ -156,50 +157,51 @@
             this.label6.TabIndex = 8;
             this.label6.Text = "Комментарий:";
             // 
-            // richTextBox3
+            // richTextBoxComment
             // 
-            this.richTextBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.richTextBoxComment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox3.Location = new System.Drawing.Point(46, 428);
-            this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(754, 204);
-            this.richTextBox3.TabIndex = 9;
-            this.richTextBox3.Text = "";
+            this.richTextBoxComment.Location = new System.Drawing.Point(46, 428);
+            this.richTextBoxComment.Name = "richTextBoxComment";
+            this.richTextBoxComment.Size = new System.Drawing.Size(732, 204);
+            this.richTextBoxComment.TabIndex = 9;
+            this.richTextBoxComment.Text = "";
             // 
             // buttonApplyChanges
             // 
             this.buttonApplyChanges.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonApplyChanges.Location = new System.Drawing.Point(648, 645);
+            this.buttonApplyChanges.Location = new System.Drawing.Point(626, 645);
             this.buttonApplyChanges.Name = "buttonApplyChanges";
             this.buttonApplyChanges.Size = new System.Drawing.Size(187, 36);
             this.buttonApplyChanges.TabIndex = 10;
             this.buttonApplyChanges.Text = "Применить изменения";
             this.buttonApplyChanges.UseVisualStyleBackColor = true;
+            this.buttonApplyChanges.Click += new System.EventHandler(this.buttonApplyChanges_Click);
             // 
             // ReviewEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(847, 693);
+            this.ClientSize = new System.Drawing.Size(825, 693);
             this.Controls.Add(this.buttonApplyChanges);
-            this.Controls.Add(this.richTextBox3);
+            this.Controls.Add(this.richTextBoxComment);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.richTextBox2);
+            this.Controls.Add(this.richTextBoxDisadvantages);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.richTextBoxAdvantages);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.numericUpDownMark);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelProductName);
             this.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(592, 732);
+            this.MinimumSize = new System.Drawing.Size(841, 732);
             this.Name = "ReviewEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DETShop - Редактор отзывов";
             this.Load += new System.EventHandler(this.ReviewEditor_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMark)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -207,16 +209,16 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelProductName;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numericUpDownMark;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox richTextBoxAdvantages;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.RichTextBox richTextBoxDisadvantages;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.RichTextBox richTextBox3;
+        private System.Windows.Forms.RichTextBox richTextBoxComment;
         private System.Windows.Forms.Button buttonApplyChanges;
     }
 }

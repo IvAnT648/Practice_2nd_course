@@ -49,8 +49,17 @@ namespace AIS_shop
                     connection.Open();
                     SqlCommand command = new SqlCommand();
                     command.Connection = connection;
-                    command.CommandText = $@"INSERT INTO Users ([Surname], [Name], [Patronymic], [E-mail], [Nick], [Password], [Status]) 
-VALUES ('{textBoxSurname.Text}', '{textBoxName.Text}', '{textBoxPatronymic.Text}', '{textBoxEmail.Text}', '{textBoxNick.Text}', '{textBoxPassword.Text}', '{status}')";
+                    command.CommandText = $@"INSERT INTO 
+                        Users (Surname, Name, Patronymic, [E-mail], Nick, Password, Status) 
+                        VALUES (@surname, @name, @patronymic, @email, @nick, @password, @status)";
+
+                    command.Parameters.AddWithValue("surname", textBoxSurname.Text);
+                    command.Parameters.AddWithValue("name", textBoxName.Text);
+                    command.Parameters.AddWithValue("patronymic", textBoxPatronymic.Text);
+                    command.Parameters.AddWithValue("email", textBoxEmail.Text);
+                    command.Parameters.AddWithValue("nick", textBoxNick.Text);
+                    command.Parameters.AddWithValue("password", textBoxPassword.Text);
+                    command.Parameters.AddWithValue("status", status);
 
                     if (await command.ExecuteNonQueryAsync() != 1)
                     {
@@ -68,7 +77,7 @@ VALUES ('{textBoxSurname.Text}', '{textBoxName.Text}', '{textBoxPatronymic.Text}
                         if (await reader.ReadAsync())
                         {
                             UserStatus userStatus = UserStatus.Guest;
-                            switch (reader.GetValue(5)?.ToString())
+                            switch (reader.GetValue(6)?.ToString())
                             {
                                 case "USER":
                                     userStatus = UserStatus.Normal;
@@ -83,11 +92,11 @@ VALUES ('{textBoxSurname.Text}', '{textBoxName.Text}', '{textBoxPatronymic.Text}
                             // авторизация пользователя
                             User user = User.Login(
                                 (int)reader.GetValue(0),
-                                reader.GetValue(0)?.ToString(),
                                 reader.GetValue(1)?.ToString(),
                                 reader.GetValue(2)?.ToString(),
                                 reader.GetValue(3)?.ToString(),
                                 reader.GetValue(4)?.ToString(),
+                                reader.GetValue(5)?.ToString(),
                                 userStatus
                             );
                         }
@@ -114,7 +123,7 @@ VALUES ('{textBoxSurname.Text}', '{textBoxName.Text}', '{textBoxPatronymic.Text}
         {
             try
             {
-                connection = new SqlConnection(Common.StrSQLConnection);
+                connection = new SqlConnection(Common.StrSQLConnection);;
                 connection.Open();
                 Regex regex = null;
                 // если не введены необходимые данные
@@ -161,7 +170,7 @@ VALUES ('{textBoxSurname.Text}', '{textBoxName.Text}', '{textBoxPatronymic.Text}
                     return false;
                 }
                 regex = new Regex(@"^([a-z0-9]|_){4,}$");
-                if (regex.IsMatch(textBoxPassword.Text))
+                if (!regex.IsMatch(textBoxPassword.Text))
                 {
                     MessageBox.Show("Пароль может состоять только из букв, цифр и нижнего подчеркивания и при этом иметь не менее 4 символов", "Некорректный ввод",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -181,7 +190,7 @@ VALUES ('{textBoxSurname.Text}', '{textBoxName.Text}', '{textBoxPatronymic.Text}
                     return false;
                 }
                 // проверка на совпадение введенного ника с никами другими пользователями
-                query = new SqlCommand(@"SELECT COUNT(Id) FROM Users WHERE [Nick]=\'" + textBoxNick.Text + "\'", connection);
+                query = new SqlCommand($@"SELECT COUNT(Id) FROM Users WHERE [Nick]='{textBoxNick.Text}'", connection);
                 answer = -1;
                 answer = Convert.ToInt32(query.ExecuteScalar());
                 if (answer > 0 || answer == -1)

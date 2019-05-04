@@ -64,11 +64,6 @@ namespace AIS_shop
             else pictureBox.Image = Properties.Resources.nofoto;
         }
 
-        private async void loadReviews()
-        {
-
-        }
-
         private async void loadOrders()
         {
             string text = $@"

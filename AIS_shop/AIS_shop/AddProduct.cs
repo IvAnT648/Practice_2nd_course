@@ -15,14 +15,11 @@ namespace AIS_shop
 {
     public partial class AddProduct : Form
     {
-        // структура для вывода в dataGridView
         List<_strToGridView> fields = new List<_strToGridView>(15);
-        // словарь "поле таблицы"-"значение"
-        Dictionary <string, object> FieldValue = new Dictionary<string, object>(15);
         // изображение
         byte[] dataImage = null;
         // команда добавления в бд
-        string sqlCommand = @"INSERT INTO Products (";
+        string commandText = null;
 
         public AddProduct()
         {
@@ -55,16 +52,17 @@ namespace AIS_shop
             // вывод в DataGridView
             for (int i = 0; i < fields.Count; i++)
                 dgv.Rows.Add(fields[i].name, fields[i].obligation, fields[i].type);
+            commandText = @"INSERT INTO Products (";
             // добавление к запросу полей, в которые будет осуществляться вставка
             foreach (var f in fields)
             {
-                
-                FieldValue.Add(f.name, null);
-                // 
-                if (f != fields[0]) sqlCommand += @", ";
-                sqlCommand += $@"[{f.name}]";
+                if (f != fields[0]) commandText += @", ";
+                commandText += $@"[{f.name}]";
             }
-            sqlCommand += @", [Изображение])";
+            commandText += @", [Изображение])";
+            
+            commandText += 
+@" VALUES (@type, @brand, @model, @cpu, @cores, @gpu, @ram, @typeram, @hdd, @ssd, @os, @psu, @stock, @cost, @descripton, @image)";
         }
 
         private void AddNewProduct_FormClosing(object sender, FormClosingEventArgs e)
@@ -72,61 +70,58 @@ namespace AIS_shop
             
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
+        private async void buttonSave_Click(object sender, EventArgs e)
         {
             if (valid())
             { 
                 if (MessageBox.Show("Вы уверены, что хотите добавить этот товар?", "Добавить товар",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    addProductToDB();
-                }
-            }
-        }
+                    // добавление введенных значений столбцов в команду
+                    SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
+                    SqlCommand query = new SqlCommand(commandText, connection);
 
-        private async void addProductToDB()
-        {
-            // добавление введенных значений столбцов в команду
-            sqlCommand += @" VALUES (";
-            foreach (var field in FieldValue)
-            {
-                if (field.Key != FieldValue.First().Key)
-                    sqlCommand += @", ";
-                if (field.Value == null)
-                {
-                    sqlCommand += $@"NULL";
-                    continue;
+                    query.Parameters.AddWithValue("@type", fields[0].value);
+                    query.Parameters.AddWithValue("@brand", fields[1].value);
+                    query.Parameters.AddWithValue("@model", fields[2].value);
+                    query.Parameters.AddWithValue("@cpu", fields[3].value);
+                    query.Parameters.AddWithValue("@cores", fields[4].value);
+                    query.Parameters.AddWithValue("@gpu", fields[5].value);
+                    query.Parameters.AddWithValue("@ram", fields[6].value);
+                    query.Parameters.AddWithValue("@typeram", fields[7].value);
+                    query.Parameters.AddWithValue("@hdd", fields[8].value);
+                    query.Parameters.AddWithValue("@ssd", fields[9].value);
+                    query.Parameters.AddWithValue("@os", fields[10].value);
+                    query.Parameters.AddWithValue("@psu", fields[11].value);
+                    query.Parameters.AddWithValue("@stock", fields[12].value);
+                    query.Parameters.AddWithValue("@cost", fields[13].value);
+                    query.Parameters.AddWithValue("@descripton", fields[14].value);
+
+                    if (dataImage != null) query.Parameters.AddWithValue("@image", dataImage);
+                    else query.CommandText = query.CommandText.Replace("@image", "'NULL'");
+                    // выполнение команды
+                    try
+                    {
+                        connection.Open();
+                        if (await query.ExecuteNonQueryAsync() == 1)
+                        {
+                            MessageBox.Show("Запись была успешно добавлена в таблицу", "Сообщение",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            ProductManagement.updateFlag = true;
+                            Close();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        if (connection != null && connection.State != ConnectionState.Closed)
+                            connection.Close();
+                    }
                 }
-                if (field.Value is string)
-                    sqlCommand += $@"'{field.Value.ToString()}'";
-                else sqlCommand += $@"{field.Value.ToString()}";
-            }
-            sqlCommand += @", @image)";
-            // выполнение команды
-            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
-            try
-            {
-                connection.Open();
-                SqlCommand query = new SqlCommand(this.sqlCommand, connection);
-                query.Parameters.AddWithValue("@image", (object)dataImage);
-                if (await query.ExecuteNonQueryAsync() == 1)
-                {
-                    MessageBox.Show("Запись была успешно добавлена в таблицу", "Сообщение",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    ProductManagement.updateFlag = true;
-                    Close();
-                }
-                    
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (connection != null && connection.State != ConnectionState.Closed)
-                    connection.Close();
             }
         }
 
@@ -152,32 +147,34 @@ namespace AIS_shop
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
-                    continue;
+                    fields.Find(f => f.name == sChar).value = DBNull.Value;
                 }
-                Regex regex = null;
-                switch (sType)
+                else
                 {
-                    case "Целое неотрицательное число":
-                        regex = new Regex(intPattern);
-                        if (regex.IsMatch(sValue))
-                        {
-                            int val = int.Parse(sValue);
-                            FieldValue[sChar] = val;
-                        }
-                        else
-                        {
-                            MessageBox.Show($"Поле \"{sChar}\" заполнено не корректно", "Некорректный ввод!",
+                    switch (sType)
+                    {
+                        case "Целое неотрицательное число":
+                            Regex regex = new Regex(intPattern);
+                            if (regex.IsMatch(sValue))
+                            {
+                                int val = int.Parse(sValue);
+                                fields.Find(f => f.name == sChar).value = val;
+                            }
+                            else
+                            {
+                                MessageBox.Show($"Поле \"{sChar}\" заполнено не корректно", "Некорректный ввод!",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return false;
+                            }
+                            break;
+                        case "Текст":
+                            fields.Find(f => f.name == sChar).value = sValue;
+                            break;
+                        default:
+                            MessageBox.Show("Произошла ошибка при распозновании типа значения. См. код \'AddNewProduct.valid()\'", "Ошибка!",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return false;
-                        }
-                        break;
-                    case "Текст":
-                        FieldValue[sChar] = sValue;
-                        break;
-                    default:
-                        MessageBox.Show("Произошла ошибка при распозновании типа значения. См. код \'AddNewProduct.valid()\'", "Ошибка!", 
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return false;
+                    }
                 }
             }
             return true;

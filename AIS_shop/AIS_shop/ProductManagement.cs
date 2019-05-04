@@ -93,7 +93,7 @@ namespace AIS_shop
                 if (recordToDelete != null) qst += recordToDelete;
                 if (MessageBox.Show(qst, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
+                    SqlConnection connection = new SqlConnection(Common.StrSQLConnection);;
                     try
                     {
                         connection.Open();
@@ -108,7 +108,6 @@ namespace AIS_shop
                         }
                         else MessageBox.Show($"Удаление записи \"{recordToDelete}\" не выполнено", "Операция невыполнена", 
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                     }
                     catch (Exception ex)
                     {
@@ -125,6 +124,5 @@ namespace AIS_shop
             }
             else MessageBox.Show("Вы не выбрали товар для удаления", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
-        
     }
 }

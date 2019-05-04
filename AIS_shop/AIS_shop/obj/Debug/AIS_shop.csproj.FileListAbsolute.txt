@@ -28,7 +28,6 @@ d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.Authorization.re
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.Cart.resources
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.Filters.resources
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.MainForm.resources
-d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.Order.resources
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.Product.resources
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.Profile.resources
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.Properties.Resources.resources
@@ -44,3 +43,5 @@ d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.csprojAssemblyRe
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.AddProduct.resources
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.ChangeProduct.resources
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.ProductManagement.resources
+d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.ReviewEditor.resources
+D:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.csproj.ResolveComReference.cache
