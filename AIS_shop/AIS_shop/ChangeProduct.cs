@@ -103,47 +103,6 @@ namespace AIS_shop
                 if (MessageBox.Show("Вы уверены, что хотите изменить товар?", "Изменение товара",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    // добавление введенных значений столбцов в команду
-                    //int count = 0; // счетчик изменений
-                    //int i = 0;
-
-
-
-                    /*
-                    foreach (var field in FieldValue)
-                    {
-                        if (Changeflags[i])
-                        {
-                            if (count != 0)
-                                sqlCommand += @", ";
-                            sqlCommand += $@"[{FieldValue.Keys.ElementAt(i)}]=";
-                            if (field.Value == null)
-                            {
-                                sqlCommand += $@"NULL";
-                                i++;
-                                continue;
-                            }
-                            if (dgv.Rows[i].Cells[3].Value is string)
-                                sqlCommand += $@"'{dgv.Rows[i].Cells[3].Value.ToString()}'";
-                            else sqlCommand += $@"{dgv.Rows[i].Cells[3].Value.ToString()}";
-                            count++;
-                        }
-                        else
-                        {
-
-                        }
-                        i++;
-                    }
-                    if (Changeflags.Last())
-                    {
-                        if (count != 0) sqlCommand += ", ";
-                        if (dataImage != null)
-                            sqlCommand += @"[Изображение]=@image";
-                        else sqlCommand += @"[Изображение]=NULL";
-                        count++;
-                    }
-                    sqlCommand += $@" WHERE Id={Row.Cells[0].Value}";
-                    */
                     commandText = $@"UPDATE Products SET [Тип ПК]=@type, [Производитель]=@brand, [Модель]=@model, [CPU]=@cpu, [Кол-во ядер]=@cores, [GPU]=@gpu, [Объем RAM]=@ram, [Тип RAM]=@typeram, [HDD]=@hdd, [SSD]=@ssd, [Операционная система]=@os, [Блок питания]=@psu, [Склад]=@stock, [Цена]=@cost, [Описание]=@descripton, [Изображение]=@image WHERE Id={(int)Row.Cells[0].Value}";
 
                     // выполнение команды

@@ -38,11 +38,11 @@ namespace AIS_shop
         {
             if (validation())
             {
-                string status;
+                int status;
                 if (regAsAdmin.Checked)
-                    status = "ADMIN";
+                    status = 2;
                 else
-                    status = "USER";
+                    status = 1;
                 try
                 {
                     connection = new SqlConnection(Common.StrSQLConnection);
@@ -53,13 +53,13 @@ namespace AIS_shop
                         Users (Surname, Name, Patronymic, [E-mail], Nick, Password, Status) 
                         VALUES (@surname, @name, @patronymic, @email, @nick, @password, @status)";
 
-                    command.Parameters.AddWithValue("surname", textBoxSurname.Text);
-                    command.Parameters.AddWithValue("name", textBoxName.Text);
-                    command.Parameters.AddWithValue("patronymic", textBoxPatronymic.Text);
-                    command.Parameters.AddWithValue("email", textBoxEmail.Text);
-                    command.Parameters.AddWithValue("nick", textBoxNick.Text);
-                    command.Parameters.AddWithValue("password", textBoxPassword.Text);
-                    command.Parameters.AddWithValue("status", status);
+                    command.Parameters.AddWithValue("@surname", textBoxSurname.Text);
+                    command.Parameters.AddWithValue("@name", textBoxName.Text);
+                    command.Parameters.AddWithValue("@patronymic", textBoxPatronymic.Text);
+                    command.Parameters.AddWithValue("@email", textBoxEmail.Text);
+                    command.Parameters.AddWithValue("@nick", textBoxNick.Text);
+                    command.Parameters.AddWithValue("@password", textBoxPassword.Text);
+                    command.Parameters.AddWithValue("@status", status);
 
                     if (await command.ExecuteNonQueryAsync() != 1)
                     {
@@ -70,19 +70,19 @@ namespace AIS_shop
                     else 
                     MessageBox.Show("Пользователь зарегистрирован", "Сообщение",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    SqlCommand query = new SqlCommand($@"SELECT [Id], [Surname], [Name], [Patronymic], [E-mail], [Nick], UPPER([Status]) FROM [Users] WHERE [Nick]='{textBoxNick.Text}'", connection);
+                    SqlCommand query = new SqlCommand($@"SELECT Id, Surname, Name, Patronymic, [E-mail], Nick, Status FROM Users WHERE Nick='{textBoxNick.Text}'", connection);
                     SqlDataReader reader = await query.ExecuteReaderAsync();
                     if (reader.HasRows)
                     {
                         if (await reader.ReadAsync())
                         {
                             UserStatus userStatus = UserStatus.Guest;
-                            switch (reader.GetValue(6)?.ToString())
+                            switch ((int)reader.GetValue(6))
                             {
-                                case "USER":
+                                case 1:
                                     userStatus = UserStatus.Normal;
                                     break;
-                                case "ADMIN":
+                                case 2:
                                     userStatus = UserStatus.Admin;
                                     break;
                                 default:
@@ -158,7 +158,7 @@ namespace AIS_shop
                 regex = new Regex(@"^([a-z0-9]|_){4,}$");
                 if (!regex.IsMatch(textBoxNick.Text))
                 {
-                    MessageBox.Show("Никнейм может состоять только из букв, цифр и нижнего подчеркивания и при этом иметь не менее 4 символов", "Некорректный ввод",
+                    MessageBox.Show("Никнейм может состоять только из латинских букв, цифр и нижнего подчеркивания и при этом иметь не менее 4 символов", "Некорректный ввод",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
@@ -172,7 +172,7 @@ namespace AIS_shop
                 regex = new Regex(@"^([a-z0-9]|_){4,}$");
                 if (!regex.IsMatch(textBoxPassword.Text))
                 {
-                    MessageBox.Show("Пароль может состоять только из букв, цифр и нижнего подчеркивания и при этом иметь не менее 4 символов", "Некорректный ввод",
+                    MessageBox.Show("Пароль может состоять только латинских из букв, цифр и нижнего подчеркивания и при этом иметь не менее 4 символов", "Некорректный ввод",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }

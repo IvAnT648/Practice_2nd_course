@@ -12,6 +12,7 @@ using System.Configuration;
 
 namespace AIS_shop
 {
+    enum OrderStatus { Registered, Perfomed, Completed }
     enum RequiredFilter { NotRequired, CheckedList, FromTo }
     enum UserStatus { Guest, Normal, Admin }
     
@@ -21,15 +22,15 @@ namespace AIS_shop
         public int Product { get; private set; }
         public DateTime Date { get; private set; }
         public int Amount { get; private set; }
-        public string Status { get; private set; }
+        public int Status { get; private set; }
 
-        public OrderInfo(int customer, int product, DateTime date, int amount, string status)
+        public OrderInfo(int customer, int product, DateTime date, int amount, int status)
         {
             Customer = customer;
             Product = product;
             Date = date;
             Amount = amount;
-            Status = status ?? throw new ArgumentNullException(nameof(status));
+            Status = status;
         }
     }
 
@@ -392,7 +393,7 @@ namespace AIS_shop
     {
         public static string StrSQLConnection { get; } = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
 
-        public static List<OrderInfo> ProductsInCart { get; } = new List<OrderInfo>();
+        public static List<int> ProductsInCart { get; } = new List<int>();
 
         public static string NormalizeText(string text)
         {

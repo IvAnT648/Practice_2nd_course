@@ -72,7 +72,7 @@ namespace AIS_shop
                 }
                 // далее, выполняем вход
                 SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
-                SqlCommand query = new SqlCommand(@"SELECT Surname, Name, Patronymic, [E-mail], Nick, UPPER(Status) FROM Users WHERE Id=" + id, connection);
+                SqlCommand query = new SqlCommand(@"SELECT Surname, Name, Patronymic, [E-mail], Nick, Status FROM Users WHERE Id=" + id, connection);
                 try
                 {
                     connection.Open();
@@ -82,12 +82,12 @@ namespace AIS_shop
                         if (await reader.ReadAsync())
                         {
                             UserStatus status = UserStatus.Guest;
-                            switch (reader.GetValue(5)?.ToString())
+                            switch ((int)reader.GetValue(5))
                             {
-                                case "USER":
+                                case 1:
                                     status = UserStatus.Normal;
                                     break;
-                                case "ADMIN":
+                                case 2:
                                     status = UserStatus.Admin;
                                     break;
                                 default:

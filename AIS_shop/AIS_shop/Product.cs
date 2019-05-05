@@ -56,26 +56,16 @@ namespace AIS_shop
         {
             if (id <= 0) return;
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
-            SqlDataReader reader = null;
             try
             {
                 string commandText = @"SELECT [Nick] FROM [Users] WHERE [Id]=" + id;
                 connection.Open();
                 SqlCommand query = new SqlCommand(commandText, connection);
-                reader = query.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    if (reader.Read())
-                    {
-                        richTextBoxReviews.Text += "=== Отзыв от пользователя " + reader.GetString(0);
-                    }
-                }
+                object result = query.ExecuteScalar();
+                if (result != null)
+                    richTextBoxReviews.Text += "=== Отзыв от пользователя " + result.ToString();
                 else
-                {
-                    MessageBox.Show("Не удалось загрузить отзывы о товаре.", "Ошибка загрузки",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    richTextBoxReviews.Text = "*** Отзывы не были загружены ***"; 
-                }
+                    richTextBoxReviews.Text += "=== Отзыв от неизвестного пользователя";
             }
             catch (Exception ex)
             {
@@ -86,7 +76,6 @@ namespace AIS_shop
             {
                 if (connection != null && connection.State != ConnectionState.Closed)
                     connection.Close();
-                if (reader != null && !reader.IsClosed) reader.Close();
             }
         }
 
@@ -198,34 +187,20 @@ namespace AIS_shop
         private async void loadDescription()
         {
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);;
-            SqlDataReader reader = null;
             try
             {
                 await connection.OpenAsync();
                 SqlCommand command = new SqlCommand();
                 command.CommandText = string.Format($@"SELECT Описание FROM Products WHERE [Id]={(int)Row.Cells[0].Value}");
                 command.Connection = connection;
-                reader = await command.ExecuteReaderAsync();
-                if (reader.HasRows)
+                object result = await command.ExecuteScalarAsync();
+                if (result != null)
                 {
-                    if (await reader.ReadAsync())
-                    {
-                        if (reader.GetValue(0).ToString() != "")
-                            richTextBoxDescription.Text = reader.GetValue(0).ToString();
-                        else richTextBoxDescription.Text = "*** Описание отсутствует ***";
-                    }
-                    else
-                    {
-                        MessageBox.Show("Не удалось загрузить описание товара.\n Не удалось прочитать данные из \"SqlDataReader\" ", "Ошибка загрузки",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        richTextBoxDescription.Text = "*** Описание не было загружено ***";
-                    }
+                    richTextBoxDescription.Text = result.ToString();
                 }
                 else
                 {
-                    MessageBox.Show("Не удалось загрузить описание товара", "Ошибка загрузки", 
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    richTextBoxDescription.Text = "*** Описание не было загружено ***";
+                    richTextBoxDescription.Text = "*** Описание отсутствует ***";
                 }
             }
             catch (Exception ex)
@@ -237,7 +212,6 @@ namespace AIS_shop
             {
                 if (connection != null && connection.State != ConnectionState.Closed)
                     connection.Close();
-                if (reader != null && !reader.IsClosed) reader.Close();
             }
         }
 
@@ -295,7 +269,7 @@ namespace AIS_shop
 
         private async void buttonAddToCart_Click(object sender, EventArgs e)
         {
-            if (Common.ProductsInCart.Find(x => x.Product == product_id) != null)
+            if (Common.ProductsInCart.Find(x => x == product_id) > 0)
             {
                 MessageBox.Show("Товар уже в корзине", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -309,7 +283,7 @@ namespace AIS_shop
                 if (reader.HasRows)
                     if (await reader.ReadAsync())
                     {
-                        Common.ProductsInCart.Add(new OrderInfo(user.Id, product_id, DateTime.Now, int.Parse(reader.GetValue(14).ToString()), "In process"));
+                        Common.ProductsInCart.Add(product_id);
                         MessageBox.Show("Товар успешно добавлен в корзину", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
             }

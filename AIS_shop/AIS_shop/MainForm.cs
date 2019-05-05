@@ -1,9 +1,12 @@
-﻿using System;
+﻿//using MaterialSkin.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Drawing.Printing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -29,15 +32,14 @@ namespace AIS_shop
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            administrationToolStripMenuItem.Visible = false;
+            buttonFilters.Enabled = false;
             Show();
             Welcome welcome = new Welcome();
             welcome.ShowDialog();
             UserStateChange();
-            dataGridView.RowHeadersVisible = false;
-            buttonFilters.Enabled = false;
-            administrationToolStripMenuItem.Visible = true;
             QueryToUpdate = @"SELECT * FROM Products";
-            updateDataInGridView();
+            UpdateDataGridView();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -49,7 +51,7 @@ namespace AIS_shop
             }
         }
 
-        private async void updateDataInGridView()
+        private async void UpdateDataGridView()
         {
             Cursor = Cursors.WaitCursor;
             progressBar.Value = 0;
@@ -63,13 +65,15 @@ namespace AIS_shop
             string AndInStock = @" AND Склад>0";
             string Sort = @" ORDER BY Производитель";
             progressBar.Value = 10;
-            if (QueryToUpdate.Contains("ORDER BY")) QueryToUpdate = QueryToUpdate.Replace(Sort, "");
+            if (QueryToUpdate.Contains(Sort)) QueryToUpdate = QueryToUpdate.Replace(Sort, "");
             if (radioButtonStock.Checked)
             {
                 // показать товары в наличии
                 if (!QueryToUpdate.Contains("WHERE"))
                     QueryToUpdate += WhereInStock;
-                else QueryToUpdate += AndInStock;
+                else 
+                if (!QueryToUpdate.Contains("Склад>0"))
+                    QueryToUpdate += AndInStock;
             }
             else 
             if (radioButtonAllProduct.Checked)
@@ -77,27 +81,25 @@ namespace AIS_shop
                 // показать все товары
                 if (QueryToUpdate.Contains(WhereInStock))
                     QueryToUpdate = QueryToUpdate.Replace(WhereInStock, "");
-                else
                 if (QueryToUpdate.Contains(AndInStock))
                     QueryToUpdate = QueryToUpdate.Replace(AndInStock, "");
             }
 
             // сортировка
             if (!QueryToUpdate.Contains("ORDER BY")) QueryToUpdate += Sort;
-            progressBar.Value = 25;
+            progressBar.Value = 30;
             
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             try
             {
+                progressBar.Value = 35;
                 await connection.OpenAsync();
                 progressBar.Value = 60;
-                Thread.Sleep(1000);
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(QueryToUpdate, connection);
                 DataSet dataSet = new DataSet();
                 sqlAdapter.Fill(dataSet);
 
                 progressBar.Value = 95;
-                Thread.Sleep(1000);
                 dataGridView.DataSource = dataSet.Tables[0];
                 dataGridView.Columns[0].Visible = false;
                 dataGridView.Columns[15].Visible = false;
@@ -137,7 +139,7 @@ namespace AIS_shop
             dataGridView.DataSource = null;
             // загрузка данных из БД
             if (!string.IsNullOrWhiteSpace(QueryToUpdate))
-                updateDataInGridView();
+                UpdateDataGridView();
         }
 
         private void buttonFilters_Click(object sender, EventArgs e)
@@ -146,7 +148,7 @@ namespace AIS_shop
             Filters filters = new Filters();
             filters.ShowDialog();
             if (!string.IsNullOrWhiteSpace(QueryToUpdate))
-                updateDataInGridView();
+                UpdateDataGridView();
         }
 
         private void buttonCart_Click(object sender, EventArgs e)
@@ -179,6 +181,7 @@ namespace AIS_shop
                 textBoxUser.Visible = true;
                 if (user.Status == UserStatus.Admin)
                     administrationToolStripMenuItem.Visible = true;
+                else administrationToolStripMenuItem.Visible = false;
                 loginToolStripMenuItem.Visible = false;
                 registerToolStripMenuItem.Visible = false;
                 goToPersonalAreaToolStripMenuItem.Visible = true;
@@ -205,8 +208,12 @@ namespace AIS_shop
 
         private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            User.Logout();
-            UserStateChange();
+            if (user.Status != UserStatus.Guest)
+            {
+                User.Logout();
+                Common.ProductsInCart.Clear();
+                UserStateChange();
+            }
         }
 
         private void loginToolStripMenuItem_Click(object sender, EventArgs e)
@@ -225,9 +232,15 @@ namespace AIS_shop
 
         private void productManageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ProductManagement change = new ProductManagement();
-            change.ShowDialog();
-            updateDataInGridView();
+            if (user.Status == UserStatus.Admin)
+            {
+                ProductManagement change = new ProductManagement();
+                change.ShowDialog();
+                UpdateDataGridView();
+            }
+            else MessageBox.Show("Недостаточно полномочий для завершения этого действия.", "Некорректное действие!",
+                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            
         }
 
         private void registerNewUserToolStripMenuItem_Click(object sender, EventArgs e)
@@ -239,26 +252,187 @@ namespace AIS_shop
 
         private void buttonExportToExcel_Click(object sender, EventArgs e)
         {
-            ExcelApplication ExcelApp = new ExcelApplication();
-            ExcelApp.Application.Workbooks.Add(Type.Missing);
-            ExcelApp.Columns.ColumnWidth = 15;
-
-            ExcelApp.Cells[1, 1] = "№п/п";
-            ExcelApp.Cells[1, 2] = "Число";
-            ExcelApp.Cells[1, 3] = "Название";
-            ExcelApp.Cells[1, 4] = "Количество";
-            ExcelApp.Cells[1, 5] = "Цена ОПТ";
-            ExcelApp.Cells[1, 6] = "Цена Розница";
-            ExcelApp.Cells[1, 7] = "Сумма";
-
-            for (int i = 0; i < dataGridView.ColumnCount; i++)
+            if (dataGridView.RowCount == 0)
             {
-                for (int j = 0; j < dataGridView.RowCount; j++)
-                {
-                    ExcelApp.Cells[j + 2, i + 1] = (dataGridView[i, j].Value).ToString();
-                }
+                MessageBox.Show("Список товаров пуст!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            ExcelApp.Visible = true;
+
+            if (saveFile.ShowDialog() == DialogResult.OK)
+            {
+                if (saveFile.Filter == "CSV files(*.csv)|*.csv")
+                {
+                    string fileInStr = null;
+
+                    for (int i = 0; i < dataGridView.RowCount; i++)
+                    {
+                        for (int j = 0; j < dataGridView.Columns.Count; j++)
+                            fileInStr += dataGridView[j, i].Value.ToString() + "\t";
+                        fileInStr += "\r\n";
+                    }
+                    StreamWriter streamWriter = new StreamWriter(saveFile.FileName, false, Encoding.GetEncoding("Windows-1251"));
+                    streamWriter.Write(fileInStr);
+                    streamWriter.Close();
+                }
+                else
+                {
+                    ExcelApplication ExcelApp = new ExcelApplication();
+
+                    Excel.Workbook workbook = ExcelApp.Workbooks.Add();
+                    Excel.Worksheet worksheet = workbook.ActiveSheet;
+                    ExcelApp.Columns.ColumnWidth = 20;
+
+                    ExcelApp.Cells[1, 1] = "Id товара";
+                    ExcelApp.Cells[1, 2] = "Тип ПК";
+                    ExcelApp.Cells[1, 3] = "Производитель";
+                    ExcelApp.Cells[1, 4] = "Модель";
+                    ExcelApp.Cells[1, 5] = "Процессор";
+                    ExcelApp.Cells[1, 6] = "Кол-во ядер";
+                    ExcelApp.Cells[1, 7] = "Видеокарта";
+                    ExcelApp.Cells[1, 8] = "Объем RAM";
+                    ExcelApp.Cells[1, 9] = "Тип RAM";
+                    ExcelApp.Cells[1, 10] = "Объем HDD";
+                    ExcelApp.Cells[1, 11] = "Объем SSD";
+                    ExcelApp.Cells[1, 12] = "Операционная система";
+                    ExcelApp.Cells[1, 13] = "Блок питания";
+                    ExcelApp.Cells[1, 14] = "Кол-во на складе";
+                    ExcelApp.Cells[1, 15] = "Цена";
+
+                    for (int i = 0; i < dataGridView.Columns.Count - 2; i++)
+                    {
+                        for (int j = 0; j < dataGridView.Rows.Count; j++)
+                        {
+                            ExcelApp.Cells[j + 2, i + 1] = dataGridView[i, j].Value.ToString();
+                        }
+                    }
+
+                    ExcelApp.AlertBeforeOverwriting = false;
+                    ExcelApp.DisplayAlerts = false;
+                    workbook.SaveAs(saveFile.FileName);
+                    ExcelApp.Quit();
+                }
+                saveFile.FileName = "Products_DET_Shop.xlsx";
+            }
+        }
+
+        private void buttonPrint_Click(object sender, EventArgs e)
+        {
+            if (dataGridView.RowCount == 0)
+            {
+                MessageBox.Show("Список товаров пуст!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            Document = new PrintDocument();
+            
+            Document.PrintPage += new PrintPageEventHandler(printDocument_PrintPage);
+
+            printPreviewDialog = new PrintPreviewDialog
+            {
+                Width = 1200,
+                Height = 1200,
+                Document = Document
+            };
+            if (printDialog.ShowDialog() == DialogResult.OK)
+            {
+                Document.PrinterSettings = printDialog.PrinterSettings;
+                Document.DefaultPageSettings.Landscape = true;
+                printPreviewDialog.ShowDialog();
+            }
+        }
+
+        private void printDocument_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            int x = 30;
+            int y = 30;
+            int cell_height = 0;
+
+            int colCount = dataGridView.ColumnCount-2;
+            int rowCount = dataGridView.RowCount;
+
+            Font font = new Font("Times New Roman", 8, FontStyle.Regular, GraphicsUnit.Point);
+
+            int[] widthC = new int[colCount];
+
+            int current_col = 0;
+            int current_row = 0;
+
+            while (current_col < colCount)
+            {
+                if (g.MeasureString(dataGridView.Columns[current_col].HeaderText.ToString(), font).Width > widthC[current_col])
+                {
+                    widthC[current_col] = (int)g.MeasureString(dataGridView.Columns[current_col].HeaderText.ToString(), font).Width + 20;
+                }
+                current_col++;
+            }
+
+            while (current_row < rowCount)
+            {
+                while (current_col < colCount)
+                {
+                    if (g.MeasureString(dataGridView[current_col, current_row].Value.ToString(), font).Width > widthC[current_col])
+                    {
+                        widthC[current_col] = (int)g.MeasureString(dataGridView[current_col, current_row].Value.ToString(), font).Width + 20;
+                    }
+                    current_col++;
+                }
+                current_col = 0;
+                current_row++;
+            }
+
+            current_col = 0;
+            current_row = 0;
+
+            string value = "";
+
+            int width = widthC[current_col];
+            int height = dataGridView[current_col, current_row].Size.Height;
+
+            Rectangle cell_border;
+            SolidBrush brush = new SolidBrush(Color.Black);
+
+
+            while (current_col < colCount)
+            {
+                width = widthC[current_col];
+                cell_height = dataGridView[current_col, current_row].Size.Height;
+                cell_border = new Rectangle(x, y, width, height);
+                value = dataGridView.Columns[current_col].HeaderText.ToString();
+                g.DrawRectangle(new Pen(Color.Black), cell_border);
+                g.DrawString(value, font, brush, x, y);
+                x += widthC[current_col];
+                current_col++;
+            }
+            while (current_row < rowCount + 1)
+            {
+                while (current_col < colCount)
+                {
+                    width = widthC[current_col];
+                    cell_height = dataGridView[current_col, current_row - 1].Size.Height;
+                    cell_border = new Rectangle(x, y, width, height);
+                    value = dataGridView[current_col, current_row - 1].Value.ToString();
+
+                    g.DrawRectangle(new Pen(Color.Black), cell_border);
+                    g.DrawString(value, font, brush, x, y);
+                    x += widthC[current_col];
+                    current_col++;
+                }
+                current_col = 0;
+                current_row++;
+                x = 30;
+                y += cell_height;
+            }
+        }
+
+        private void orderManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (user.Status == UserStatus.Admin)
+            {
+                Orders orders = new Orders();
+                orders.ShowDialog();
+            }
+            else MessageBox.Show("Недостаточно полномочий для завершения этого действия.", "Некорректное действие!", 
+                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
     }
 }

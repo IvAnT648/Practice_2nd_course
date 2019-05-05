@@ -32,6 +32,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.buttonCheckout = new System.Windows.Forms.Button();
             this.dgv = new System.Windows.Forms.DataGridView();
+            this.buttonDeleteFromCart = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -77,11 +78,22 @@
             this.dgv.Size = new System.Drawing.Size(616, 250);
             this.dgv.TabIndex = 8;
             // 
+            // buttonDeleteFromCart
+            // 
+            this.buttonDeleteFromCart.Location = new System.Drawing.Point(386, 342);
+            this.buttonDeleteFromCart.Name = "buttonDeleteFromCart";
+            this.buttonDeleteFromCart.Size = new System.Drawing.Size(114, 42);
+            this.buttonDeleteFromCart.TabIndex = 9;
+            this.buttonDeleteFromCart.Text = "Удалить из корзины";
+            this.buttonDeleteFromCart.UseVisualStyleBackColor = true;
+            this.buttonDeleteFromCart.Click += new System.EventHandler(this.buttonDeleteFromCart_Click);
+            // 
             // Cart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 396);
+            this.Controls.Add(this.buttonDeleteFromCart);
             this.Controls.Add(this.dgv);
             this.Controls.Add(this.buttonCheckout);
             this.Controls.Add(this.label1);
@@ -94,7 +106,6 @@
             this.Name = "Cart";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DETShop - Корзина";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Cart_FormClosing);
             this.Load += new System.EventHandler(this.Cart_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.ResumeLayout(false);
@@ -106,5 +117,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonCheckout;
         private System.Windows.Forms.DataGridView dgv;
+        private System.Windows.Forms.Button buttonDeleteFromCart;
     }
 }

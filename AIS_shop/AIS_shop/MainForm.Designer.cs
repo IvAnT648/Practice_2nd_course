@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,17 +45,24 @@
             this.registerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.administrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.productManageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.orderManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registerNewUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.buttonFilters = new System.Windows.Forms.Button();
-            this.bRefresh = new System.Windows.Forms.Button();
-            this.buttonCart = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.radioButtonStock = new System.Windows.Forms.RadioButton();
             this.radioButtonAllProduct = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.textBoxUser = new System.Windows.Forms.TextBox();
+            this.saveFile = new System.Windows.Forms.SaveFileDialog();
+            this.Document = new System.Drawing.Printing.PrintDocument();
+            this.printDialog = new System.Windows.Forms.PrintDialog();
+            this.buttonPrint = new System.Windows.Forms.Button();
+            this.buttonExportToExcel = new System.Windows.Forms.Button();
+            this.buttonCart = new System.Windows.Forms.Button();
+            this.bRefresh = new System.Windows.Forms.Button();
+            this.printPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.panel1.SuspendLayout();
@@ -87,14 +94,14 @@
             // aboutProgramToolStripMenuItem
             // 
             this.aboutProgramToolStripMenuItem.Name = "aboutProgramToolStripMenuItem";
-            this.aboutProgramToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutProgramToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.aboutProgramToolStripMenuItem.Text = "О программе";
             this.aboutProgramToolStripMenuItem.Click += new System.EventHandler(this.aboutProgramToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.exitToolStripMenuItem.Text = "Выход";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -141,6 +148,7 @@
             // 
             this.administrationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.productManageToolStripMenuItem,
+            this.orderManagerToolStripMenuItem,
             this.registerNewUserToolStripMenuItem});
             this.administrationToolStripMenuItem.Name = "administrationToolStripMenuItem";
             this.administrationToolStripMenuItem.Size = new System.Drawing.Size(134, 20);
@@ -152,6 +160,13 @@
             this.productManageToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this.productManageToolStripMenuItem.Text = "Управление товарами";
             this.productManageToolStripMenuItem.Click += new System.EventHandler(this.productManageToolStripMenuItem_Click);
+            // 
+            // orderManagerToolStripMenuItem
+            // 
+            this.orderManagerToolStripMenuItem.Name = "orderManagerToolStripMenuItem";
+            this.orderManagerToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
+            this.orderManagerToolStripMenuItem.Text = "Управление заказами";
+            this.orderManagerToolStripMenuItem.Click += new System.EventHandler(this.orderManagerToolStripMenuItem_Click);
             // 
             // registerNewUserToolStripMenuItem
             // 
@@ -165,48 +180,49 @@
             this.dataGridView.AllowUserToAddRows = false;
             this.dataGridView.AllowUserToDeleteRows = false;
             this.dataGridView.AllowUserToResizeRows = false;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle16.NullValue = "(отсутствует)";
-            this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle6.NullValue = "(отсутствует)";
+            this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle17.NullValue = "(нет)";
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.NullValue = "(нет)";
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle18.NullValue = "(нет)";
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.NullValue = "(нет)";
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle8;
             this.dataGridView.Location = new System.Drawing.Point(0, 173);
             this.dataGridView.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle19.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle19.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle19.NullValue = "(нет)";
-            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle19;
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle20.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle20.NullValue = "(нет)";
-            this.dataGridView.RowsDefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.NullValue = "(нет)";
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            this.dataGridView.RowHeadersVisible = false;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle10.NullValue = "(нет)";
+            this.dataGridView.RowsDefaultCellStyle = dataGridViewCellStyle10;
             this.dataGridView.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
             this.dataGridView.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.dataGridView.RowTemplate.DefaultCellStyle.NullValue = "(нет)";
@@ -228,29 +244,6 @@
             this.buttonFilters.UseVisualStyleBackColor = true;
             this.buttonFilters.Click += new System.EventHandler(this.buttonFilters_Click);
             // 
-            // bRefresh
-            // 
-            this.bRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bRefresh.Image = ((System.Drawing.Image)(resources.GetObject("bRefresh.Image")));
-            this.bRefresh.Location = new System.Drawing.Point(857, 113);
-            this.bRefresh.Name = "bRefresh";
-            this.bRefresh.Size = new System.Drawing.Size(43, 45);
-            this.bRefresh.TabIndex = 10;
-            this.bRefresh.UseVisualStyleBackColor = true;
-            this.bRefresh.Click += new System.EventHandler(this.bRefresh_Click);
-            // 
-            // buttonCart
-            // 
-            this.buttonCart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCart.Image = ((System.Drawing.Image)(resources.GetObject("buttonCart.Image")));
-            this.buttonCart.Location = new System.Drawing.Point(800, 113);
-            this.buttonCart.Name = "buttonCart";
-            this.buttonCart.Size = new System.Drawing.Size(51, 45);
-            this.buttonCart.TabIndex = 11;
-            this.buttonCart.UseVisualStyleBackColor = true;
-            this.buttonCart.Click += new System.EventHandler(this.buttonCart_Click);
-            // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -264,6 +257,7 @@
             // radioButtonStock
             // 
             this.radioButtonStock.AutoSize = true;
+            this.radioButtonStock.Cursor = System.Windows.Forms.Cursors.Hand;
             this.radioButtonStock.Location = new System.Drawing.Point(5, 31);
             this.radioButtonStock.Name = "radioButtonStock";
             this.radioButtonStock.Size = new System.Drawing.Size(134, 19);
@@ -275,6 +269,7 @@
             // 
             this.radioButtonAllProduct.AutoSize = true;
             this.radioButtonAllProduct.Checked = true;
+            this.radioButtonAllProduct.Cursor = System.Windows.Forms.Cursors.Hand;
             this.radioButtonAllProduct.Location = new System.Drawing.Point(5, 5);
             this.radioButtonAllProduct.Name = "radioButtonAllProduct";
             this.radioButtonAllProduct.Size = new System.Drawing.Size(92, 19);
@@ -316,12 +311,85 @@
             this.textBoxUser.Size = new System.Drawing.Size(176, 23);
             this.textBoxUser.TabIndex = 15;
             // 
+            // saveFile
+            // 
+            this.saveFile.FileName = "Products_DET_Shop.xlsx";
+            // 
+            // Document
+            // 
+            this.Document.DocumentName = "Products";
+            this.Document.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument_PrintPage);
+            // 
+            // printDialog
+            // 
+            this.printDialog.UseEXDialog = true;
+            // 
+            // buttonPrint
+            // 
+            this.buttonPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonPrint.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonPrint.Image = ((System.Drawing.Image)(resources.GetObject("buttonPrint.Image")));
+            this.buttonPrint.Location = new System.Drawing.Point(678, 113);
+            this.buttonPrint.Name = "buttonPrint";
+            this.buttonPrint.Size = new System.Drawing.Size(51, 45);
+            this.buttonPrint.TabIndex = 17;
+            this.buttonPrint.UseVisualStyleBackColor = true;
+            this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
+            // 
+            // buttonExportToExcel
+            // 
+            this.buttonExportToExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonExportToExcel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonExportToExcel.Image = ((System.Drawing.Image)(resources.GetObject("buttonExportToExcel.Image")));
+            this.buttonExportToExcel.Location = new System.Drawing.Point(735, 113);
+            this.buttonExportToExcel.Name = "buttonExportToExcel";
+            this.buttonExportToExcel.Size = new System.Drawing.Size(51, 45);
+            this.buttonExportToExcel.TabIndex = 16;
+            this.buttonExportToExcel.UseVisualStyleBackColor = true;
+            this.buttonExportToExcel.Click += new System.EventHandler(this.buttonExportToExcel_Click);
+            // 
+            // buttonCart
+            // 
+            this.buttonCart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCart.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonCart.Image = ((System.Drawing.Image)(resources.GetObject("buttonCart.Image")));
+            this.buttonCart.Location = new System.Drawing.Point(792, 113);
+            this.buttonCart.Name = "buttonCart";
+            this.buttonCart.Size = new System.Drawing.Size(51, 45);
+            this.buttonCart.TabIndex = 11;
+            this.buttonCart.UseVisualStyleBackColor = true;
+            this.buttonCart.Click += new System.EventHandler(this.buttonCart_Click);
+            // 
+            // bRefresh
+            // 
+            this.bRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.bRefresh.Image = ((System.Drawing.Image)(resources.GetObject("bRefresh.Image")));
+            this.bRefresh.Location = new System.Drawing.Point(849, 113);
+            this.bRefresh.Name = "bRefresh";
+            this.bRefresh.Size = new System.Drawing.Size(51, 45);
+            this.bRefresh.TabIndex = 10;
+            this.bRefresh.UseVisualStyleBackColor = true;
+            this.bRefresh.Click += new System.EventHandler(this.bRefresh_Click);
+            // 
+            // printPreviewDialog
+            // 
+            this.printPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
+            this.printPreviewDialog.Enabled = true;
+            this.printPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog.Icon")));
+            this.printPreviewDialog.Name = "printPreviewDialog";
+            this.printPreviewDialog.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1033, 622);
+            this.Controls.Add(this.buttonPrint);
+            this.Controls.Add(this.buttonExportToExcel);
             this.Controls.Add(this.textBoxUser);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.label1);
@@ -375,5 +443,12 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.TextBox textBoxUser;
+        private System.Windows.Forms.Button buttonExportToExcel;
+        private System.Windows.Forms.SaveFileDialog saveFile;
+        private System.Drawing.Printing.PrintDocument Document;
+        private System.Windows.Forms.Button buttonPrint;
+        private System.Windows.Forms.PrintDialog printDialog;
+        private System.Windows.Forms.ToolStripMenuItem orderManagerToolStripMenuItem;
+        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog;
     }
 }

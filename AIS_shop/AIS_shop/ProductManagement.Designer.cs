@@ -36,13 +36,13 @@
             this.bAdd = new System.Windows.Forms.Button();
             this.bDel = new System.Windows.Forms.Button();
             this.groupBox = new System.Windows.Forms.GroupBox();
+            this.dataGridView = new System.Windows.Forms.DataGridView();
             this.bUpdate = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.dataGridView = new System.Windows.Forms.DataGridView();
             this.groupBox.SuspendLayout();
-            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // bAdd
@@ -87,43 +87,6 @@
             this.groupBox.TabStop = false;
             this.groupBox.Text = "Выберите товар из списка:";
             // 
-            // bUpdate
-            // 
-            this.bUpdate.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.bUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bUpdate.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bUpdate.Location = new System.Drawing.Point(244, 20);
-            this.bUpdate.Name = "bUpdate";
-            this.bUpdate.Size = new System.Drawing.Size(135, 53);
-            this.bUpdate.TabIndex = 17;
-            this.bUpdate.Text = "Изменить товар";
-            this.bUpdate.UseVisualStyleBackColor = true;
-            this.bUpdate.Click += new System.EventHandler(this.bUpdate_Click);
-            // 
-            // label1
-            // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Cambria", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(336, 30);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(281, 32);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "Управление товаром";
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.bUpdate);
-            this.panel1.Controls.Add(this.bDel);
-            this.panel1.Controls.Add(this.bAdd);
-            this.panel1.Location = new System.Drawing.Point(417, 555);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(551, 89);
-            this.panel1.TabIndex = 21;
-            // 
             // dataGridView
             // 
             this.dataGridView.AllowUserToAddRows = false;
@@ -138,7 +101,7 @@
             this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle2.NullValue = "(нет)";
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
@@ -147,7 +110,7 @@
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle3.NullValue = "(нет)";
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
@@ -175,7 +138,44 @@
             this.dataGridView.Size = new System.Drawing.Size(942, 385);
             this.dataGridView.TabIndex = 1;
             // 
-            // ProductsManagement
+            // bUpdate
+            // 
+            this.bUpdate.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.bUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.bUpdate.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bUpdate.Location = new System.Drawing.Point(244, 20);
+            this.bUpdate.Name = "bUpdate";
+            this.bUpdate.Size = new System.Drawing.Size(135, 53);
+            this.bUpdate.TabIndex = 17;
+            this.bUpdate.Text = "Изменить товар";
+            this.bUpdate.UseVisualStyleBackColor = true;
+            this.bUpdate.Click += new System.EventHandler(this.bUpdate_Click);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Cambria", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(349, 21);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(281, 32);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Управление товаром";
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.bUpdate);
+            this.panel1.Controls.Add(this.bDel);
+            this.panel1.Controls.Add(this.bAdd);
+            this.panel1.Location = new System.Drawing.Point(417, 555);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(551, 89);
+            this.panel1.TabIndex = 21;
+            // 
+            // ProductManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -188,13 +188,13 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimumSize = new System.Drawing.Size(794, 516);
-            this.Name = "ProductsManagement";
+            this.Name = "ProductManagement";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DETShop - Измение информации о товарах";
             this.Load += new System.EventHandler(this.ProductManager_Load);
             this.groupBox.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -17,14 +17,19 @@ namespace AIS_shop
         {
             InitializeComponent();
         }
-
-        private void Cart_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            
-        }
         
         private async void buttonCheckout_Click(object sender, EventArgs e)
         {
+            if (Common.ProductsInCart.Count == 0)
+            {
+                MessageBox.Show("В корзине нет товаров", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (dgv.SelectedRows.Count == 0) return;
+
+            if (MessageBox.Show("Вы уверены что хотите оформить этот заказ?", "Подтверждение действия", 
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+
             if (User.GetUser().Status == UserStatus.Guest)
             {
                 MessageBox.Show("Вы не вошли в систему. Оформлять заказы могут только зарегистрированные пользователи.", "Некорректное действие",
@@ -41,13 +46,11 @@ namespace AIS_shop
             var id = dgv.SelectedCells[0].Value;
             int cost = (int)dgv.SelectedCells[2].Value;
 
-
             string text = $@"INSERT INTO Orders (Customer_id, Product_id, Date, Amount, Status) 
-                        VALUES ({User.GetUser().Id},{id},@date,{cost},@status)";
+                        VALUES ({User.GetUser().Id},{id},@date,{cost},0)";
             var connection = new SqlConnection(Common.StrSQLConnection);
             var query = new SqlCommand(text, connection);
-            query.Parameters.AddWithValue("date", DateTime.Now.ToString());
-            query.Parameters.AddWithValue("status", @"Обработка");
+            query.Parameters.AddWithValue("@date", DateTime.Now.ToString());
             try
             {
                 await connection.OpenAsync();
@@ -81,11 +84,6 @@ namespace AIS_shop
             else Close();
         }
 
-        private void dgv_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private async void loadData()
         {
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
@@ -99,7 +97,7 @@ namespace AIS_shop
                 foreach (var it in Common.ProductsInCart)
                 {
                     if (count != 0) query.CommandText += @" OR";
-                    query.CommandText += $@" Id={it.Product}";
+                    query.CommandText += $@" Id={it}";
                     count++;
                 }
                 adapter.Fill(ds);
@@ -115,6 +113,28 @@ namespace AIS_shop
             {
                 if (connection != null && connection.State != ConnectionState.Closed)
                     connection.Close();
+            }
+        }
+
+        private void buttonDeleteFromCart_Click(object sender, EventArgs e)
+        {
+            if (Common.ProductsInCart.Count == 0)
+            {
+                MessageBox.Show("В корзине нет товаров", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (dgv.SelectedRows.Count == 0) return;
+            if (MessageBox.Show("Вы уверены что хотите удалить товар из корзины?", "Подтверждение действия",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+
+            int id = (int)dgv.SelectedCells[0].Value;
+
+            if (Common.ProductsInCart.Count != 0)
+            {
+                Common.ProductsInCart.Remove(
+                    Common.ProductsInCart.Find(f => f == id));
+                MessageBox.Show("Товар удален из корзины", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                dgv.Rows.Remove(dgv.SelectedRows[0]);
             }
         }
     }
