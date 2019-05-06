@@ -71,7 +71,7 @@
             this.tabControl.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(798, 216);
+            this.tabControl.Size = new System.Drawing.Size(830, 319);
             this.tabControl.TabIndex = 3;
             // 
             // tabPageDescription
@@ -81,36 +81,38 @@
             this.tabPageDescription.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageDescription.Name = "tabPageDescription";
             this.tabPageDescription.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPageDescription.Size = new System.Drawing.Size(790, 188);
+            this.tabPageDescription.Size = new System.Drawing.Size(822, 291);
             this.tabPageDescription.TabIndex = 0;
             this.tabPageDescription.Text = "Описание";
             this.tabPageDescription.UseVisualStyleBackColor = true;
             // 
             // richTextBoxDescription
             // 
+            this.richTextBoxDescription.BackColor = System.Drawing.Color.BurlyWood;
             this.richTextBoxDescription.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBoxDescription.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.richTextBoxDescription.Location = new System.Drawing.Point(2, 2);
             this.richTextBoxDescription.Name = "richTextBoxDescription";
             this.richTextBoxDescription.ReadOnly = true;
-            this.richTextBoxDescription.Size = new System.Drawing.Size(786, 184);
+            this.richTextBoxDescription.Size = new System.Drawing.Size(818, 287);
             this.richTextBoxDescription.TabIndex = 0;
             this.richTextBoxDescription.Text = "";
             // 
             // tabPageCharacteristic
             // 
             this.tabPageCharacteristic.Controls.Add(this.listBoxChars);
-            this.tabPageCharacteristic.Location = new System.Drawing.Point(4, 22);
+            this.tabPageCharacteristic.Location = new System.Drawing.Point(4, 24);
             this.tabPageCharacteristic.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageCharacteristic.Name = "tabPageCharacteristic";
             this.tabPageCharacteristic.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPageCharacteristic.Size = new System.Drawing.Size(1082, 394);
+            this.tabPageCharacteristic.Size = new System.Drawing.Size(790, 188);
             this.tabPageCharacteristic.TabIndex = 1;
             this.tabPageCharacteristic.Text = "Характеристики";
             this.tabPageCharacteristic.UseVisualStyleBackColor = true;
             // 
             // listBoxChars
             // 
+            this.listBoxChars.BackColor = System.Drawing.Color.BurlyWood;
             this.listBoxChars.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBoxChars.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBoxChars.FormattingEnabled = true;
@@ -118,28 +120,29 @@
             this.listBoxChars.Location = new System.Drawing.Point(2, 2);
             this.listBoxChars.Name = "listBoxChars";
             this.listBoxChars.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.listBoxChars.Size = new System.Drawing.Size(1078, 390);
+            this.listBoxChars.Size = new System.Drawing.Size(786, 184);
             this.listBoxChars.TabIndex = 0;
             // 
             // tabPageReviews
             // 
             this.tabPageReviews.Controls.Add(this.richTextBoxReviews);
-            this.tabPageReviews.Location = new System.Drawing.Point(4, 22);
+            this.tabPageReviews.Location = new System.Drawing.Point(4, 24);
             this.tabPageReviews.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageReviews.Name = "tabPageReviews";
-            this.tabPageReviews.Size = new System.Drawing.Size(1082, 394);
+            this.tabPageReviews.Size = new System.Drawing.Size(822, 291);
             this.tabPageReviews.TabIndex = 2;
             this.tabPageReviews.Text = "Отзывы";
             this.tabPageReviews.UseVisualStyleBackColor = true;
             // 
             // richTextBoxReviews
             // 
+            this.richTextBoxReviews.BackColor = System.Drawing.Color.BurlyWood;
             this.richTextBoxReviews.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBoxReviews.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.richTextBoxReviews.Location = new System.Drawing.Point(0, 0);
             this.richTextBoxReviews.Name = "richTextBoxReviews";
             this.richTextBoxReviews.ReadOnly = true;
-            this.richTextBoxReviews.Size = new System.Drawing.Size(1082, 394);
+            this.richTextBoxReviews.Size = new System.Drawing.Size(822, 291);
             this.richTextBoxReviews.TabIndex = 0;
             this.richTextBoxReviews.Text = "";
             // 
@@ -214,7 +217,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(798, 559);
+            this.BackColor = System.Drawing.SystemColors.Info;
+            this.ClientSize = new System.Drawing.Size(830, 662);
             this.Controls.Add(this.buttonAddReview);
             this.Controls.Add(this.labelInStock);
             this.Controls.Add(this.lableProductName);
@@ -226,7 +230,7 @@
             this.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.MinimumSize = new System.Drawing.Size(814, 479);
+            this.MinimumSize = new System.Drawing.Size(846, 701);
             this.Name = "Product";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DETShop - Информация о товаре";

@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AIS_shop
 {
     public partial class Orders : Form
     {
-        int[] statuses = null;
         private SqlConnection Connection { set; get; } = null;
         private SqlCommand Query { set; get; } = null;
         private SqlDataAdapter Adapter { set; get; } = null;
@@ -27,7 +20,7 @@ namespace AIS_shop
 
         private void Orders_Load(object sender, EventArgs e)
         {
-            updateDataGridView(@"SELECT * FROM Orders");
+            UpdateDataGridView(@"SELECT * FROM Orders");
 
             dataGridView.Columns["Id"].HeaderText = "Номер заказа";
             dataGridView.Columns["Id"].ReadOnly = true;
@@ -40,14 +33,6 @@ namespace AIS_shop
             dataGridView.Columns["Amount"].HeaderText = "Сумма заказа";
             dataGridView.Columns["Amount"].ReadOnly = true;
             dataGridView.Columns["Status"].HeaderText = "Статус заказа";
-
-            statuses = new int[dataGridView.Rows.Count];
-            int i = 0;
-            foreach (DataGridViewRow row in dataGridView.Rows)
-            {
-                statuses[i] = (int)row.Cells[5].Value;
-                i++;
-            }
         }
 
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -55,15 +40,15 @@ namespace AIS_shop
             switch (comboBox.SelectedIndex)
             {
                 case 0:
-                    updateDataGridView(@"SELECT * FROM Orders");
+                    UpdateDataGridView(@"SELECT * FROM Orders");
                     break;
                 case 1:
-                    updateDataGridView(@"SELECT * FROM Orders WHERE Status<2");
+                    UpdateDataGridView(@"SELECT * FROM Orders WHERE Status<2");
                     break;
             }
         }
 
-        private async void updateDataGridView(string command_text)
+        private async void UpdateDataGridView(string command_text)
         {
             Connection = new SqlConnection(Common.StrSQLConnection);
             Query = new SqlCommand(command_text, Connection);
@@ -91,6 +76,7 @@ namespace AIS_shop
         private void buttonApplyChanges_Click(object sender, EventArgs e)
         {
             if (Adapter == null) return;
+            if (MessageBox.Show("Вы уверены, что хотите применить изменения?", "Подтверждение действия", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
             Connection = new SqlConnection(Common.StrSQLConnection);
             try
             {

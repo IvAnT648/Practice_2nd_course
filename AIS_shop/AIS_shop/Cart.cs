@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AIS_shop
@@ -43,7 +37,7 @@ namespace AIS_shop
                 return;
             }
             
-            var id = dgv.SelectedCells[0].Value;
+            int id = (int)dgv.SelectedCells[0].Value;
             int cost = (int)dgv.SelectedCells[2].Value;
 
             string text = $@"INSERT INTO Orders (Customer_id, Product_id, Date, Amount, Status) 
@@ -55,8 +49,18 @@ namespace AIS_shop
             {
                 await connection.OpenAsync();
                 if (await query.ExecuteNonQueryAsync() != 0)
-                    MessageBox.Show("Заказ успешно оформлен.", "Оформление заказа", 
-                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                {
+                    MessageBox.Show("Заказ успешно оформлен.", "Оформление заказа",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    id = (int)dgv.SelectedCells[0].Value;
+
+                    if (Common.ProductsInCart.Count != 0)
+                    {
+                        Common.ProductsInCart.Remove(
+                            Common.ProductsInCart.Find(f => f == id));
+                        dgv.Rows.Remove(dgv.SelectedRows[0]);
+                    }
+                }
                 else
                     MessageBox.Show("Заказ не был оформлен.", "Оформление заказа",
                         MessageBoxButtons.OK, MessageBoxIcon.Exclamation);

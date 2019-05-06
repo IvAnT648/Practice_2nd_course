@@ -92,7 +92,7 @@
             // 
             this.bToRegistration.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.bToRegistration.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bToRegistration.Location = new System.Drawing.Point(157, 244);
+            this.bToRegistration.Location = new System.Drawing.Point(157, 229);
             this.bToRegistration.Margin = new System.Windows.Forms.Padding(2);
             this.bToRegistration.Name = "bToRegistration";
             this.bToRegistration.Size = new System.Drawing.Size(172, 31);
@@ -128,7 +128,7 @@
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(36, 253);
+            this.label4.Location = new System.Drawing.Point(36, 238);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(116, 15);
             this.label4.TabIndex = 7;
@@ -138,7 +138,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(340, 286);
+            this.BackColor = System.Drawing.SystemColors.Info;
+            this.ClientSize = new System.Drawing.Size(340, 271);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.maskedTextBox2);
             this.Controls.Add(this.maskedTextBox1);

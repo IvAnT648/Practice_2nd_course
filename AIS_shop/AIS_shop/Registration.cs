@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AIS_shop
@@ -24,7 +19,7 @@ namespace AIS_shop
 
         private void Registration_Load(object sender, EventArgs e)
         {
-            if (User.GetUser()?.Status == UserStatus.Admin)
+            if (User.GetUser().Status == UserStatus.Admin)
                 regAsAdmin.Visible = true;
         }
 
@@ -162,7 +157,6 @@ namespace AIS_shop
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
-                //regex = new Regex(@"^(\w|_|\.)+(@)(\w+)(\.)(\w)+$");
                 if (!IsValidEmail(textBoxEmail.Text))
                 {
                     MessageBox.Show("Некорректный e-mail адрес", "Некорректный ввод",

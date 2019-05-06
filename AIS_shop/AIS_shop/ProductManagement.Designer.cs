@@ -50,7 +50,7 @@
             this.bAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.bAdd.Cursor = System.Windows.Forms.Cursors.Hand;
             this.bAdd.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bAdd.Location = new System.Drawing.Point(22, 20);
+            this.bAdd.Location = new System.Drawing.Point(22, 22);
             this.bAdd.Margin = new System.Windows.Forms.Padding(2);
             this.bAdd.Name = "bAdd";
             this.bAdd.Size = new System.Drawing.Size(202, 53);
@@ -64,7 +64,7 @@
             this.bDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.bDel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.bDel.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bDel.Location = new System.Drawing.Point(398, 20);
+            this.bDel.Location = new System.Drawing.Point(400, 22);
             this.bDel.Margin = new System.Windows.Forms.Padding(2);
             this.bDel.Name = "bDel";
             this.bDel.Size = new System.Drawing.Size(135, 53);
@@ -82,7 +82,7 @@
             this.groupBox.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.groupBox.Location = new System.Drawing.Point(16, 113);
             this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(953, 419);
+            this.groupBox.Size = new System.Drawing.Size(1191, 520);
             this.groupBox.TabIndex = 16;
             this.groupBox.TabStop = false;
             this.groupBox.Text = "Выберите товар из списка:";
@@ -99,6 +99,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView.BackgroundColor = System.Drawing.Color.BurlyWood;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -135,7 +136,7 @@
             this.dataGridView.RowTemplate.DefaultCellStyle.NullValue = "(нет)";
             this.dataGridView.RowTemplate.Height = 24;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView.Size = new System.Drawing.Size(942, 385);
+            this.dataGridView.Size = new System.Drawing.Size(1180, 486);
             this.dataGridView.TabIndex = 1;
             // 
             // bUpdate
@@ -143,7 +144,7 @@
             this.bUpdate.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.bUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.bUpdate.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bUpdate.Location = new System.Drawing.Point(244, 20);
+            this.bUpdate.Location = new System.Drawing.Point(245, 22);
             this.bUpdate.Name = "bUpdate";
             this.bUpdate.Size = new System.Drawing.Size(135, 53);
             this.bUpdate.TabIndex = 17;
@@ -156,7 +157,7 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Cambria", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(349, 21);
+            this.label1.Location = new System.Drawing.Point(468, 21);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(281, 32);
             this.label1.TabIndex = 18;
@@ -165,12 +166,11 @@
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.BackColor = System.Drawing.Color.Chocolate;
             this.panel1.Controls.Add(this.bUpdate);
             this.panel1.Controls.Add(this.bDel);
             this.panel1.Controls.Add(this.bAdd);
-            this.panel1.Location = new System.Drawing.Point(417, 555);
+            this.panel1.Location = new System.Drawing.Point(655, 656);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(551, 89);
             this.panel1.TabIndex = 21;
@@ -179,15 +179,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(981, 658);
+            this.BackColor = System.Drawing.SystemColors.Info;
+            this.ClientSize = new System.Drawing.Size(1219, 759);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox);
             this.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.MinimumSize = new System.Drawing.Size(794, 516);
+            this.MinimumSize = new System.Drawing.Size(1235, 798);
             this.Name = "ProductManagement";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DETShop - Измение информации о товарах";

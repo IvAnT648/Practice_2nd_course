@@ -89,6 +89,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Info;
             this.ClientSize = new System.Drawing.Size(868, 608);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.label3);
@@ -102,7 +103,6 @@
             this.Name = "Filters";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DETShop - Фильтры отображения товаров";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Filters_FormClosing);
             this.Load += new System.EventHandler(this.Filters_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

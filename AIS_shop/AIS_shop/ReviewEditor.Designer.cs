@@ -105,6 +105,7 @@
             // 
             this.richTextBoxAdvantages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxAdvantages.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.richTextBoxAdvantages.Location = new System.Drawing.Point(46, 190);
             this.richTextBoxAdvantages.Name = "richTextBoxAdvantages";
             this.richTextBoxAdvantages.Size = new System.Drawing.Size(732, 85);
@@ -139,6 +140,7 @@
             // 
             this.richTextBoxDisadvantages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxDisadvantages.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.richTextBoxDisadvantages.Location = new System.Drawing.Point(46, 305);
             this.richTextBoxDisadvantages.Name = "richTextBoxDisadvantages";
             this.richTextBoxDisadvantages.Size = new System.Drawing.Size(732, 85);
@@ -161,6 +163,7 @@
             // 
             this.richTextBoxComment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxComment.BackColor = System.Drawing.SystemColors.Window;
             this.richTextBoxComment.Location = new System.Drawing.Point(46, 428);
             this.richTextBoxComment.Name = "richTextBoxComment";
             this.richTextBoxComment.Size = new System.Drawing.Size(732, 204);
@@ -182,6 +185,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Info;
             this.ClientSize = new System.Drawing.Size(825, 693);
             this.Controls.Add(this.buttonApplyChanges);
             this.Controls.Add(this.richTextBoxComment);

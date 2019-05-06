@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AIS_shop
@@ -19,11 +15,9 @@ namespace AIS_shop
         // стобцы в dataGridView
         List<_strToGridView> fields = null;
         // флаги изменения
-        //bool[] Changeflags = null;
         // словарь "поле таблицы"-"значение"
         Dictionary<string, object> FieldValue = null;
         // "старое" изображение
-        //byte[] oldImage = null;
         // изображение
         byte[] dataImage = null;
         // команда добавления в бд
@@ -44,7 +38,6 @@ namespace AIS_shop
         {
             FieldValue = new Dictionary<string, object>(15);
             fields = new List<_strToGridView>(15);
-            //Changeflags = new bool[16];
 
             fields.Add(new _strToGridView("Тип ПК", "Да", "Текст"));
             fields.Add(new _strToGridView("Производитель", "Да", "Текст"));
@@ -197,22 +190,6 @@ namespace AIS_shop
             }
             return true;
         }
-
-        //private void checkChange()
-        //{
-        //    int i = 0;
-        //    foreach (DataGridViewRow dgvRow in dgv.Rows)
-        //    {
-        //        if (dgvRow.Cells["Value"].Value.ToString() == Row.Cells[i+1].Value.ToString())
-        //            Changeflags[i] = false;
-        //        else Changeflags[i] = true;
-        //        i++;
-        //    }
-            
-        //    if (dataImage == oldImage)
-        //        Changeflags[i] = false;
-        //    else Changeflags[i] = true;
-        //}
 
         private void buttonDelImage_Click(object sender, EventArgs e)
         {

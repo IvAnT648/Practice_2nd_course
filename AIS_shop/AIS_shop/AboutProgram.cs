@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AIS_shop
@@ -14,12 +9,12 @@ namespace AIS_shop
         public AboutProgram()
         {
             InitializeComponent();
-            this.Text = String.Format("О программе {0}", AssemblyTitle);
-            this.labelProductName.Text = AssemblyProduct;
+            this.Text = "DETShop - О программе";
+            this.labelProductName.Text = "Автоматизированная информационная система \"Магазин цифровой электронной техники\"";
             this.labelVersion.Text = String.Format("Версия {0}", AssemblyVersion);
-            this.labelCopyright.Text = AssemblyCopyright;
+            this.labelCopyright.Text = "© 2019, Антюхин И.Г.";
             this.labelCompanyName.Text = AssemblyCompany;
-            this.textBoxDescription.Text = AssemblyDescription;
+            this.textBoxDescription.Text = "Данный программный продукт предназначен для автоматизации, ускорения, упрощения работы с базой данных магазина.";
         }
 
         #region Методы доступа к атрибутам сборки
@@ -105,11 +100,6 @@ namespace AIS_shop
         private void okButton_Click(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void textBoxDescription_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AIS_shop
@@ -35,7 +29,7 @@ namespace AIS_shop
 
         private async void loadData()
         {
-            var connection = new SqlConnection(Common.StrSQLConnection);;
+            var connection = new SqlConnection(Common.StrSQLConnection);
             string text = $@"SELECT CONCAT(Производитель, ' ', Модель) AS Name FROM Products WHERE Id={Product_id}";
             SqlCommand query = new SqlCommand(text, connection);
             SqlDataReader reader = null;
@@ -102,9 +96,9 @@ namespace AIS_shop
                 text = $@"UPDATE Reviews SET Mark={numericUpDownMark.Value}, Advantages=@adv, Disadvantages=@disadv, Comment=@comm WHERE Product_id={Product_id} AND User_id={user.Id}";
 
             SqlCommand query = new SqlCommand(text, connection);
-            query.Parameters.AddWithValue("@adv", Common.NormalizeText(richTextBoxAdvantages.Text));
-            query.Parameters.AddWithValue("@disadv", Common.NormalizeText(richTextBoxDisadvantages.Text));
-            query.Parameters.AddWithValue("@comm", Common.NormalizeText(richTextBoxComment.Text));
+            query.Parameters.AddWithValue("@adv", richTextBoxAdvantages.Text.Replace("'", "''"));
+            query.Parameters.AddWithValue("@disadv", richTextBoxDisadvantages.Text.Replace("'", "''"));
+            query.Parameters.AddWithValue("@comm", richTextBoxComment.Text.Replace("'", "''"));
             try
             {
                 await connection.OpenAsync();

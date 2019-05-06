@@ -53,10 +53,10 @@
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button1.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(178, 118);
+            this.button1.Location = new System.Drawing.Point(172, 132);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(200, 65);
+            this.button1.Size = new System.Drawing.Size(201, 82);
             this.button1.TabIndex = 1;
             this.button1.Text = "Продолжить как гость";
             this.button1.UseVisualStyleBackColor = true;
@@ -67,10 +67,10 @@
             this.button2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button2.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.Location = new System.Drawing.Point(113, 216);
+            this.button2.Location = new System.Drawing.Point(11, 261);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(120, 54);
+            this.button2.Size = new System.Drawing.Size(221, 45);
             this.button2.TabIndex = 2;
             this.button2.Text = "Войти";
             this.button2.UseVisualStyleBackColor = true;
@@ -81,10 +81,10 @@
             this.button3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button3.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button3.Location = new System.Drawing.Point(253, 216);
+            this.button3.Location = new System.Drawing.Point(309, 261);
             this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(200, 54);
+            this.button3.Size = new System.Drawing.Size(221, 45);
             this.button3.TabIndex = 3;
             this.button3.Text = "Зарегистрироваться";
             this.button3.UseVisualStyleBackColor = true;
@@ -94,6 +94,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Info;
             this.ClientSize = new System.Drawing.Size(541, 317);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);

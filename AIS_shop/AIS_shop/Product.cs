@@ -1,13 +1,7 @@
 ﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AIS_shop
@@ -31,20 +25,14 @@ namespace AIS_shop
             labelCost.Text = "Цена: " + Row.Cells["Цена"].Value.ToString();
             labelInStock.Text = "На складе: " + Row.Cells["Склад"].Value.ToString();
             //
-            richTextBoxDescription.Text = "Описание загружается...";
+            richTextBoxDescription.Text = "*** Описание не было загружено ***";
             loadDescription();
-            if (richTextBoxDescription.Text == "Описание загружается...")
-                richTextBoxDescription.Text = "*** Описание не было загружено ***";
             //
-            listBoxChars.Items.Add("Характеристики товара загружаются...");
+            listBoxChars.Items.Add("*** Характеристики товара не загружены ***");
             loadCharacteristics();
-            if (listBoxChars.Items[0].ToString() == "Характеристики товара загружаются...")
-                listBoxChars.Items[0] = "*** Характеристики товара не загружены ***";
             //
-            richTextBoxReviews.Text = "Отзывы о товаре загружаются...";
-            loadReviews();
-            if (richTextBoxReviews.Text == "Отзывы о товаре загружаются...")
-                richTextBoxReviews.Text = "*** Отзывы не были загружены ***";
+            richTextBoxReviews.Text = "*** Отзывы не были загружены ***";
+            loadReviews();                
             //
             loadPicture("Products", product_id);
             //

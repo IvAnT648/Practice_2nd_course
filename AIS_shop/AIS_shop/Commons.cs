@@ -2,9 +2,6 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -16,24 +13,6 @@ namespace AIS_shop
     enum RequiredFilter { NotRequired, CheckedList, FromTo }
     enum UserStatus { Guest, Normal, Admin }
     
-    class OrderInfo
-    {
-        public int Customer { get; private set; }
-        public int Product { get; private set; }
-        public DateTime Date { get; private set; }
-        public int Amount { get; private set; }
-        public int Status { get; private set; }
-
-        public OrderInfo(int customer, int product, DateTime date, int amount, int status)
-        {
-            Customer = customer;
-            Product = product;
-            Date = date;
-            Amount = amount;
-            Status = status;
-        }
-    }
-
     // используется при добавлении/изменении товара
     class _strToGridView
     {
@@ -394,12 +373,5 @@ namespace AIS_shop
         public static string StrSQLConnection { get; } = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
 
         public static List<int> ProductsInCart { get; } = new List<int>();
-
-        public static string NormalizeText(string text)
-        {
-            string result = text;
-            result = result.Replace("'", "''");
-            return result;
-        }
     }
 }
