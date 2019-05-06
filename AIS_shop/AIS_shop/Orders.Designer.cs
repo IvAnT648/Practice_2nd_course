@@ -42,7 +42,8 @@
             // 
             // dataGridView
             // 
-            this.dataGridView.AllowUserToResizeColumns = false;
+            this.dataGridView.AllowUserToAddRows = false;
+            this.dataGridView.AllowUserToDeleteRows = false;
             this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -96,9 +97,9 @@
             this.comboBox.Items.AddRange(new object[] {
             "Все заказы",
             "Только не завершённые заказы"});
-            this.comboBox.Location = new System.Drawing.Point(109, 87);
+            this.comboBox.Location = new System.Drawing.Point(109, 91);
             this.comboBox.Name = "comboBox";
-            this.comboBox.Size = new System.Drawing.Size(203, 25);
+            this.comboBox.Size = new System.Drawing.Size(239, 25);
             this.comboBox.TabIndex = 3;
             this.comboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
             // 
@@ -106,7 +107,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Cambria", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(12, 90);
+            this.label2.Location = new System.Drawing.Point(12, 94);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(91, 17);
             this.label2.TabIndex = 4;

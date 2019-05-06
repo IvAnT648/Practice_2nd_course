@@ -13,6 +13,7 @@ namespace AIS_shop
 {
     public partial class Orders : Form
     {
+        int[] statuses = null;
         private SqlConnection Connection { set; get; } = null;
         private SqlCommand Query { set; get; } = null;
         private SqlDataAdapter Adapter { set; get; } = null;
@@ -31,10 +32,22 @@ namespace AIS_shop
             dataGridView.Columns["Id"].HeaderText = "Номер заказа";
             dataGridView.Columns["Id"].ReadOnly = true;
             dataGridView.Columns["Customer_id"].HeaderText = "Id покупателя";
+            dataGridView.Columns["Customer_id"].ReadOnly = true;
             dataGridView.Columns["Product_id"].HeaderText = "Id товара";
+            dataGridView.Columns["Product_id"].ReadOnly = true;
             dataGridView.Columns["Date"].HeaderText = "Дата заказа";
+            dataGridView.Columns["Date"].ReadOnly = true;
             dataGridView.Columns["Amount"].HeaderText = "Сумма заказа";
+            dataGridView.Columns["Amount"].ReadOnly = true;
             dataGridView.Columns["Status"].HeaderText = "Статус заказа";
+
+            statuses = new int[dataGridView.Rows.Count];
+            int i = 0;
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                statuses[i] = (int)row.Cells[5].Value;
+                i++;
+            }
         }
 
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -78,7 +91,6 @@ namespace AIS_shop
         private void buttonApplyChanges_Click(object sender, EventArgs e)
         {
             if (Adapter == null) return;
-
             Connection = new SqlConnection(Common.StrSQLConnection);
             try
             {
