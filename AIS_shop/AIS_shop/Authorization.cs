@@ -8,6 +8,7 @@ namespace AIS_shop
     public partial class Authorization : Form
     {
         DataSet usersData = null;
+        bool UsersDataLoaded = false;
 
         public Authorization()
         {
@@ -16,15 +17,7 @@ namespace AIS_shop
 
         private void Authorization_Load(object sender, EventArgs e)
         {
-            Cursor = Cursors.WaitCursor;
-            if (!loadUsersData())
-            {
-                MessageBox.Show("Данные о пользователях не были загружены из базы данных. Попробуйте перезапустить форму.", "Сообщение", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Cursor = Cursors.Default;
-                Close();
-            }
-            Cursor = Cursors.Default;
+            LoadUsersData();
         }
 
         private void Authorization_FormClosing(object sender, FormClosingEventArgs e)
@@ -42,9 +35,16 @@ namespace AIS_shop
 
         private async void bEnter_Click(object sender, EventArgs e)
         {
+            
             string nick = maskedTextBox1.Text, password = maskedTextBox2.Text;
             if (!string.IsNullOrWhiteSpace(nick) && !string.IsNullOrWhiteSpace(password))
             {
+                if (!UsersDataLoaded)
+                {
+                    MessageBox.Show("Данные о пользователях не загружены. Повторите попытку позднее.", "Сообщение", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
                 int id = 0;
                 for (int it = 0; it < usersData.Tables[0].Rows.Count; it++)
                 {
@@ -122,23 +122,22 @@ namespace AIS_shop
             else MessageBox.Show("Введите данные!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         // загрузка всех данных для входа, т.к. sql - регистронезависимый
-        private bool loadUsersData()
+        private async void LoadUsersData()
         {
-
             usersData = new DataSet();
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
                 SqlDataAdapter adapter = new SqlDataAdapter(@"SELECT Id, Nick, [E-mail], Password FROM Users", connection);
                 adapter.Fill(usersData);
-                return true;
+                UsersDataLoaded = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                UsersDataLoaded = false;
             }
             finally
             {

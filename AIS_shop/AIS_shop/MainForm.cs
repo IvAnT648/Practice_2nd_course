@@ -55,6 +55,7 @@ namespace AIS_shop
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 QueryToUpdate = @"SELECT * FROM Products";
             }
+
             string WhereInStock = @" WHERE Склад>0";
             string AndInStock = @" AND Склад>0";
             string Sort = @" ORDER BY Производитель";
@@ -65,11 +66,11 @@ namespace AIS_shop
                 // показать товары в наличии
                 if (!QueryToUpdate.Contains("WHERE"))
                     QueryToUpdate += WhereInStock;
-                else 
+                else
                 if (!QueryToUpdate.Contains("Склад>0"))
                     QueryToUpdate += AndInStock;
             }
-            else 
+            else
             if (radioButtonAllProduct.Checked)
             {
                 // показать все товары
@@ -82,7 +83,7 @@ namespace AIS_shop
             // сортировка
             if (!QueryToUpdate.Contains("ORDER BY")) QueryToUpdate += Sort;
             progressBar.Value = 30;
-            
+
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             try
             {
