@@ -36,6 +36,9 @@ namespace AIS_shop
 
         private void ChangeProduct_Load(object sender, EventArgs e)
         {
+            foreach (DataGridViewColumn col in dgv.Columns)
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+
             FieldValue = new Dictionary<string, object>(15);
             fields = new List<_strToGridView>(15);
 

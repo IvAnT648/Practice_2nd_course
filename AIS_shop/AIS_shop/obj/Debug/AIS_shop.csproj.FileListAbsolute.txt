@@ -46,5 +46,4 @@ d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.ProductManagemen
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.ReviewEditor.resources
 D:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.csproj.ResolveComReference.cache
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.Orders.resources
-d:\git\Practice_2nd_course\AIS_shop\AIS_shop\bin\Debug\System.dll
-d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.csproj.CopyComplete
+d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Debug\AIS_shop.AdminProfile.resources

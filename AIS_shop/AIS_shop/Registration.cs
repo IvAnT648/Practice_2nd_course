@@ -211,6 +211,7 @@ namespace AIS_shop
                     connection.Close();
             }
         }
+
         private bool IsValidEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email))

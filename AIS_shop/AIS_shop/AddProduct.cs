@@ -24,6 +24,9 @@ namespace AIS_shop
 
         private void AddNewProduct_Load(object sender, EventArgs e)
         {
+            foreach (DataGridViewColumn col in dgv.Columns)
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+
             fields.Add(new _strToGridView("Тип ПК", "Да", "Текст"));
             fields.Add(new _strToGridView("Производитель", "Да", "Текст"));
             fields.Add(new _strToGridView("Модель", "Да", "Текст"));

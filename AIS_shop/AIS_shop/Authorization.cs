@@ -41,7 +41,7 @@ namespace AIS_shop
             {
                 if (!UsersDataLoaded)
                 {
-                    MessageBox.Show("Данные о пользователях не загружены. Повторите попытку позднее.", "Сообщение", 
+                    MessageBox.Show("Данные о пользователях не загружены. Попробуйте повторить попытку позже.", "Сообщение", 
                         MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
@@ -91,15 +91,17 @@ namespace AIS_shop
                                     break;
                             }
                             // авторизация пользователя
-                            User user = User.Login(
-                                id,
-                                reader.GetValue(0)?.ToString(),
-                                reader.GetValue(1)?.ToString(),
-                                reader.GetValue(2)?.ToString(),
-                                reader.GetValue(3)?.ToString(),
-                                reader.GetValue(4)?.ToString(),
-                                status
-                            );
+                            if (status == UserStatus.Guest)
+                                User.Logout();
+                            else User.Login(
+                                    id,
+                                    reader.GetValue(0)?.ToString(),
+                                    reader.GetValue(1)?.ToString(),
+                                    reader.GetValue(2)?.ToString(),
+                                    reader.GetValue(3)?.ToString(),
+                                    reader.GetValue(4)?.ToString(),
+                                    status
+                                    );
 
                         }
                     }
@@ -119,16 +121,18 @@ namespace AIS_shop
                 }
                 
             }
-            else MessageBox.Show("Введите данные!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else MessageBox.Show("Некорректные входные данные!", "Ошибка!", 
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         // загрузка всех данных для входа, т.к. sql - регистронезависимый
-        private async void LoadUsersData()
+        private void LoadUsersData()
         {
+            Cursor = Cursors.WaitCursor;
             usersData = new DataSet();
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             try
             {
-                await connection.OpenAsync();
+                connection.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter(@"SELECT Id, Nick, [E-mail], Password FROM Users", connection);
                 adapter.Fill(usersData);
                 UsersDataLoaded = true;
@@ -143,6 +147,7 @@ namespace AIS_shop
             {
                 if (connection != null && connection.State != ConnectionState.Closed)
                     connection.Close();
+                Cursor = Cursors.Default;
             }
         }
     }

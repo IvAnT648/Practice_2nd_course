@@ -37,7 +37,7 @@
             this.listBoxChars = new System.Windows.Forms.ListBox();
             this.tabPageReviews = new System.Windows.Forms.TabPage();
             this.richTextBoxReviews = new System.Windows.Forms.RichTextBox();
-            this.bAddToCart = new System.Windows.Forms.Button();
+            this.buttonAddToCart = new System.Windows.Forms.Button();
             this.labelCost = new System.Windows.Forms.Label();
             this.lableProductName = new System.Windows.Forms.Label();
             this.labelInStock = new System.Windows.Forms.Label();
@@ -105,7 +105,7 @@
             this.tabPageCharacteristic.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageCharacteristic.Name = "tabPageCharacteristic";
             this.tabPageCharacteristic.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPageCharacteristic.Size = new System.Drawing.Size(790, 188);
+            this.tabPageCharacteristic.Size = new System.Drawing.Size(822, 291);
             this.tabPageCharacteristic.TabIndex = 1;
             this.tabPageCharacteristic.Text = "Характеристики";
             this.tabPageCharacteristic.UseVisualStyleBackColor = true;
@@ -120,7 +120,7 @@
             this.listBoxChars.Location = new System.Drawing.Point(2, 2);
             this.listBoxChars.Name = "listBoxChars";
             this.listBoxChars.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.listBoxChars.Size = new System.Drawing.Size(786, 184);
+            this.listBoxChars.Size = new System.Drawing.Size(818, 287);
             this.listBoxChars.TabIndex = 0;
             // 
             // tabPageReviews
@@ -146,16 +146,16 @@
             this.richTextBoxReviews.TabIndex = 0;
             this.richTextBoxReviews.Text = "";
             // 
-            // bAddToCart
+            // buttonAddToCart
             // 
-            this.bAddToCart.Location = new System.Drawing.Point(371, 281);
-            this.bAddToCart.Margin = new System.Windows.Forms.Padding(2);
-            this.bAddToCart.Name = "bAddToCart";
-            this.bAddToCart.Size = new System.Drawing.Size(154, 42);
-            this.bAddToCart.TabIndex = 5;
-            this.bAddToCart.Text = "Добавить в корзину";
-            this.bAddToCart.UseVisualStyleBackColor = true;
-            this.bAddToCart.Click += new System.EventHandler(this.buttonAddToCart_Click);
+            this.buttonAddToCart.Location = new System.Drawing.Point(371, 281);
+            this.buttonAddToCart.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonAddToCart.Name = "buttonAddToCart";
+            this.buttonAddToCart.Size = new System.Drawing.Size(154, 42);
+            this.buttonAddToCart.TabIndex = 5;
+            this.buttonAddToCart.Text = "Добавить в корзину";
+            this.buttonAddToCart.UseVisualStyleBackColor = true;
+            this.buttonAddToCart.Click += new System.EventHandler(this.buttonAddToCart_Click);
             // 
             // labelCost
             // 
@@ -223,7 +223,7 @@
             this.Controls.Add(this.labelInStock);
             this.Controls.Add(this.lableProductName);
             this.Controls.Add(this.labelCost);
-            this.Controls.Add(this.bAddToCart);
+            this.Controls.Add(this.buttonAddToCart);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.pictureBox);
@@ -252,7 +252,7 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPageDescription;
         private System.Windows.Forms.TabPage tabPageCharacteristic;
-        private System.Windows.Forms.Button bAddToCart;
+        private System.Windows.Forms.Button buttonAddToCart;
         private System.Windows.Forms.TabPage tabPageReviews;
         private System.Windows.Forms.Label labelCost;
         private System.Windows.Forms.Label lableProductName;

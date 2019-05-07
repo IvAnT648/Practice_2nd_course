@@ -50,6 +50,7 @@
             this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox = new System.Windows.Forms.GroupBox();
+            this.buttonDelImage = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.groupBox.SuspendLayout();
@@ -254,12 +255,26 @@
             this.groupBox.TabStop = false;
             this.groupBox.Text = "Мои заказы";
             // 
+            // buttonDelImage
+            // 
+            this.buttonDelImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonDelImage.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonDelImage.Image = ((System.Drawing.Image)(resources.GetObject("buttonDelImage.Image")));
+            this.buttonDelImage.Location = new System.Drawing.Point(22, 267);
+            this.buttonDelImage.Name = "buttonDelImage";
+            this.buttonDelImage.Size = new System.Drawing.Size(18, 18);
+            this.buttonDelImage.TabIndex = 31;
+            this.buttonDelImage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.buttonDelImage.UseVisualStyleBackColor = true;
+            this.buttonDelImage.Click += new System.EventHandler(this.buttonDelImage_Click);
+            // 
             // Profile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Info;
             this.ClientSize = new System.Drawing.Size(799, 590);
+            this.Controls.Add(this.buttonDelImage);
             this.Controls.Add(this.groupBox);
             this.Controls.Add(this.textBoxNick);
             this.Controls.Add(this.textBoxEmail);
@@ -311,5 +326,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Amount;
         private System.Windows.Forms.DataGridViewTextBoxColumn Status;
         private System.Windows.Forms.GroupBox groupBox;
+        private System.Windows.Forms.Button buttonDelImage;
     }
 }

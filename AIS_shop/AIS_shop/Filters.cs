@@ -42,7 +42,6 @@ namespace AIS_shop
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             try
             {
-                
                 connection.Open();
                 // для каждого поля делаем фильтр, в зависимости от параметра "field.num"
                 foreach (Field field in fields)

@@ -15,8 +15,7 @@ namespace AIS_shop
     {
         // Первая инициализация пользователя - как гость
         User user = User.GetUser();
-        // для взаимодействия других форм с главной
-        //--- SQL-запрос для обовления данных в dataGridView
+        // SQL-запрос для обовления данных в dataGridView
         public static string QueryToUpdate { set; get; } = null;
         
         public MainForm()
@@ -31,7 +30,7 @@ namespace AIS_shop
             Show();
             Welcome welcome = new Welcome();
             welcome.ShowDialog();
-            UserStateChange();
+            UpdateControls();
             QueryToUpdate = @"SELECT * FROM Products";
             UpdateDataGridView();
         }
@@ -50,11 +49,7 @@ namespace AIS_shop
             Cursor = Cursors.WaitCursor;
             progressBar.Value = 0;
             if (string.IsNullOrWhiteSpace(QueryToUpdate))
-            {
-                MessageBox.Show("Неверная команда! Будет выполнен запрос по-умолчанию.", "Ошибка!", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 QueryToUpdate = @"SELECT * FROM Products";
-            }
 
             string WhereInStock = @" WHERE Склад>0";
             string AndInStock = @" AND Склад>0";
@@ -93,14 +88,12 @@ namespace AIS_shop
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(QueryToUpdate, connection);
                 DataSet dataSet = new DataSet();
                 sqlAdapter.Fill(dataSet);
-
                 progressBar.Value = 95;
                 dataGridView.DataSource = dataSet.Tables[0];
                 dataGridView.Columns[0].Visible = false;
                 dataGridView.Columns[15].Visible = false;
                 dataGridView.Columns[16].Visible = false;
                 progressBar.Value = 100;
-                
             }
             catch (Exception ex)
             {
@@ -114,6 +107,31 @@ namespace AIS_shop
                 if (dataGridView.DataSource != null) buttonFilters.Enabled = true;
                 Cursor = Cursors.Default;
                 progressBar.Value = 0;
+            }
+        }
+
+        private void UpdateControls()
+        {
+            if (user.Status == UserStatus.Guest)
+            {
+                loginToolStripMenuItem.Visible = true;
+                registerToolStripMenuItem.Visible = true;
+                goToPersonalAreaToolStripMenuItem.Visible = false;
+                logoutToolStripMenuItem.Visible = false;
+                administrationToolStripMenuItem.Visible = false;
+                textBoxUser.Visible = false;
+            }
+            else
+            {
+                textBoxUser.Text = $"{user.Surname} {user.Name} {user.Patronymic}";
+                textBoxUser.Visible = true;
+                if (user.Status == UserStatus.Admin)
+                    administrationToolStripMenuItem.Visible = true;
+                else administrationToolStripMenuItem.Visible = false;
+                loginToolStripMenuItem.Visible = false;
+                registerToolStripMenuItem.Visible = false;
+                goToPersonalAreaToolStripMenuItem.Visible = true;
+                logoutToolStripMenuItem.Visible = true;
             }
         }
 
@@ -142,8 +160,7 @@ namespace AIS_shop
             QueryToUpdate = null;
             Filters filters = new Filters();
             filters.ShowDialog();
-            if (!string.IsNullOrWhiteSpace(QueryToUpdate))
-                UpdateDataGridView();
+            UpdateDataGridView();
         }
 
         private void buttonCart_Click(object sender, EventArgs e)
@@ -156,31 +173,6 @@ namespace AIS_shop
             {
                 Cart cart = new Cart();
                 cart.ShowDialog();
-            }
-        }
-
-        private void UserStateChange()
-        {
-            if (user.Status == UserStatus.Guest)
-            {
-                loginToolStripMenuItem.Visible = true;
-                registerToolStripMenuItem.Visible = true;
-                goToPersonalAreaToolStripMenuItem.Visible = false;
-                logoutToolStripMenuItem.Visible = false;
-                administrationToolStripMenuItem.Visible = false;
-                textBoxUser.Visible = false;
-            }
-            else
-            {
-                textBoxUser.Text = $"{user.Surname} {user.Name} {user.Patronymic}";
-                textBoxUser.Visible = true;
-                if (user.Status == UserStatus.Admin)
-                    administrationToolStripMenuItem.Visible = true;
-                else administrationToolStripMenuItem.Visible = false;
-                loginToolStripMenuItem.Visible = false;
-                registerToolStripMenuItem.Visible = false;
-                goToPersonalAreaToolStripMenuItem.Visible = true;
-                logoutToolStripMenuItem.Visible = true;
             }
         }
 
@@ -197,8 +189,16 @@ namespace AIS_shop
 
         private void goToPersonalAreaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Profile profile = new Profile();
-            profile.ShowDialog();
+            if (user.Status == UserStatus.Admin)
+            {
+                AdminProfile adminProfile = new AdminProfile();
+                adminProfile.ShowDialog();
+            }
+            else
+            {
+                Profile profile = new Profile();
+                profile.ShowDialog();
+            }
         }
 
         private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -207,7 +207,7 @@ namespace AIS_shop
             {
                 User.Logout();
                 Common.ProductsInCart.Clear();
-                UserStateChange();
+                UpdateControls();
             }
         }
 
@@ -215,14 +215,14 @@ namespace AIS_shop
         {
             Authorization auth = new Authorization();
             auth.ShowDialog();
-            UserStateChange();
+            UpdateControls();
         }
 
         private void registerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Registration reg = new Registration();
             reg.ShowDialog();
-            UserStateChange();
+            UpdateControls();
         }
 
         private void productManageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -242,7 +242,18 @@ namespace AIS_shop
         {
             Registration reg = new Registration();
             reg.ShowDialog();
-            UserStateChange();
+            UpdateControls();
+        }
+
+        private void orderManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (user.Status == UserStatus.Admin)
+            {
+                Orders orders = new Orders();
+                orders.ShowDialog();
+            }
+            else MessageBox.Show("Недостаточно полномочий для завершения этого действия.", "Некорректное действие!",
+                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 
         private void buttonExportToExcel_Click(object sender, EventArgs e)
@@ -417,17 +428,6 @@ namespace AIS_shop
                 x = 30;
                 y += cell_height;
             }
-        }
-
-        private void orderManagerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (user.Status == UserStatus.Admin)
-            {
-                Orders orders = new Orders();
-                orders.ShowDialog();
-            }
-            else MessageBox.Show("Недостаточно полномочий для завершения этого действия.", "Некорректное действие!", 
-                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
     }
 }

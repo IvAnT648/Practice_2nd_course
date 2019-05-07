@@ -37,7 +37,13 @@ namespace AIS_shop
             loadPicture("Products", product_id);
             //
             if ((int)Row.Cells["Склад"].Value == 0)
-                bAddToCart.Enabled = false;
+                buttonAddToCart.Enabled = false;
+
+            if (user.Status == UserStatus.Admin)
+            {
+                buttonAddToCart.Visible = false;
+                buttonAddReview.Visible = false;
+            }
         }
 
         private void _printUserNickToReview(int id)

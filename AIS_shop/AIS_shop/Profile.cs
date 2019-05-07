@@ -28,11 +28,17 @@ namespace AIS_shop
             if (Unsaved)
             {
                 DialogResult result = 
-                    MessageBox.Show("Сохранить иземенения?", "Подтверждение сохранения",
+                    MessageBox.Show("Сохранить изменение изображения?", "Подтверждение действия",
                     MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
-                    if (FileTools.PutBytesToDB(dataImage, Common.StrSQLConnection, @"Users", @"Picture", User.GetUser().Id))
-                        MessageBox.Show("Файл загружен в базу данных.", "Сообщение");
+                    if (dataImage != null)
+                        if (FileTools.PutBytesToDB(dataImage, Common.StrSQLConnection, @"Users", @"Picture", User.GetUser().Id))
+                            MessageBox.Show("Файл успешно загружен в базу данных.", "Сообщение",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        else MessageBox.Show("Файл не был загружен в базу данных.", "Сообщение",
+                            MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    else deleteImage();
+
                 if (result == DialogResult.Cancel) e.Cancel = true;
             }
         }
@@ -54,9 +60,12 @@ namespace AIS_shop
             textBoxEmail.Text = user.Email;
             textBoxNick.Text = user.Nick;
             dataImage = FileTools.GetFileFromDB(Common.StrSQLConnection, "Users", "Picture", user.Id);
-            if (dataImage != null)
-                pictureBox.Image = Image.FromStream(new MemoryStream(dataImage));
-            else pictureBox.Image = Properties.Resources.nofoto;
+            if (dataImage == null)
+            {
+                pictureBox.Image = Properties.Resources.nofoto;
+                buttonDelImage.Visible = false;
+            }
+            else pictureBox.Image = Image.FromStream(new MemoryStream(dataImage));
         }
 
         private async void loadOrders()
@@ -96,7 +105,42 @@ namespace AIS_shop
             dataImage = FileTools.FileInBytes(openNewImage.FileName);
             // выводим его в pictureBox
             pictureBox.Image = Image.FromStream(new MemoryStream(dataImage));
-            if (pictureBox.Image != null) Unsaved = true;
+            if (dataImage != null)
+            {
+                Unsaved = true;
+                buttonDelImage.Visible = true;
+            }
+        }
+
+        private void buttonDelImage_Click(object sender, EventArgs e)
+        {
+            dataImage = null;
+            pictureBox.Image = Properties.Resources.nofoto;
+            Unsaved = true;
+            buttonDelImage.Visible = false;
+        }
+
+        private void deleteImage()
+        {
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
+            SqlCommand sqlCommand = new SqlCommand($@"UPDATE Users SET Picture=NULL WHERE Id={User.GetUser().Id}", connection);
+            try
+            {
+                connection.Open();
+                if (sqlCommand.ExecuteNonQuery() == 1)
+                    MessageBox.Show("Изображение удалено", "Сообщение",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (connection != null && connection.State != ConnectionState.Closed)
+                    connection.Close();
+            }
         }
     }
 }
