@@ -70,7 +70,7 @@
             this.button2.Location = new System.Drawing.Point(11, 261);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(221, 45);
+            this.button2.Size = new System.Drawing.Size(255, 45);
             this.button2.TabIndex = 2;
             this.button2.Text = "Войти";
             this.button2.UseVisualStyleBackColor = true;
@@ -81,10 +81,10 @@
             this.button3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button3.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button3.Location = new System.Drawing.Point(309, 261);
+            this.button3.Location = new System.Drawing.Point(275, 261);
             this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(221, 45);
+            this.button3.Size = new System.Drawing.Size(255, 45);
             this.button3.TabIndex = 3;
             this.button3.Text = "Зарегистрироваться";
             this.button3.UseVisualStyleBackColor = true;

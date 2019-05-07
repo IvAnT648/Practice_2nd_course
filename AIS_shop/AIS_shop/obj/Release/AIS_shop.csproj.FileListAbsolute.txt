@@ -3,7 +3,6 @@ d:\git\Practice_2nd_course\AIS_shop\AIS_shop\bin\Release\DataBaseDET_log.ldf
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\bin\Release\AIS_shop.exe.config
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\bin\Release\AIS_shop.exe
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\bin\Release\AIS_shop.pdb
-d:\git\Practice_2nd_course\AIS_shop\AIS_shop\bin\Release\MaterialSkin.dll
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.csprojAssemblyReference.cache
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.csproj.ResolveComReference.cache
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.AboutProgram.resources
@@ -23,6 +22,7 @@ d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.ReviewEditor.r
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.Welcome.resources
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.csproj.GenerateResource.cache
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.csproj.CoreCompileInputs.cache
-d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.csproj.CopyComplete
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.exe
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.pdb
+d:\git\Practice_2nd_course\AIS_shop\AIS_shop\bin\Release\System.dll
+d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.csproj.CopyComplete
