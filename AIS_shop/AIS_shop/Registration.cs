@@ -75,7 +75,7 @@ namespace AIS_shop
                             switch ((int)reader.GetValue(6))
                             {
                                 case 1:
-                                    userStatus = UserStatus.Normal;
+                                    userStatus = UserStatus.Customer;
                                     break;
                                 case 2:
                                     userStatus = UserStatus.Admin;

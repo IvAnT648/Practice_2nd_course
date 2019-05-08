@@ -26,15 +26,15 @@ namespace AIS_shop
             labelInStock.Text = "На складе: " + Row.Cells["Склад"].Value.ToString();
             //
             richTextBoxDescription.Text = "*** Описание не было загружено ***";
-            loadDescription();
+            LoadDescription();
             //
             listBoxChars.Items.Add("*** Характеристики товара не загружены ***");
-            loadCharacteristics();
+            LoadCharacteristics();
             //
             richTextBoxReviews.Text = "*** Отзывы не были загружены ***";
-            loadReviews();                
+            LoadReviews();                
             //
-            loadPicture("Products", product_id);
+            LoadPicture("Products", product_id);
             //
             if ((int)Row.Cells["Склад"].Value == 0)
                 buttonAddToCart.Enabled = false;
@@ -46,36 +46,10 @@ namespace AIS_shop
             }
         }
 
-        private void _printUserNickToReview(int id)
+        private async void LoadReviews()
         {
-            if (id <= 0) return;
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
-            try
-            {
-                string commandText = @"SELECT [Nick] FROM [Users] WHERE [Id]=" + id;
-                connection.Open();
-                SqlCommand query = new SqlCommand(commandText, connection);
-                object result = query.ExecuteScalar();
-                if (result != null)
-                    richTextBoxReviews.Text += "=== Отзыв от пользователя " + result.ToString();
-                else
-                    richTextBoxReviews.Text += "=== Отзыв от неизвестного пользователя";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (connection != null && connection.State != ConnectionState.Closed)
-                    connection.Close();
-            }
-        }
-
-        private async void loadReviews()
-        {
-            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);;
+            SqlConnection connection2 = new SqlConnection(Common.StrSQLConnection);
             SqlDataReader reader = null;
             try
             {
@@ -88,7 +62,13 @@ namespace AIS_shop
                     richTextBoxReviews.Clear();
                     while (await reader.ReadAsync())
                     {
-                        _printUserNickToReview((int)reader.GetValue(0));
+                        SqlCommand query2 = new SqlCommand(@"SELECT [Nick] FROM [Users] WHERE [Id]=" + (int)reader.GetValue(0), connection2);
+                        connection2.Open();
+                        string result = query2.ExecuteScalar()?.ToString();
+                        if (result != null)
+                            richTextBoxReviews.Text += "=== Отзыв от пользователя " + result.ToString();
+                        else
+                            richTextBoxReviews.Text += "=== Отзыв от неизвестного пользователя";
                         richTextBoxReviews.Text += "\nОценка по 5-бальной шкале: " + reader.GetValue(1).ToString();
                         //
                         richTextBoxReviews.Text += "\n---Достоинства:\n";
@@ -123,11 +103,13 @@ namespace AIS_shop
             {
                 if (connection != null && connection.State != ConnectionState.Closed)
                     connection.Close();
+                if (connection2 != null && connection2.State != ConnectionState.Closed)
+                    connection2.Close();
                 if (reader != null && !reader.IsClosed) reader.Close();
             }
         }
 
-        private async void loadCharacteristics()
+        private async void LoadCharacteristics()
         {
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);;
             SqlDataReader reader = null;
@@ -178,7 +160,7 @@ namespace AIS_shop
             }
         }
 
-        private async void loadDescription()
+        private async void LoadDescription()
         {
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);;
             try
@@ -209,7 +191,7 @@ namespace AIS_shop
             }
         }
 
-        private void loadPicture(string tableName, int id)
+        private void LoadPicture(string tableName, int id)
         {
             // загрузка из БД
             Image image = ImageTools.GetImageFromDB(Common.StrSQLConnection, tableName, "Изображение", id);
@@ -227,7 +209,7 @@ namespace AIS_shop
                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-            var connection = new SqlConnection(Common.StrSQLConnection);;
+            var connection = new SqlConnection(Common.StrSQLConnection);
             var query = new SqlCommand($@"SELECT COUNT(Id) FROM Reviews WHERE Product_id={product_id} AND User_id={user.Id}", connection);
             try
             {
@@ -247,7 +229,7 @@ namespace AIS_shop
                     ReviewEditor createReview = new ReviewEditor(product_id);
                     createReview.ShowDialog();
                 }
-                loadReviews();
+                LoadReviews();
             }
             catch (Exception ex)
             {
@@ -261,36 +243,17 @@ namespace AIS_shop
             }
         }
 
-        private async void buttonAddToCart_Click(object sender, EventArgs e)
+        private void buttonAddToCart_Click(object sender, EventArgs e)
         {
             if (Common.ProductsInCart.Find(x => x == product_id) > 0)
             {
-                MessageBox.Show("Товар уже в корзине", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Товар уже в корзине", "Сообщение", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);;
-            SqlCommand query = new SqlCommand($@"SELECT * FROM Products WHERE Id={product_id}", connection);
-            try
-            {
-                await connection.OpenAsync();
-                SqlDataReader reader = await query.ExecuteReaderAsync();
-                if (reader.HasRows)
-                    if (await reader.ReadAsync())
-                    {
-                        Common.ProductsInCart.Add(product_id);
-                        MessageBox.Show("Товар успешно добавлен в корзину", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (connection != null && connection.State != ConnectionState.Closed)
-                    connection.Close();
-            }
+            Common.ProductsInCart.Add(product_id);
+            MessageBox.Show("Товар успешно добавлен в корзину", "Сообщение", 
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

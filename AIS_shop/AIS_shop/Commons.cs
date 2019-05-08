@@ -6,12 +6,13 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Configuration;
+using System.Text;
 
 namespace AIS_shop
 {
     enum OrderStatus { Registered, Perfomed, Completed }
     enum RequiredFilter { NotRequired, CheckedList, FromTo }
-    enum UserStatus { Guest, Normal, Admin }
+    enum UserStatus { Guest, Customer, Admin }
     
     // используется при добавлении/изменении товара
     class _strToGridView
@@ -73,7 +74,7 @@ namespace AIS_shop
             instance.Status = status;
 
             string message = null;
-            if (instance.Status == UserStatus.Normal)
+            if (instance.Status == UserStatus.Customer)
                 message = $"Добро пожаловать {instance.Surname} {instance.Name} {instance.Patronymic}!";
             if (instance.Status == UserStatus.Admin)
                 message = $"Добро пожаловать {instance.Surname} {instance.Name} {instance.Patronymic}! Вы вошли как администратор.";
@@ -194,7 +195,7 @@ namespace AIS_shop
         // название столбца
         public string name { set; get; }
         // способ фильтрации
-        // 0 - не использовать при фильтрации, 1 - checkBox'ы, 2 - 'от и до'
+        
         public RequiredFilter filter { set; get; } = RequiredFilter.NotRequired;
         // команда для получения списка возможных значений (для checkbox'а)
         public string sqlCommand { set; get; }
@@ -299,15 +300,25 @@ namespace AIS_shop
         public static byte[] GetFileFromDB(string strConnectionToDB, string name_of_table, string field, int record_id)
         {
             byte[] data = null;
+
             SqlConnection sqlConnection = new SqlConnection(strConnectionToDB);
+            SqlCommand sqlCommand = new SqlCommand(string.Format($@"SELECT [{field}] FROM [{name_of_table}] WHERE [Id]={record_id}"),sqlConnection);
+            SqlDataReader reader = null;
             try
             {
                 sqlConnection.Open();
-                SqlCommand sqlCommand = new SqlCommand();
-                sqlCommand.Connection = sqlConnection;
-                sqlCommand.CommandText = string.Format($@"SELECT [{field}] FROM [{name_of_table}] WHERE [Id]={record_id}");
-                object answer = sqlCommand.ExecuteScalar();
-                data = sqlCommand.ExecuteScalar() as byte[];
+                reader = sqlCommand.ExecuteReader();
+                if (reader.Read())
+                {
+                    if (reader.HasRows)
+                    {
+                        //var s = Convert.ToString(reader.GetValue(0));
+                        var s = Encoding.ASCII.GetString((byte[])reader.GetValue(0));
+                        if (s != "NULL")
+                            data = reader.GetValue(0) as byte[];
+                    }
+                        
+                }
                 return data;
             }
             catch (Exception ex)
@@ -328,9 +339,11 @@ namespace AIS_shop
         {
             if (data.Length == 0) return false;
             SqlConnection sqlConnection = new SqlConnection(strConnectionToDB);
-            SqlCommand command = new SqlCommand();
-            command.Connection = sqlConnection;
-            command.CommandText = string.Format($@"UPDATE [{name_of_table}] SET [{field}]=@image WHERE [Id]={record_id}");
+            SqlCommand command = new SqlCommand
+            {
+                Connection = sqlConnection,
+                CommandText = string.Format($@"UPDATE [{name_of_table}] SET [{field}]=@image WHERE [Id]={record_id}")
+            };
             command.Parameters.AddWithValue("@image", (object)data);
             try
             {

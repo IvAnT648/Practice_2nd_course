@@ -19,8 +19,8 @@ namespace AIS_shop
 
         private void Profile_Load(object sender, EventArgs e)
         {
-            loadInfo();
-            loadOrders();
+            LoadInfo();
+            LoadOrders();
         }
 
         private void Profile_FormClosing(object sender, FormClosingEventArgs e)
@@ -37,13 +37,13 @@ namespace AIS_shop
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
                         else MessageBox.Show("Файл не был загружен в базу данных.", "Сообщение",
                             MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    else deleteImage();
+                    else DeleteImage();
 
                 if (result == DialogResult.Cancel) e.Cancel = true;
             }
         }
 
-        private void loadInfo()
+        private void LoadInfo()
         {
             User user = User.GetUser();
             if (user.Status == UserStatus.Guest)
@@ -68,7 +68,7 @@ namespace AIS_shop
             else pictureBox.Image = Image.FromStream(new MemoryStream(dataImage));
         }
 
-        private async void loadOrders()
+        private async void LoadOrders()
         {
             string text = $@"
                 SELECT CONCAT(pr.Производитель, ' ', pr.Модель), ord.Date, ord.Amount, ord.Status 
@@ -120,7 +120,7 @@ namespace AIS_shop
             buttonDelImage.Visible = false;
         }
 
-        private void deleteImage()
+        private void DeleteImage()
         {
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             SqlCommand sqlCommand = new SqlCommand($@"UPDATE Users SET Picture=NULL WHERE Id={User.GetUser().Id}", connection);

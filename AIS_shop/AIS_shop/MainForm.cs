@@ -167,7 +167,8 @@ namespace AIS_shop
         {
             if (Common.ProductsInCart.Count == 0)
             {
-                MessageBox.Show("Корзина пуста.", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Корзина пуста.", "Сообщение", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
@@ -189,15 +190,20 @@ namespace AIS_shop
 
         private void goToPersonalAreaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (user.Status == UserStatus.Admin)
+            switch (user.Status)
             {
-                AdminProfile adminProfile = new AdminProfile();
-                adminProfile.ShowDialog();
-            }
-            else
-            {
-                Profile profile = new Profile();
-                profile.ShowDialog();
+                case UserStatus.Admin:
+                    AdminProfile adminProfile = new AdminProfile();
+                    adminProfile.ShowDialog();
+                    break;
+                case UserStatus.Customer:
+                    Profile profile = new Profile();
+                    profile.ShowDialog();
+                    break;
+                case UserStatus.Guest:
+                    MessageBox.Show("Сначала авторизируйтесь.", "Переход в личный кабинет",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    break;
             }
         }
 
@@ -233,7 +239,8 @@ namespace AIS_shop
                 change.ShowDialog();
                 UpdateDataGridView();
             }
-            else MessageBox.Show("Недостаточно полномочий для завершения этого действия.", "Некорректное действие!",
+            else MessageBox.Show("Недостаточно полномочий для завершения этого действия.", 
+                "Некорректное действие!",
                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             
         }
@@ -252,73 +259,9 @@ namespace AIS_shop
                 Orders orders = new Orders();
                 orders.ShowDialog();
             }
-            else MessageBox.Show("Недостаточно полномочий для завершения этого действия.", "Некорректное действие!",
+            else MessageBox.Show("Недостаточно полномочий для завершения этого действия.", 
+                "Некорректное действие!",
                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-        }
-
-        private void buttonExportToExcel_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.RowCount == 0)
-            {
-                MessageBox.Show("Список товаров пуст!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (saveFile.ShowDialog() == DialogResult.OK)
-            {
-                if (saveFile.Filter == "CSV files(*.csv)|*.csv")
-                {
-                    string fileInStr = null;
-
-                    for (int i = 0; i < dataGridView.RowCount; i++)
-                    {
-                        for (int j = 0; j < dataGridView.Columns.Count; j++)
-                            fileInStr += dataGridView[j, i].Value.ToString() + "\t";
-                        fileInStr += "\r\n";
-                    }
-                    StreamWriter streamWriter = new StreamWriter(saveFile.FileName, false, Encoding.GetEncoding("Windows-1251"));
-                    streamWriter.Write(fileInStr);
-                    streamWriter.Close();
-                }
-                else
-                {
-                    ExcelApplication ExcelApp = new ExcelApplication();
-
-                    Excel.Workbook workbook = ExcelApp.Workbooks.Add();
-                    Excel.Worksheet worksheet = workbook.ActiveSheet;
-                    ExcelApp.Columns.ColumnWidth = 20;
-
-                    ExcelApp.Cells[1, 1] = "Id товара";
-                    ExcelApp.Cells[1, 2] = "Тип ПК";
-                    ExcelApp.Cells[1, 3] = "Производитель";
-                    ExcelApp.Cells[1, 4] = "Модель";
-                    ExcelApp.Cells[1, 5] = "Процессор";
-                    ExcelApp.Cells[1, 6] = "Кол-во ядер";
-                    ExcelApp.Cells[1, 7] = "Видеокарта";
-                    ExcelApp.Cells[1, 8] = "Объем RAM";
-                    ExcelApp.Cells[1, 9] = "Тип RAM";
-                    ExcelApp.Cells[1, 10] = "Объем HDD";
-                    ExcelApp.Cells[1, 11] = "Объем SSD";
-                    ExcelApp.Cells[1, 12] = "Операционная система";
-                    ExcelApp.Cells[1, 13] = "Блок питания";
-                    ExcelApp.Cells[1, 14] = "Кол-во на складе";
-                    ExcelApp.Cells[1, 15] = "Цена";
-
-                    for (int i = 0; i < dataGridView.Columns.Count - 2; i++)
-                    {
-                        for (int j = 0; j < dataGridView.Rows.Count; j++)
-                        {
-                            ExcelApp.Cells[j + 2, i + 1] = dataGridView[i, j].Value.ToString();
-                        }
-                    }
-
-                    ExcelApp.AlertBeforeOverwriting = false;
-                    ExcelApp.DisplayAlerts = false;
-                    workbook.SaveAs(saveFile.FileName);
-                    ExcelApp.Quit();
-                }
-                saveFile.FileName = "Products_DET_Shop.xlsx";
-            }
         }
 
         private void buttonPrint_Click(object sender, EventArgs e)
@@ -329,9 +272,7 @@ namespace AIS_shop
                 return;
             }
             Document = new PrintDocument();
-            
             Document.PrintPage += new PrintPageEventHandler(printDocument_PrintPage);
-
             printPreviewDialog = new PrintPreviewDialog
             {
                 Width = 1200,
@@ -427,6 +368,86 @@ namespace AIS_shop
                 current_row++;
                 x = 30;
                 y += cell_height;
+            }
+        }
+
+        private void buttonExportToCSV_Click(object sender, EventArgs e)
+        {
+            if (dataGridView.RowCount == 0)
+            {
+                MessageBox.Show("Список товаров пуст!", "Ошибка!", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (saveFile.ShowDialog() == DialogResult.OK)
+            {
+                string fileInStr = null;
+
+                for (int i = 0; i < dataGridView.RowCount; i++)
+                {
+                    for (int j = 0; j < dataGridView.Columns.Count; j++)
+                        fileInStr += dataGridView[j, i].Value.ToString() + ";";
+                    fileInStr += "\n";
+                    progressBar.Value += 90 / dataGridView.RowCount;
+                }
+                progressBar.Value = 100;
+                StreamWriter streamWriter = new StreamWriter(saveFile.FileName, false, 
+                    Encoding.GetEncoding("Windows-1251"));
+                streamWriter.Write(fileInStr);
+                streamWriter.Close();
+                progressBar.Value = 0;
+            }
+        }
+
+        private void buttonExportToExcel_Click(object sender, EventArgs e)
+        {
+            if (dataGridView.RowCount == 0)
+            {
+                MessageBox.Show("Список товаров пуст!", "Ошибка!", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (saveFile.ShowDialog() == DialogResult.OK)
+            {
+                ExcelApplication ExcelApp = new ExcelApplication();
+                progressBar.Value = 0;
+                Excel.Workbook workbook = ExcelApp.Workbooks.Add();
+                Excel.Worksheet worksheet = workbook.ActiveSheet;
+                ExcelApp.Columns.ColumnWidth = 20;
+                ExcelApp.Cells[1, 1] = "Id товара";
+                ExcelApp.Cells[1, 2] = "Тип ПК";
+                ExcelApp.Cells[1, 3] = "Производитель";
+                ExcelApp.Cells[1, 4] = "Модель";
+                ExcelApp.Cells[1, 5] = "Процессор";
+                ExcelApp.Cells[1, 6] = "Кол-во ядер";
+                ExcelApp.Cells[1, 7] = "Видеокарта";
+                ExcelApp.Cells[1, 8] = "Объем RAM";
+                ExcelApp.Cells[1, 9] = "Тип RAM";
+                ExcelApp.Cells[1, 10] = "Объем HDD";
+                ExcelApp.Cells[1, 11] = "Объем SSD";
+                ExcelApp.Cells[1, 12] = "Операционная система";
+                ExcelApp.Cells[1, 13] = "Блок питания";
+                ExcelApp.Cells[1, 14] = "Кол-во на складе";
+                ExcelApp.Cells[1, 15] = "Цена";
+                progressBar.Value += 30;
+                for (int i = 0; i < dataGridView.Columns.Count - 2; i++)
+                {
+                    for (int j = 0; j < dataGridView.Rows.Count; j++)
+                    {
+                        ExcelApp.Cells[j + 2, i + 1] = dataGridView[i, j].Value.ToString();
+                    }
+                    progressBar.Value += 66 / dataGridView.Columns.Count - 2;
+                }
+                progressBar.Value = 99;
+                ExcelApp.AlertBeforeOverwriting = false;
+                ExcelApp.DisplayAlerts = false;
+                workbook.SaveAs(saveFile.FileName);
+                ExcelApp.Quit();
+                progressBar.Value = 100;
+                saveFile.FileName = "Products_DET_Shop.xlsx";
+                progressBar.Value = 0;
             }
         }
     }

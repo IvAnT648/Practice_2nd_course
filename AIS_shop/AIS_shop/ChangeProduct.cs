@@ -112,15 +112,25 @@ namespace AIS_shop
                     query.Parameters.AddWithValue("@gpu", dgv.Rows[5].Cells[3].Value);
                     query.Parameters.AddWithValue("@ram", dgv.Rows[6].Cells[3].Value);
                     query.Parameters.AddWithValue("@typeram", dgv.Rows[7].Cells[3].Value);
-                    query.Parameters.AddWithValue("@hdd", dgv.Rows[8].Cells[3].Value);
-                    query.Parameters.AddWithValue("@ssd", dgv.Rows[9].Cells[3].Value);
-                    query.Parameters.AddWithValue("@os", dgv.Rows[10].Cells[3].Value);
-                    query.Parameters.AddWithValue("@psu", dgv.Rows[11].Cells[3].Value);
+                    if (dgv.Rows[8].Cells[3].Value != null)
+                        query.Parameters.AddWithValue("@hdd", dgv.Rows[8].Cells[3].Value);
+                    else query.Parameters.AddWithValue("@hdd", DBNull.Value);
+                    if (dgv.Rows[9].Cells[3].Value != null)
+                        query.Parameters.AddWithValue("@ssd", dgv.Rows[9].Cells[3].Value);
+                    else query.Parameters.AddWithValue("@ssd", DBNull.Value);
+                    if (dgv.Rows[10].Cells[3].Value != null)
+                        query.Parameters.AddWithValue("@os", dgv.Rows[10].Cells[3].Value);
+                    else query.Parameters.AddWithValue("@os", DBNull.Value);
+                    if (dgv.Rows[11].Cells[3].Value != null)
+                        query.Parameters.AddWithValue("@psu", dgv.Rows[11].Cells[3].Value);
+                    else query.Parameters.AddWithValue("@psu", DBNull.Value);
                     query.Parameters.AddWithValue("@stock", dgv.Rows[12].Cells[3].Value);
                     query.Parameters.AddWithValue("@cost", dgv.Rows[13].Cells[3].Value);
-                    query.Parameters.AddWithValue("@descripton", dgv.Rows[14].Cells[3].Value);
+                    if (dgv.Rows[14].Cells[3].Value != null)
+                        query.Parameters.AddWithValue("@descripton", dgv.Rows[14].Cells[3].Value);
+                    else query.Parameters.AddWithValue("@descripton", DBNull.Value);
                     if (dataImage != null) query.Parameters.AddWithValue("@image", dataImage);
-                    else query.CommandText = query.CommandText.Replace("@image", "NULL");
+                    else query.Parameters.AddWithValue("@image", DBNull.Value);
                     try
                     {
                         connection.Open();

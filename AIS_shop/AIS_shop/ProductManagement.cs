@@ -15,11 +15,10 @@ namespace AIS_shop
 
         private void ProductManager_Load(object sender, EventArgs e)
         {
-            dataGridView.RowHeadersVisible = false;
-            updateData();
+            UpdateData();
         }
 
-        private void updateData()
+        private void UpdateData()
         {
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             SqlDataAdapter adapter = new SqlDataAdapter(@"SELECT * FROM Products", connection);
@@ -44,18 +43,18 @@ namespace AIS_shop
             }
         }
 
-        private void bAdd_Click(object sender, EventArgs e)
+        private void buttonAdd_Click(object sender, EventArgs e)
         {
             AddProduct newProduct = new AddProduct();
             newProduct.ShowDialog();
             if (updateFlag)
             {
-                updateData();
+                UpdateData();
                 updateFlag = false;
             }
         }
 
-        private void bUpdate_Click(object sender, EventArgs e)
+        private void buttonUpdate_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
@@ -63,60 +62,65 @@ namespace AIS_shop
                 change.ShowDialog();
                 if (updateFlag)
                 {
-                    updateData();
+                    UpdateData();
                     updateFlag = false;
                 }
             }
-            else MessageBox.Show("Вы не выбрали товар для изменения", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else MessageBox.Show("Вы не выбрали товар для изменения", "Ошибка", 
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
         }
 
-        private void bDel_Click(object sender, EventArgs e)
+        private void buttonDel_Click(object sender, EventArgs e)
         {
-            if (dataGridView.SelectedRows.Count == 1)
+            if (dataGridView.SelectedRows.Count != 1)
             {
-                string title = "Подтвердите действие";
-                string qst = "Вы уверены, что хотите удалить выбранный товар из базы данных?";
-                string recordToDelete = null;
-                qst += "\nЗапись \"";
-                for (int i = 0; i < 4; i++)
-                {
-                    if (i != 0) recordToDelete += " | ";
-                    recordToDelete += dataGridView.SelectedCells[i].Value.ToString();
-                }
-                recordToDelete += "\"";
-                if (recordToDelete != null) qst += recordToDelete;
-                if (MessageBox.Show(qst, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    SqlConnection connection = new SqlConnection(Common.StrSQLConnection);;
-                    try
-                    {
-                        connection.Open();
-                        SqlCommand query = new SqlCommand();
-                        query.CommandText = string.Format($@"DELETE FROM Products WHERE Id={dataGridView.SelectedCells[0].Value}");
-                        query.Connection = connection;
-                        if (query.ExecuteNonQuery() == 1)
-                        {
-                            MessageBox.Show($"Удаление записи \"{recordToDelete}\" успешно выполнено", "Операция выполнена", 
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            updateData();
-                        }
-                        else MessageBox.Show($"Удаление записи \"{recordToDelete}\" не выполнено", "Операция невыполнена", 
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    finally
-                    {
-                        if (connection != null && connection.State != ConnectionState.Closed)
-                            connection.Close();
-                    }
-                }
-                else dataGridView.ClearSelection();
+                MessageBox.Show("Не выбран товар для удаления", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-            else MessageBox.Show("Вы не выбрали товар для удаления", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            string title = "Подтвердите действие";
+            string qst = "Вы уверены, что хотите удалить выбранный товар из базы данных?";
+            string recordToDelete = null;
+            qst += "\nТовар \"";
+            for (int i = 0; i < 4; i++)
+            {
+                if (i != 0) recordToDelete += " | ";
+                recordToDelete += dataGridView.SelectedCells[i].Value.ToString();
+            }
+            recordToDelete += "\"";
+            if (recordToDelete != null) qst += recordToDelete;
+            if (MessageBox.Show(qst, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                SqlConnection connection = new SqlConnection(Common.StrSQLConnection); ;
+                try
+                {
+                    connection.Open();
+                    SqlCommand query = new SqlCommand();
+                    query.CommandText = string.Format($@"DELETE FROM Products WHERE Id={dataGridView.SelectedCells[0].Value}");
+                    query.Connection = connection;
+                    if (query.ExecuteNonQuery() == 1)
+                    {
+                        MessageBox.Show($"Удаление записи \"{recordToDelete}\" успешно выполнено", "Операция выполнена",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        UpdateData();
+                    }
+                    else MessageBox.Show($"Удаление записи \"{recordToDelete}\" не выполнено", "Операция невыполнена",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (connection != null && connection.State != ConnectionState.Closed)
+                        connection.Close();
+                }
+            }
+            else dataGridView.ClearSelection();
         }
     }
 }

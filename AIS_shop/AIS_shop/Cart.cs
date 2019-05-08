@@ -11,7 +11,45 @@ namespace AIS_shop
         {
             InitializeComponent();
         }
-        
+
+        private void Cart_Load(object sender, EventArgs e)
+        {
+            if (Common.ProductsInCart.Count == 0) Close();
+            LoadData();
+        }
+
+        private async void LoadData()
+        {
+            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
+            SqlCommand query = new SqlCommand(@"SELECT Id, CONCAT(Производитель, ' ', Модель) AS Название, Цена FROM Products WHERE", connection);
+            SqlDataAdapter adapter = new SqlDataAdapter(query);
+            DataSet ds = new DataSet();
+            try
+            {
+                await connection.OpenAsync();
+                int count = 0;
+                foreach (var it in Common.ProductsInCart)
+                {
+                    if (count != 0) query.CommandText += @" OR";
+                    query.CommandText += $@" Id={it}";
+                    count++;
+                }
+                adapter.Fill(ds);
+                dgv.DataSource = ds.Tables[0];
+                dgv.Columns[0].Visible = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (connection != null && connection.State != ConnectionState.Closed)
+                    connection.Close();
+            }
+        }
+
         private async void buttonCheckout_Click(object sender, EventArgs e)
         {
             if (Common.ProductsInCart.Count == 0)
@@ -19,23 +57,20 @@ namespace AIS_shop
                 MessageBox.Show("В корзине нет товаров", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            if (dgv.SelectedRows.Count == 0) return;
-
-            if (MessageBox.Show("Вы уверены что хотите оформить этот заказ?", "Подтверждение действия", 
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
-
+            if (dgv.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Выберите товар!", "Товар не выбран",
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
             if (User.GetUser().Status == UserStatus.Guest)
             {
                 MessageBox.Show("Вы не вошли в систему. Оформлять заказы могут только зарегистрированные пользователи.", "Некорректное действие",
                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-            if (dgv.SelectedRows.Count != 1)
-            {
-                MessageBox.Show("Выберите товар", "Некорректное действие", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
+            if (MessageBox.Show("Вы уверены что хотите оформить этот заказ?", "Подтверждение действия", 
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
             
             int id = (int)dgv.SelectedCells[0].Value;
             int cost = (int)dgv.SelectedCells[2].Value;
@@ -64,49 +99,6 @@ namespace AIS_shop
                 else
                     MessageBox.Show("Заказ не был оформлен.", "Оформление заказа",
                         MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (connection != null && connection.State != ConnectionState.Closed)
-                    connection.Close();
-            }
-        }
-
-        private void buttonCancel_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        private void Cart_Load(object sender, EventArgs e)
-        {
-            if (Common.ProductsInCart.Count != 0) loadData();
-            else Close();
-        }
-
-        private async void loadData()
-        {
-            SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
-            SqlCommand query = new SqlCommand(@"SELECT Id, CONCAT(Производитель, ' ', Модель) AS Название, Цена FROM Products WHERE", connection);
-            SqlDataAdapter adapter = new SqlDataAdapter(query);
-            DataSet ds = new DataSet();
-            try
-            {
-                await connection.OpenAsync();
-                int count = 0;
-                foreach (var it in Common.ProductsInCart)
-                {
-                    if (count != 0) query.CommandText += @" OR";
-                    query.CommandText += $@" Id={it}";
-                    count++;
-                }
-                adapter.Fill(ds);
-                dgv.DataSource = ds.Tables[0];
-                dgv.Columns[0].Visible = false;
             }
             catch (Exception ex)
             {

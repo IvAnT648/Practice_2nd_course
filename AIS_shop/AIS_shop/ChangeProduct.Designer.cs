@@ -108,7 +108,8 @@
             this.dgv.RowsDefaultCellStyle = dataGridViewCellStyle9;
             this.dgv.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
             this.dgv.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dgv.Size = new System.Drawing.Size(891, 380);
+            this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv.Size = new System.Drawing.Size(1015, 428);
             this.dgv.TabIndex = 0;
             // 
             // Field
@@ -148,7 +149,7 @@
             // 
             this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox.Location = new System.Drawing.Point(142, 486);
+            this.pictureBox.Location = new System.Drawing.Point(142, 534);
             this.pictureBox.Name = "pictureBox";
             this.pictureBox.Size = new System.Drawing.Size(40, 40);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -161,7 +162,7 @@
             this.buttonAddImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonAddImage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonAddImage.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonAddImage.Location = new System.Drawing.Point(201, 486);
+            this.buttonAddImage.Location = new System.Drawing.Point(201, 534);
             this.buttonAddImage.Name = "buttonAddImage";
             this.buttonAddImage.Size = new System.Drawing.Size(153, 40);
             this.buttonAddImage.TabIndex = 12;
@@ -174,7 +175,7 @@
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonCancel.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonCancel.Location = new System.Drawing.Point(644, 485);
+            this.buttonCancel.Location = new System.Drawing.Point(768, 533);
             this.buttonCancel.Margin = new System.Windows.Forms.Padding(2);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(98, 41);
@@ -188,7 +189,7 @@
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonSave.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonSave.Location = new System.Drawing.Point(752, 485);
+            this.buttonSave.Location = new System.Drawing.Point(876, 533);
             this.buttonSave.Margin = new System.Windows.Forms.Padding(2);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(154, 41);
@@ -202,18 +203,18 @@
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Cambria", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(365, 23);
+            this.label2.Location = new System.Drawing.Point(331, 26);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(200, 28);
+            this.label2.Size = new System.Drawing.Size(392, 28);
             this.label2.TabIndex = 16;
-            this.label2.Text = "Изменить товар";
+            this.label2.Text = "Изменить информацию о товаре";
             // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(25, 495);
+            this.label1.Location = new System.Drawing.Point(25, 543);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(111, 19);
             this.label1.TabIndex = 17;
@@ -224,7 +225,7 @@
             this.buttonDelImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonDelImage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonDelImage.Image = ((System.Drawing.Image)(resources.GetObject("buttonDelImage.Image")));
-            this.buttonDelImage.Location = new System.Drawing.Point(172, 480);
+            this.buttonDelImage.Location = new System.Drawing.Point(172, 528);
             this.buttonDelImage.Name = "buttonDelImage";
             this.buttonDelImage.Size = new System.Drawing.Size(18, 18);
             this.buttonDelImage.TabIndex = 18;
@@ -237,7 +238,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Info;
-            this.ClientSize = new System.Drawing.Size(915, 538);
+            this.ClientSize = new System.Drawing.Size(1039, 586);
             this.Controls.Add(this.buttonDelImage);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
@@ -248,7 +249,7 @@
             this.Controls.Add(this.buttonSave);
             this.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(931, 577);
+            this.MinimumSize = new System.Drawing.Size(1055, 625);
             this.Name = "ChangeProduct";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DETShop - Изменение товара";

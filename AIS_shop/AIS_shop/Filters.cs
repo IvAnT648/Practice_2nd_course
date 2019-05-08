@@ -101,15 +101,9 @@ namespace AIS_shop
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
             try
             {
-                bool ok = false;
                 SQLCommandToUpdate = @"SELECT * FROM Products";
                 // добавление в команду для обновления запрос по фильтрам 
-                if (_TakeAccountOfFiltersChecked() != -1)
-                    if (_TakeAccountOfFiltersFromTo() != -1)
-                        ok = true; 
-                
-
-                if (ok)
+                if (_TakeAccountOfFiltersChecked() != -1 && _TakeAccountOfFiltersFromTo() != -1)
                 { // если все ок - записываем команду в главной форме
                     MainForm.QueryToUpdate = SQLCommandToUpdate;
                     return 1;
@@ -124,11 +118,6 @@ namespace AIS_shop
                     connection.Close();
                 return -1;
             }
-        }
-
-        private void Filters_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -262,16 +251,6 @@ namespace AIS_shop
                 return 1;
             }
             return 0;
-        }
-
-        private void groupBox6_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox5_Enter(object sender, EventArgs e)
-        {
-
         }
     }
 }

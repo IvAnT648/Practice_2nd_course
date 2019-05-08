@@ -24,10 +24,10 @@ namespace AIS_shop
 
         private void ReviewEditor_Load(object sender, EventArgs e)
         {
-            loadData();
+            LoadData();
         }
 
-        private async void loadData()
+        private async void LoadData()
         {
             var connection = new SqlConnection(Common.StrSQLConnection);
             string text = $@"SELECT CONCAT(Производитель, ' ', Модель) AS Name FROM Products WHERE Id={Product_id}";

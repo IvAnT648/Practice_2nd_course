@@ -33,11 +33,11 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProductManagement));
-            this.bAdd = new System.Windows.Forms.Button();
-            this.bDel = new System.Windows.Forms.Button();
+            this.buttonAdd = new System.Windows.Forms.Button();
+            this.buttonDel = new System.Windows.Forms.Button();
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.bUpdate = new System.Windows.Forms.Button();
+            this.buttonUpdate = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox.SuspendLayout();
@@ -45,33 +45,33 @@
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // bAdd
+            // buttonAdd
             // 
-            this.bAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.bAdd.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bAdd.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bAdd.Location = new System.Drawing.Point(22, 22);
-            this.bAdd.Margin = new System.Windows.Forms.Padding(2);
-            this.bAdd.Name = "bAdd";
-            this.bAdd.Size = new System.Drawing.Size(202, 53);
-            this.bAdd.TabIndex = 14;
-            this.bAdd.Text = "Добавить новый товар";
-            this.bAdd.UseVisualStyleBackColor = true;
-            this.bAdd.Click += new System.EventHandler(this.bAdd_Click);
+            this.buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonAdd.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonAdd.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonAdd.Location = new System.Drawing.Point(22, 22);
+            this.buttonAdd.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonAdd.Name = "buttonAdd";
+            this.buttonAdd.Size = new System.Drawing.Size(202, 53);
+            this.buttonAdd.TabIndex = 14;
+            this.buttonAdd.Text = "Добавить новый товар";
+            this.buttonAdd.UseVisualStyleBackColor = true;
+            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
             // 
-            // bDel
+            // buttonDel
             // 
-            this.bDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bDel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bDel.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bDel.Location = new System.Drawing.Point(400, 22);
-            this.bDel.Margin = new System.Windows.Forms.Padding(2);
-            this.bDel.Name = "bDel";
-            this.bDel.Size = new System.Drawing.Size(135, 53);
-            this.bDel.TabIndex = 15;
-            this.bDel.Text = "Удалить товар";
-            this.bDel.UseVisualStyleBackColor = true;
-            this.bDel.Click += new System.EventHandler(this.bDel_Click);
+            this.buttonDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonDel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonDel.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonDel.Location = new System.Drawing.Point(400, 22);
+            this.buttonDel.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonDel.Name = "buttonDel";
+            this.buttonDel.Size = new System.Drawing.Size(135, 53);
+            this.buttonDel.TabIndex = 15;
+            this.buttonDel.Text = "Удалить товар";
+            this.buttonDel.UseVisualStyleBackColor = true;
+            this.buttonDel.Click += new System.EventHandler(this.buttonDel_Click);
             // 
             // groupBox
             // 
@@ -131,6 +131,7 @@
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             this.dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
             this.dataGridView.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.dataGridView.RowTemplate.DefaultCellStyle.NullValue = "(нет)";
@@ -139,18 +140,18 @@
             this.dataGridView.Size = new System.Drawing.Size(1180, 486);
             this.dataGridView.TabIndex = 1;
             // 
-            // bUpdate
+            // buttonUpdate
             // 
-            this.bUpdate.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.bUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bUpdate.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bUpdate.Location = new System.Drawing.Point(245, 22);
-            this.bUpdate.Name = "bUpdate";
-            this.bUpdate.Size = new System.Drawing.Size(135, 53);
-            this.bUpdate.TabIndex = 17;
-            this.bUpdate.Text = "Изменить товар";
-            this.bUpdate.UseVisualStyleBackColor = true;
-            this.bUpdate.Click += new System.EventHandler(this.bUpdate_Click);
+            this.buttonUpdate.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonUpdate.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonUpdate.Location = new System.Drawing.Point(245, 22);
+            this.buttonUpdate.Name = "buttonUpdate";
+            this.buttonUpdate.Size = new System.Drawing.Size(135, 53);
+            this.buttonUpdate.TabIndex = 17;
+            this.buttonUpdate.Text = "Изменить товар";
+            this.buttonUpdate.UseVisualStyleBackColor = true;
+            this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
             // 
             // label1
             // 
@@ -167,9 +168,9 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Chocolate;
-            this.panel1.Controls.Add(this.bUpdate);
-            this.panel1.Controls.Add(this.bDel);
-            this.panel1.Controls.Add(this.bAdd);
+            this.panel1.Controls.Add(this.buttonUpdate);
+            this.panel1.Controls.Add(this.buttonDel);
+            this.panel1.Controls.Add(this.buttonAdd);
             this.panel1.Location = new System.Drawing.Point(655, 656);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(551, 89);
@@ -201,10 +202,10 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button bAdd;
-        private System.Windows.Forms.Button bDel;
+        private System.Windows.Forms.Button buttonAdd;
+        private System.Windows.Forms.Button buttonDel;
         private System.Windows.Forms.GroupBox groupBox;
-        private System.Windows.Forms.Button bUpdate;
+        private System.Windows.Forms.Button buttonUpdate;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridView dataGridView;

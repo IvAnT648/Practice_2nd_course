@@ -97,7 +97,7 @@ namespace AIS_shop
                     query.Parameters.AddWithValue("@descripton", fields[14].value);
 
                     if (dataImage != null) query.Parameters.AddWithValue("@image", dataImage);
-                    else query.CommandText = query.CommandText.Replace("@image", "'NULL'");
+                    else query.Parameters.AddWithValue("@image", DBNull.Value);
                     // выполнение команды
                     try
                     {
@@ -186,6 +186,7 @@ namespace AIS_shop
 
         private void buttonAddImage_Click(object sender, EventArgs e)
         {
+            labelFileName.Text = "";
             openImage.Filter = "Изображения (*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG";
             if (openImage.ShowDialog() == DialogResult.Cancel) return;
             
@@ -194,8 +195,12 @@ namespace AIS_shop
             // выводим его в pictureBox
             pictureBox.Image = Image.FromStream(new MemoryStream(dataImage));
             pictureBox.Visible = true;
-            labelFileName.Text = Path.GetFileName(openImage.FileName);
-            labelFileName.Visible = true;
+            string filename = Path.GetFileName(openImage.FileName);
+            if (filename.Length <= 50)
+            {
+                labelFileName.Text = filename;
+                labelFileName.Visible = true;
+            }
             buttonDelImage.Visible = true;
         }
 
