@@ -49,7 +49,7 @@ namespace AIS_shop
         private async void LoadReviews()
         {
             SqlConnection connection = new SqlConnection(Common.StrSQLConnection);
-            SqlConnection connection2 = new SqlConnection(Common.StrSQLConnection);
+            
             SqlDataReader reader = null;
             try
             {
@@ -62,6 +62,7 @@ namespace AIS_shop
                     richTextBoxReviews.Clear();
                     while (await reader.ReadAsync())
                     {
+                        SqlConnection connection2 = new SqlConnection(Common.StrSQLConnection);
                         SqlCommand query2 = new SqlCommand(@"SELECT [Nick] FROM [Users] WHERE [Id]=" + (int)reader.GetValue(0), connection2);
                         connection2.Open();
                         string result = query2.ExecuteScalar()?.ToString();
@@ -69,6 +70,7 @@ namespace AIS_shop
                             richTextBoxReviews.Text += "=== Отзыв от пользователя " + result.ToString();
                         else
                             richTextBoxReviews.Text += "=== Отзыв от неизвестного пользователя";
+                        connection2.Close();
                         richTextBoxReviews.Text += "\nОценка по 5-бальной шкале: " + reader.GetValue(1).ToString();
                         //
                         richTextBoxReviews.Text += "\n---Достоинства:\n";
@@ -86,7 +88,7 @@ namespace AIS_shop
                             richTextBoxReviews.Text += reader.GetValue(4).ToString();
                         else richTextBoxReviews.Text += " *Не указано*";
                         richTextBoxReviews.Text += "\n--------------------------------------------------------------------------------------------------------------------------\n";
-
+                        
                     }
                 }
                 else
@@ -103,8 +105,6 @@ namespace AIS_shop
             {
                 if (connection != null && connection.State != ConnectionState.Closed)
                     connection.Close();
-                if (connection2 != null && connection2.State != ConnectionState.Closed)
-                    connection2.Close();
                 if (reader != null && !reader.IsClosed) reader.Close();
             }
         }

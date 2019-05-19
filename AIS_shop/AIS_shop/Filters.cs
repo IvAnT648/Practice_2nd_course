@@ -129,7 +129,10 @@ namespace AIS_shop
         {
             // применяем фильтры
             if (ApplyChanges() == 1)
+            {
+                MainForm.flagToRefresh = true;
                 Close();
+            }
         }
 
         private int _TakeAccountOfFiltersChecked()

@@ -8,6 +8,8 @@ namespace AIS_shop
     public partial class ProductManagement : Form
     {
         public static bool updateFlag = false;
+        public static bool closeFlag = false;
+
         public ProductManagement()
         {
             InitializeComponent();
@@ -66,7 +68,7 @@ namespace AIS_shop
                     updateFlag = false;
                 }
             }
-            else MessageBox.Show("Вы не выбрали товар для изменения", "Ошибка", 
+            else MessageBox.Show("Не выбран товар для изменения", "Ошибка", 
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
         }
@@ -121,6 +123,32 @@ namespace AIS_shop
                 }
             }
             else dataGridView.ClearSelection();
+        }
+
+        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && e.Button == MouseButtons.Left)
+            {
+                Cursor = Cursors.WaitCursor;
+                ChangeProduct change = new ChangeProduct(dataGridView.SelectedRows[0]);
+                change.ShowDialog();
+                if (updateFlag)
+                {
+                    UpdateData();
+                    updateFlag = false;
+                }
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void ProductManagement_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
         }
     }
 }

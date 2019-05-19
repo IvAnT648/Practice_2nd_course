@@ -58,6 +58,7 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSave.BackColor = System.Drawing.Color.Lavender;
             this.buttonSave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonSave.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonSave.Location = new System.Drawing.Point(888, 535);
@@ -66,12 +67,13 @@
             this.buttonSave.Size = new System.Drawing.Size(142, 41);
             this.buttonSave.TabIndex = 0;
             this.buttonSave.Text = "Добавить товар";
-            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.UseVisualStyleBackColor = false;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCancel.BackColor = System.Drawing.Color.Lavender;
             this.buttonCancel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonCancel.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonCancel.Location = new System.Drawing.Point(774, 535);
@@ -80,7 +82,7 @@
             this.buttonCancel.Size = new System.Drawing.Size(98, 41);
             this.buttonCancel.TabIndex = 1;
             this.buttonCancel.Text = "Отменить";
-            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.UseVisualStyleBackColor = false;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // dgv
@@ -185,6 +187,7 @@
             // buttonAddImage
             // 
             this.buttonAddImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonAddImage.BackColor = System.Drawing.Color.Lavender;
             this.buttonAddImage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonAddImage.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonAddImage.Location = new System.Drawing.Point(21, 529);
@@ -192,7 +195,7 @@
             this.buttonAddImage.Size = new System.Drawing.Size(104, 41);
             this.buttonAddImage.TabIndex = 6;
             this.buttonAddImage.Text = "Выбрать изображение";
-            this.buttonAddImage.UseVisualStyleBackColor = true;
+            this.buttonAddImage.UseVisualStyleBackColor = false;
             this.buttonAddImage.Click += new System.EventHandler(this.buttonAddImage_Click);
             // 
             // labelFileName

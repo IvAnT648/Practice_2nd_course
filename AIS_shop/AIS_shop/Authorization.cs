@@ -9,6 +9,7 @@ namespace AIS_shop
     {
         DataSet usersData = null;
         bool UsersDataLoaded = false;
+        
 
         public Authorization()
         {
@@ -33,7 +34,7 @@ namespace AIS_shop
             Close();
         }
 
-        private async void bEnter_Click(object sender, EventArgs e)
+        private void bEnter_Click(object sender, EventArgs e)
         {
             
             string nick = maskedTextBox1.Text, password = maskedTextBox2.Text;
@@ -41,7 +42,7 @@ namespace AIS_shop
             {
                 if (!UsersDataLoaded)
                 {
-                    MessageBox.Show("Данные о пользователях не загружены. Попробуйте повторить попытку позже.", "Сообщение", 
+                    MessageBox.Show("Данные о пользователях ещё не загружены. Попробуйте повторить попытку позже.", "Сообщение", 
                         MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
@@ -52,7 +53,7 @@ namespace AIS_shop
                     string currentEmail = usersData.Tables[0].Rows[it].ItemArray[2].ToString();
                     string currentPassword = usersData.Tables[0].Rows[it].ItemArray[3].ToString();
 
-                    if ((nick == currentNick || nick == currentNick) && password == currentPassword)
+                    if ((nick == currentNick || nick == currentEmail) && password == currentPassword)
                     {
                         id = (int)usersData.Tables[0].Rows[it].ItemArray[0];
                         break;
@@ -70,10 +71,10 @@ namespace AIS_shop
                 try
                 {
                     connection.Open();
-                    SqlDataReader reader = await query.ExecuteReaderAsync();
+                    SqlDataReader reader = query.ExecuteReader();
                     if (reader.HasRows)
                     {
-                        if (await reader.ReadAsync())
+                        if (reader.Read())
                         {
                             UserStatus status = UserStatus.Guest;
                             switch ((int)reader.GetValue(5))

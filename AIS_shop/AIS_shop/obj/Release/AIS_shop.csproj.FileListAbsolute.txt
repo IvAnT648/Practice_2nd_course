@@ -24,5 +24,7 @@ d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.csproj.Generat
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.csproj.CoreCompileInputs.cache
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.exe
 d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.pdb
-d:\git\Practice_2nd_course\AIS_shop\AIS_shop\bin\Release\System.dll
-d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.csproj.CopyComplete
+d:\git\Practice_2nd_course\AIS_shop\AIS_shop\bin\Release\lkt-US\AIS_shop.resources.dll
+d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.AdminProfile.resources
+d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\AIS_shop.AdminProfile.lkt-US.resources
+d:\git\Practice_2nd_course\AIS_shop\AIS_shop\obj\Release\lkt-US\AIS_shop.resources.dll

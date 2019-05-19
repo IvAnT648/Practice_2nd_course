@@ -37,6 +37,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.buttonApplyChanges = new System.Windows.Forms.Button();
+            this.buttonCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,12 +68,11 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView.Location = new System.Drawing.Point(12, 132);
-            this.dataGridView.MinimumSize = new System.Drawing.Size(655, 266);
             this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView.Size = new System.Drawing.Size(662, 266);
+            this.dataGridView.Size = new System.Drawing.Size(662, 261);
             this.dataGridView.TabIndex = 0;
             this.dataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView_DataError);
             // 
@@ -125,7 +125,7 @@
             // buttonApplyChanges
             // 
             this.buttonApplyChanges.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonApplyChanges.Location = new System.Drawing.Point(501, 404);
+            this.buttonApplyChanges.Location = new System.Drawing.Point(502, 404);
             this.buttonApplyChanges.Name = "buttonApplyChanges";
             this.buttonApplyChanges.Size = new System.Drawing.Size(172, 45);
             this.buttonApplyChanges.TabIndex = 6;
@@ -133,12 +133,25 @@
             this.buttonApplyChanges.UseVisualStyleBackColor = true;
             this.buttonApplyChanges.Click += new System.EventHandler(this.buttonApplyChanges_Click);
             // 
+            // buttonCancel
+            // 
+            this.buttonCancel.Location = new System.Drawing.Point(415, 404);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(75, 45);
+            this.buttonCancel.TabIndex = 7;
+            this.buttonCancel.Text = "Отмена";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            // 
             // Orders
             // 
+            this.AcceptButton = this.buttonApplyChanges;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Info;
+            this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(687, 461);
+            this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonApplyChanges);
             this.Controls.Add(this.dateTimePicker);
             this.Controls.Add(this.label2);
@@ -166,5 +179,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DateTimePicker dateTimePicker;
         private System.Windows.Forms.Button buttonApplyChanges;
+        private System.Windows.Forms.Button buttonCancel;
     }
 }

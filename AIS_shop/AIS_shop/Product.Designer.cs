@@ -41,8 +41,8 @@
             this.labelCost = new System.Windows.Forms.Label();
             this.lableProductName = new System.Windows.Forms.Label();
             this.labelInStock = new System.Windows.Forms.Label();
-            this.pictureBox = new System.Windows.Forms.PictureBox();
             this.buttonAddReview = new System.Windows.Forms.Button();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
             this.tabControl.SuspendLayout();
             this.tabPageDescription.SuspendLayout();
             this.tabPageCharacteristic.SuspendLayout();
@@ -120,7 +120,7 @@
             this.listBoxChars.Location = new System.Drawing.Point(2, 2);
             this.listBoxChars.Name = "listBoxChars";
             this.listBoxChars.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.listBoxChars.Size = new System.Drawing.Size(818, 287);
+            this.listBoxChars.Size = new System.Drawing.Size(818, 289);
             this.listBoxChars.TabIndex = 0;
             // 
             // tabPageReviews
@@ -142,7 +142,7 @@
             this.richTextBoxReviews.Location = new System.Drawing.Point(0, 0);
             this.richTextBoxReviews.Name = "richTextBoxReviews";
             this.richTextBoxReviews.ReadOnly = true;
-            this.richTextBoxReviews.Size = new System.Drawing.Size(822, 291);
+            this.richTextBoxReviews.Size = new System.Drawing.Size(822, 293);
             this.richTextBoxReviews.TabIndex = 0;
             this.richTextBoxReviews.Text = "";
             // 
@@ -193,16 +193,6 @@
             this.labelInStock.TabIndex = 8;
             this.labelInStock.Text = "В наличии: ";
             // 
-            // pictureBox
-            // 
-            this.pictureBox.Location = new System.Drawing.Point(24, 23);
-            this.pictureBox.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(303, 300);
-            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox.TabIndex = 0;
-            this.pictureBox.TabStop = false;
-            // 
             // buttonAddReview
             // 
             this.buttonAddReview.Location = new System.Drawing.Point(551, 281);
@@ -212,6 +202,16 @@
             this.buttonAddReview.Text = "Добавить отзыв";
             this.buttonAddReview.UseVisualStyleBackColor = true;
             this.buttonAddReview.Click += new System.EventHandler(this.buttonAddReview_Click);
+            // 
+            // pictureBox
+            // 
+            this.pictureBox.Location = new System.Drawing.Point(24, 23);
+            this.pictureBox.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Size = new System.Drawing.Size(303, 300);
+            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox.TabIndex = 0;
+            this.pictureBox.TabStop = false;
             // 
             // Product
             // 

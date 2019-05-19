@@ -150,7 +150,7 @@ namespace AIS_shop
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
-                regex = new Regex(@"^([a-z0-9]|_){4,}$");
+                regex = new Regex(@"^([A-Za-z0-9]|_){4,}$");
                 if (!regex.IsMatch(textBoxNick.Text))
                 {
                     MessageBox.Show("Никнейм может состоять только из латинских букв, цифр и нижнего подчеркивания и при этом иметь не менее 4 символов", "Некорректный ввод",
@@ -163,7 +163,7 @@ namespace AIS_shop
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
-                regex = new Regex(@"^([a-z0-9]|_){4,}$");
+                regex = new Regex(@"^([A-Za-z0-9]|_){4,}$");
                 if (!regex.IsMatch(textBoxPassword.Text))
                 {
                     MessageBox.Show("Пароль может состоять только латинских из букв, цифр и нижнего подчеркивания и при этом иметь не менее 4 символов", "Некорректный ввод",
@@ -255,6 +255,11 @@ namespace AIS_shop
             {
                 return false;
             }
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

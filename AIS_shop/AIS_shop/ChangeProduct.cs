@@ -75,11 +75,6 @@ namespace AIS_shop
             else buttonDelImage.Visible = true;
         }
 
-        private void pictureBox_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void buttonAddImage_Click(object sender, EventArgs e)
         {
             openImage.Filter = "Изображения (*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG";
@@ -153,7 +148,6 @@ namespace AIS_shop
                             connection.Close();
                     }
                 }
-                Close();
             }
         }
 

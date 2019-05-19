@@ -40,6 +40,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.richTextBoxComment = new System.Windows.Forms.RichTextBox();
             this.buttonApplyChanges = new System.Windows.Forms.Button();
+            this.buttonCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMark)).BeginInit();
             this.SuspendLayout();
             // 
@@ -181,12 +182,24 @@
             this.buttonApplyChanges.UseVisualStyleBackColor = true;
             this.buttonApplyChanges.Click += new System.EventHandler(this.buttonApplyChanges_Click);
             // 
+            // buttonCancel
+            // 
+            this.buttonCancel.Location = new System.Drawing.Point(513, 645);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(107, 36);
+            this.buttonCancel.TabIndex = 11;
+            this.buttonCancel.Text = "Отмена";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            // 
             // ReviewEditor
             // 
+            this.AcceptButton = this.buttonApplyChanges;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Info;
+            this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(825, 693);
+            this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonApplyChanges);
             this.Controls.Add(this.richTextBoxComment);
             this.Controls.Add(this.label6);
@@ -224,5 +237,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.RichTextBox richTextBoxComment;
         private System.Windows.Forms.Button buttonApplyChanges;
+        private System.Windows.Forms.Button buttonCancel;
     }
 }

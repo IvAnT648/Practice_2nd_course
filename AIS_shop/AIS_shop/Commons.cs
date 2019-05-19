@@ -94,8 +94,6 @@ namespace AIS_shop
             instance.Email = null;
             instance.Nick = null;
             instance.Status = UserStatus.Guest;
-
-            MessageBox.Show("Вы вышли из системы", "Выполнен выход из системы", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 
@@ -312,7 +310,6 @@ namespace AIS_shop
                 {
                     if (reader.HasRows)
                     {
-                        //var s = Convert.ToString(reader.GetValue(0));
                         var s = Encoding.ASCII.GetString((byte[])reader.GetValue(0));
                         if (s != "NULL")
                             data = reader.GetValue(0) as byte[];

@@ -17,6 +17,7 @@ namespace AIS_shop
         User user = User.GetUser();
         // SQL-запрос для обовления данных в dataGridView
         public static string QueryToUpdate { set; get; } = null;
+        public static bool flagToRefresh = false;
         
         public MainForm()
         {
@@ -120,14 +121,18 @@ namespace AIS_shop
                 logoutToolStripMenuItem.Visible = false;
                 administrationToolStripMenuItem.Visible = false;
                 textBoxUser.Visible = false;
+                buttonCart.Enabled = true;
             }
             else
             {
+                if (user.Status == UserStatus.Admin)
+                {
+                    administrationToolStripMenuItem.Visible = true;
+                    buttonCart.Enabled = false;
+                }
+                else administrationToolStripMenuItem.Visible = false;
                 textBoxUser.Text = $"{user.Surname} {user.Name} {user.Patronymic}";
                 textBoxUser.Visible = true;
-                if (user.Status == UserStatus.Admin)
-                    administrationToolStripMenuItem.Visible = true;
-                else administrationToolStripMenuItem.Visible = false;
                 loginToolStripMenuItem.Visible = false;
                 registerToolStripMenuItem.Visible = false;
                 goToPersonalAreaToolStripMenuItem.Visible = true;
@@ -151,8 +156,7 @@ namespace AIS_shop
             // очистка dataGridView
             dataGridView.DataSource = null;
             // загрузка данных из БД
-            if (!string.IsNullOrWhiteSpace(QueryToUpdate))
-                UpdateDataGridView();
+            UpdateDataGridView();
         }
 
         private void buttonFilters_Click(object sender, EventArgs e)
@@ -160,7 +164,8 @@ namespace AIS_shop
             QueryToUpdate = null;
             Filters filters = new Filters();
             filters.ShowDialog();
-            UpdateDataGridView();
+            if (flagToRefresh && !string.IsNullOrWhiteSpace(QueryToUpdate))
+                UpdateDataGridView();
         }
 
         private void buttonCart_Click(object sender, EventArgs e)
@@ -211,9 +216,12 @@ namespace AIS_shop
         {
             if (user.Status != UserStatus.Guest)
             {
-                User.Logout();
-                Common.ProductsInCart.Clear();
-                UpdateControls();
+                if (MessageBox.Show("Вы уверены, что хотите выйти из системы?", "Подтверждение действия", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    User.Logout();
+                    Common.ProductsInCart.Clear();
+                    UpdateControls();
+                }
             }
         }
 
@@ -297,7 +305,7 @@ namespace AIS_shop
             int colCount = dataGridView.ColumnCount-2;
             int rowCount = dataGridView.RowCount;
 
-            Font font = new Font("Times New Roman", 8, FontStyle.Regular, GraphicsUnit.Point);
+            Font font = new Font("Times New Roman", 7, FontStyle.Regular, GraphicsUnit.Point);
 
             int[] widthC = new int[colCount];
 
@@ -371,6 +379,7 @@ namespace AIS_shop
             }
         }
 
+        // экспортируются все ячейки, кроме описания и изображения
         private void buttonExportToCSV_Click(object sender, EventArgs e)
         {
             if (dataGridView.RowCount == 0)
@@ -380,26 +389,27 @@ namespace AIS_shop
                 return;
             }
 
-            if (saveFile.ShowDialog() == DialogResult.OK)
+            if (saveCsvFile.ShowDialog() == DialogResult.OK)
             {
                 string fileInStr = null;
-
+                
                 for (int i = 0; i < dataGridView.RowCount; i++)
                 {
-                    for (int j = 0; j < dataGridView.Columns.Count; j++)
+                    for (int j = 0; j < dataGridView.Columns.Count-2; j++)
                         fileInStr += dataGridView[j, i].Value.ToString() + ";";
                     fileInStr += "\n";
                     progressBar.Value += 90 / dataGridView.RowCount;
                 }
                 progressBar.Value = 100;
-                StreamWriter streamWriter = new StreamWriter(saveFile.FileName, false, 
+                StreamWriter streamWriter = new StreamWriter(saveCsvFile.FileName, false, 
                     Encoding.GetEncoding("Windows-1251"));
                 streamWriter.Write(fileInStr);
                 streamWriter.Close();
+                saveCsvFile.FileName = "Products_DETShop.csv";
                 progressBar.Value = 0;
             }
         }
-
+        // экспортируются все ячейки, кроме описания и изображения
         private void buttonExportToExcel_Click(object sender, EventArgs e)
         {
             if (dataGridView.RowCount == 0)
@@ -409,7 +419,7 @@ namespace AIS_shop
                 return;
             }
 
-            if (saveFile.ShowDialog() == DialogResult.OK)
+            if (saveExcelFile.ShowDialog() == DialogResult.OK)
             {
                 ExcelApplication ExcelApp = new ExcelApplication();
                 progressBar.Value = 0;
@@ -443,34 +453,12 @@ namespace AIS_shop
                 progressBar.Value = 99;
                 ExcelApp.AlertBeforeOverwriting = false;
                 ExcelApp.DisplayAlerts = false;
-                workbook.SaveAs(saveFile.FileName);
+                workbook.SaveAs(saveExcelFile.FileName);
                 ExcelApp.Quit();
                 progressBar.Value = 100;
-                saveFile.FileName = "Products_DET_Shop.xlsx";
+                saveExcelFile.FileName = "Products_DETShop.xlsx";
                 progressBar.Value = 0;
             }
         }
     }
 }
-
-
-
-/*
-    var connection = new SqlConnection(Common.StrSQLConnection);
-    try
-    {
-        await connection.OpenAsync();
-    
-    }
-    catch (Exception ex)
-    {
-        MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(),
-            MessageBoxButtons.OK, MessageBoxIcon.Error);
-    }
-    finally
-    {
-        if (connection != null && connection.State != ConnectionState.Closed)
-            connection.Close();
-    }
-
-*/

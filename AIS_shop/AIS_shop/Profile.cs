@@ -59,13 +59,14 @@ namespace AIS_shop
             else textBoxPatronymic.Text = "(не указано)";
             textBoxEmail.Text = user.Email;
             textBoxNick.Text = user.Nick;
-            dataImage = FileTools.GetFileFromDB(Common.StrSQLConnection, "Users", "Picture", user.Id);
-            if (dataImage == null)
+            pictureBox.Image = ImageTools.GetImageFromDB(Common.StrSQLConnection, "Users", "Picture", user.Id);
+            MemoryStream ms = new MemoryStream();
+            if (pictureBox.Image == null)
             {
                 pictureBox.Image = Properties.Resources.nofoto;
                 buttonDelImage.Visible = false;
             }
-            else pictureBox.Image = Image.FromStream(new MemoryStream(dataImage));
+            else pictureBox.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
         }
 
         private async void LoadOrders()
@@ -141,6 +142,11 @@ namespace AIS_shop
                 if (connection != null && connection.State != ConnectionState.Closed)
                     connection.Close();
             }
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

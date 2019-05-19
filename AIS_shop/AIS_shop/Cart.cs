@@ -133,5 +133,10 @@ namespace AIS_shop
                 dgv.Rows.Remove(dgv.SelectedRows[0]);
             }
         }
+
+        private void buttonClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

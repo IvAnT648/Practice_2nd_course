@@ -146,6 +146,7 @@
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.okButton.BackColor = System.Drawing.Color.Lavender;
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.okButton.Location = new System.Drawing.Point(1095, 599);
             this.okButton.Margin = new System.Windows.Forms.Padding(4);
@@ -153,6 +154,7 @@
             this.okButton.Size = new System.Drawing.Size(124, 37);
             this.okButton.TabIndex = 24;
             this.okButton.Text = "&ОК";
+            this.okButton.UseVisualStyleBackColor = false;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // AboutProgram
@@ -161,6 +163,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Info;
+            this.CancelButton = this.okButton;
             this.ClientSize = new System.Drawing.Size(1251, 670);
             this.Controls.Add(this.tableLayoutPanel);
             this.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));

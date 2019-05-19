@@ -11,7 +11,7 @@ namespace AIS_shop
             InitializeComponent();
             this.Text = "DETShop - О программе";
             this.labelProductName.Text = "Автоматизированная информационная система \"Магазин цифровой электронной техники\"";
-            this.labelVersion.Text = String.Format("Версия {0}", AssemblyVersion);
+            this.labelVersion.Text = string.Format("Версия {0}", AssemblyVersion);
             this.labelCopyright.Text = "© 2019, Антюхин И.Г.";
             this.labelCompanyName.Text = AssemblyCompany;
             this.textBoxDescription.Text = "Данный программный продукт предназначен для автоматизации, ускорения, упрощения работы с базой данных магазина.";

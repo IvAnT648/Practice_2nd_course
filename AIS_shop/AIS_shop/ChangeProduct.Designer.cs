@@ -43,7 +43,6 @@
             this.Obligation = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FieldType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pictureBox = new System.Windows.Forms.PictureBox();
             this.buttonAddImage = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
@@ -51,6 +50,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.openImage = new System.Windows.Forms.OpenFileDialog();
             this.buttonDelImage = new System.Windows.Forms.Button();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
@@ -145,21 +145,10 @@
             this.Value.HeaderText = "Значение";
             this.Value.Name = "Value";
             // 
-            // pictureBox
-            // 
-            this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox.Location = new System.Drawing.Point(142, 534);
-            this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(40, 40);
-            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox.TabIndex = 14;
-            this.pictureBox.TabStop = false;
-            this.pictureBox.Click += new System.EventHandler(this.pictureBox_Click);
-            // 
             // buttonAddImage
             // 
             this.buttonAddImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonAddImage.BackColor = System.Drawing.Color.Lavender;
             this.buttonAddImage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonAddImage.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonAddImage.Location = new System.Drawing.Point(201, 534);
@@ -167,12 +156,13 @@
             this.buttonAddImage.Size = new System.Drawing.Size(153, 40);
             this.buttonAddImage.TabIndex = 12;
             this.buttonAddImage.Text = "Выбрать новое изображение";
-            this.buttonAddImage.UseVisualStyleBackColor = true;
+            this.buttonAddImage.UseVisualStyleBackColor = false;
             this.buttonAddImage.Click += new System.EventHandler(this.buttonAddImage_Click);
             // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCancel.BackColor = System.Drawing.Color.Lavender;
             this.buttonCancel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonCancel.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonCancel.Location = new System.Drawing.Point(768, 533);
@@ -181,12 +171,13 @@
             this.buttonCancel.Size = new System.Drawing.Size(98, 41);
             this.buttonCancel.TabIndex = 11;
             this.buttonCancel.Text = "Отменить";
-            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.UseVisualStyleBackColor = false;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click_1);
             // 
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSave.BackColor = System.Drawing.Color.Lavender;
             this.buttonSave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonSave.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonSave.Location = new System.Drawing.Point(876, 533);
@@ -195,7 +186,7 @@
             this.buttonSave.Size = new System.Drawing.Size(154, 41);
             this.buttonSave.TabIndex = 10;
             this.buttonSave.Text = "Сохранить изменения";
-            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.UseVisualStyleBackColor = false;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // label2
@@ -232,6 +223,17 @@
             this.buttonDelImage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonDelImage.UseVisualStyleBackColor = true;
             this.buttonDelImage.Click += new System.EventHandler(this.buttonDelImage_Click);
+            // 
+            // pictureBox
+            // 
+            this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox.Location = new System.Drawing.Point(142, 534);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Size = new System.Drawing.Size(40, 40);
+            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox.TabIndex = 14;
+            this.pictureBox.TabStop = false;
             // 
             // ChangeProduct
             // 

@@ -51,13 +51,14 @@
             // buttonCheckout
             // 
             this.buttonCheckout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCheckout.BackColor = System.Drawing.Color.Lavender;
             this.buttonCheckout.Location = new System.Drawing.Point(515, 342);
             this.buttonCheckout.Margin = new System.Windows.Forms.Padding(2);
             this.buttonCheckout.Name = "buttonCheckout";
             this.buttonCheckout.Size = new System.Drawing.Size(114, 43);
             this.buttonCheckout.TabIndex = 7;
             this.buttonCheckout.Text = "Оформить заказ";
-            this.buttonCheckout.UseVisualStyleBackColor = true;
+            this.buttonCheckout.UseVisualStyleBackColor = false;
             this.buttonCheckout.Click += new System.EventHandler(this.buttonCheckout_Click);
             // 
             // dgv
@@ -81,12 +82,13 @@
             // 
             // buttonDeleteFromCart
             // 
+            this.buttonDeleteFromCart.BackColor = System.Drawing.Color.Lavender;
             this.buttonDeleteFromCart.Location = new System.Drawing.Point(386, 342);
             this.buttonDeleteFromCart.Name = "buttonDeleteFromCart";
             this.buttonDeleteFromCart.Size = new System.Drawing.Size(114, 42);
             this.buttonDeleteFromCart.TabIndex = 9;
             this.buttonDeleteFromCart.Text = "Удалить из корзины";
-            this.buttonDeleteFromCart.UseVisualStyleBackColor = true;
+            this.buttonDeleteFromCart.UseVisualStyleBackColor = false;
             this.buttonDeleteFromCart.Click += new System.EventHandler(this.buttonDeleteFromCart_Click);
             // 
             // Cart
